@@ -14,20 +14,14 @@ import Combine
 struct VICameraCaptureView: View {
 
     @StateObject private var viewModel: ViewModel = .init()
-    @AppStorage(
-        Constants.aspectPresetStorageKey
-    ) private var aspectPresetRawValue: String = AspectPreset.youtube.rawValue
+    @AppStorage(Constants.aspectPresetStorageKey)
+    private var aspectPreset: AspectPreset = .youtube
     @AppStorage(Constants.showAspectMaskStorageKey) private var showAspectMask: Bool = true
     @AppStorage(Constants.showSafeGuidesStorageKey) private var showSafeGuides: Bool = true
     @AppStorage(Constants.showPlatformSafeStorageKey) private var showPlatformSafe: Bool = true
     @AppStorage(Constants.mirrorToggleID) private var isMirrored: Bool = true
 
     @Namespace private var namespace
-
-    private var aspectPreset: AspectPreset {
-        get { AspectPreset(rawValue: aspectPresetRawValue) ?? .youtube }
-        set { aspectPresetRawValue = newValue.rawValue }
-    }
 
     var body: some View {
 
@@ -36,11 +30,12 @@ struct VICameraCaptureView: View {
                 .ignoresSafeArea(.all)
 
             AspectMaskOverlay(
-                preset: aspectPreset,
                 showGuides: showSafeGuides,
                 showMask: showAspectMask,
                 showPlatformSafe: showPlatformSafe
             )
+            .animation(.easeInOut, value: aspectPreset)
+
             .allowsHitTesting(false)
 
                      bottomContent()
@@ -54,7 +49,8 @@ struct VICameraCaptureView: View {
         .toolbar {
             topTrailingControls()
         }
-        
+
+
     }
 }
 
@@ -151,20 +147,14 @@ extension VICameraCaptureView {
                     .glassEffectID(showAspectMask ? "toolbar.glass.focus" : "toolbar.glass.secondary", in: namespace)
                     .animation(.spring(response: 0.35, dampingFraction: 0.85), value: showAspectMask)
 
-                    Picker(Constants.ratioMenuTitle, systemImage: "aspectratio", selection: $aspectPresetRawValue) {
+                    Picker(Constants.ratioMenuTitle, systemImage: "aspectratio", selection: $aspectPreset) {
                         ForEach(AspectPreset.allCases) { preset in
-                            if showAspectMask && aspectPresetRawValue == preset.rawValue {
                                 Text(preset.rawValue)
-                                    .tag(preset.rawValue)
-                                // Glass focus animates between the selected presets (YouTube/TikTok/Instagram)
-                                    .glassEffectID("toolbar.preset.focus", in: namespace)
-                            } else {
-                                Text(preset.rawValue)
-                                    .tag(preset.rawValue)
-                            }
+                                    .tag(preset)
                         }
                     }
                     .pickerStyle(.inline)
+                    .animation(.spring(response: 0.35, dampingFraction: 0.85), value: showAspectMask)
                 }
             }
         }
@@ -323,7 +313,8 @@ extension VICameraCaptureView {
     /// Visual overlay showing the selected aspect ratio as a centered mask.
     /// The window remains freely resizable; this is purely a guide.
     struct AspectMaskOverlay: View {
-        let preset: AspectPreset
+        @AppStorage(Constants.aspectPresetStorageKey)
+        private var aspectPreset: AspectPreset = .youtube
         var showGuides: Bool = false
         var showMask: Bool = false
         var showPlatformSafe: Bool = true
@@ -341,7 +332,7 @@ extension VICameraCaptureView {
                     height: max(0, container.height - topPadding - bottomPadding)
                 )
 
-                let target = fittedSize(container: paddedContainer, ratio: preset.ratio)
+                let target = fittedSize(container: paddedContainer, ratio: aspectPreset.ratio)
 
                 let rect = CGRect(
                     x: (container.width - target.width) / 2,
@@ -355,16 +346,17 @@ extension VICameraCaptureView {
                 if showMask {
                     // Dim everything outside the target rect.
                     Path { path in
-                        path.addRect(CGRect(origin: .zero, size: container))
-                        path.addRoundedRect(in: rect, cornerSize: CGSize(width: cornerRadius, height: cornerRadius))
+
+                            path.addRect(CGRect(origin: .zero, size: container))
+                            path.addRoundedRect(in: rect, cornerSize: CGSize(width: cornerRadius, height: cornerRadius))
+
+
                     }
                     .fill(.ultraThinMaterial, style: FillStyle(eoFill: true))
 
 
 
-
-
-                    if showPlatformSafe, let avoid = preset.platformAvoidance {
+                    if showPlatformSafe, let avoid = aspectPreset.platformAvoidance {
                         // Shade platform UI areas inside the target rect to indicate regions to avoid.
                         if avoid.top > 0 {
                             UnevenRoundedRectangle(
@@ -435,21 +427,18 @@ extension VICameraCaptureView {
                         .path(in: rect)
                         .stroke(.regularMaterial, lineWidth: borderLineWidth * 2)
                         .clipped()
+
+
                 }
 
 
                 if showGuides {
                     // Inner safe guides (e.g., title/action safe).
                     let rect90 = rect.insetBy(dx: rect.width * 0.05, dy: rect.height * 0.05)
-                    let rect80 = rect.insetBy(dx: rect.width * 0.10, dy: rect.height * 0.10)
 
                     RoundedRectangle(cornerRadius: max(0, cornerRadius - 2))
                         .path(in: rect90)
                         .stroke(DesignToken.guideColor, style: StrokeStyle(lineWidth: 2, dash: [6, 6]))
-
-                    //                    RoundedRectangle(cornerRadius: max(0, cornerRadius - 4))
-                    //                        .path(in: rect80)
-                    //                        .stroke(DesignToken.guideColor, style: StrokeStyle(lineWidth: 1.5, dash: [4, 6]))
 
                     // Crosshair guides (subtle).
                     Path { p in
@@ -461,6 +450,7 @@ extension VICameraCaptureView {
                     .stroke(DesignToken.guideColor, lineWidth: 1)
                 }
             }
+            .animation(.easeInOut, value: aspectPreset.ratio)
         }
 
         private func fittedSize(container: CGSize, ratio: CGSize) -> CGSize {
@@ -468,18 +458,20 @@ extension VICameraCaptureView {
             let containerAspect = container.width / max(container.height, 1)
             let targetAspect = ratio.width / ratio.height
 
-            // Fit the target rect fully inside the container.
-            if containerAspect >= targetAspect {
-                // Container is wider than target → limit by height.
-                let height = container.height
-                let width = height * targetAspect
-                return CGSize(width: width, height: height)
-            } else {
-                // Container is taller than target → limit by width.
-                let width = container.width
-                let height = width / targetAspect
-                return CGSize(width: width, height: height)
-            }
+                // Fit the target rect fully inside the container.
+                if containerAspect >= targetAspect {
+                    // Container is wider than target → limit by height.
+                    let height = container.height
+                    let width = height * targetAspect
+                    return CGSize(width: width, height: height)
+                } else {
+                    // Container is taller than target → limit by width.
+                    let width = container.width
+                    let height = width / targetAspect
+                    return CGSize(width: width, height: height)
+                }
+
+
         }
     }
 
