@@ -27,21 +27,54 @@ struct WelcomeButtonStyle: ButtonStyle {
     }
 }
 
-struct PushDownButtonStyle: ButtonStyle {
+
+enum AnyGlassStyle {
+    case regular
+    case prominent(Color)
+}
+
+
+struct PushDownButtonStyle: PrimitiveButtonStyle {
+
+    var glass: AnyGlassStyle?
+    @State private var isPressed: Bool = false
+
+    init(glass: AnyGlassStyle? = nil) {
+        self.glass = glass
+    }
+
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .opacity(configuration.isPressed ? 0.75 : 1)
-            .conditionalEffect(
-                .pushDown,
-                condition: configuration.isPressed
-            )
-            .buttonStyle(.glass)
+
+      Button(role: configuration.role) {
+          isPressed = true
+          configuration.trigger()
+          Task.perform(after: 0.1) { isPressed = false }
+        } label: {
+            configuration.label
+        }
+        .conditionalEffect(
+            .pushDown,
+            condition: isPressed
+        )
+        .if(glass != nil) { button in
+            switch glass {
+            case .regular:
+                    button.buttonStyle(.glass)
+            case .prominent(let style):
+                    button
+                        .buttonStyle(.glassProminent)
+                        .tint(style)
+
+            default:
+                button.buttonStyle(.automatic)
+            }
+        }
     }
 }
 
 struct ShineEffectButtonStyle: ButtonStyle {
 
-   @Binding var isEnabled: Bool
+    @Binding var isEnabled: Bool
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .animation(.interactiveSpring, value: isEnabled)
@@ -53,3 +86,4 @@ struct ShineEffectButtonStyle: ButtonStyle {
 
     }
 }
+

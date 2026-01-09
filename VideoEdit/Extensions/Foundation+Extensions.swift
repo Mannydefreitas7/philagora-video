@@ -22,6 +22,8 @@ extension Array {
     }
 }
 
+
+
 // MARK: - Date Extensions
 
 extension Date {
@@ -106,8 +108,34 @@ extension Task where Success == Never, Failure == Never {
     static func sleep(seconds: Double) async throws {
         try await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
     }
-}
 
+    static func performWithoutThrowing(_ body: @escaping () throws -> Void) rethrows {
+        try body()
+    }
+
+    static func loop(condition: @autoclosure () -> Bool, _ body: @escaping () async throws -> Void) async throws {
+        while condition() {
+            try await body()
+        }
+    }
+
+    static func loop<T: FloatingPoint>(condition: @autoclosure () -> Bool, _ body: @escaping (T) async throws -> Void, initialValue: T) async throws {
+        while condition() {
+            try await body(initialValue.advanced(by: 1))
+        }
+    }
+
+    static func perform(after delay: TimeInterval, _ body: @escaping () async throws -> Void) async throws {
+        try await Task.sleep(seconds: delay)
+        try await body()
+    }
+
+    static func perform(after delay: TimeInterval, _ action: @escaping () -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            action()
+        }
+    }
+}
 // MARK: - Notification Names
 
 extension Notification.Name {

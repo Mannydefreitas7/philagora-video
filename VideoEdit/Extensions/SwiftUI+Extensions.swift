@@ -131,14 +131,21 @@ extension View {
     }
 }
 
-
 extension ButtonStyle where Self == WelcomeButtonStyle {
     static var welcome: WelcomeButtonStyle { get { .init() }}
-
 }
 
-extension ButtonStyle where Self == PushDownButtonStyle {
-    static var pushDown: PushDownButtonStyle { get { .init() }}
+extension ButtonStyle {
+    static func pushDown(glass: AnyGlassStyle?) -> PushDownButtonStyle {
+        return PushDownButtonStyle(glass: glass)
+    }
+}
+
+extension PrimitiveButtonStyle where Self == PushDownButtonStyle {
+
+    static func pushDown(glass: AnyGlassStyle?) -> PushDownButtonStyle {
+        return PushDownButtonStyle(glass: glass)
+    }
 }
 
 extension ButtonStyle where Self == ShineEffectButtonStyle {

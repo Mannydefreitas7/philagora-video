@@ -71,13 +71,9 @@ extension VICameraCaptureView {
     @ViewBuilder
     func recordButton() -> some View {
         RecordButtonView(isRecording: $viewModel.isRecording)
-
         .keyboardShortcut("r", modifiers: [])
-        //.buttonSizing(.fitted)
-        .glassEffectUnion(id: 1, namespace: namespace2)
-        .glassEffectTransition(.matchedGeometry)
-
-
+        .glassEffectUnion(id: viewModel.isRecording ? 3 : 1, namespace: namespace2)
+        .glassEffectTransition(.materialize)
     }
 
     @ViewBuilder
@@ -87,50 +83,12 @@ extension VICameraCaptureView {
             .foregroundStyle(viewModel.isRecording ? .red : .secondary)
     }
 
-    var finderURL: some View {
-        //        if let url = viewModel.lastSavedURL {
-        HStack(spacing: 12) {
-            if let thumb = viewModel.lastThumbnail {
-                Image(nsImage: thumb)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 72, height: 48)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(.white.opacity(0.15), lineWidth: 1)
-                    )
-            }
-
-            Text(
-                //    url.path
-                ""
-            )
-            .font(.callout)
-            .lineLimit(1)
-            .truncationMode(.middle)
-            .foregroundStyle(.secondary)
-
-            Spacer()
-
-            Button("Show in Finder") {
-                // viewModel.revealLastSavedInFinder()
-            }
-        }
-        .padding(12)
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-
-    }
-
     @ToolbarContentBuilder
     func topTrailingControls() -> some ToolbarContent {
 
         ToolbarItemGroup {
-
             GlassEffectContainer {
                 HStack {
-
                     Toggle(
                         Constants.showGuidesTitle,
                         systemImage: "viewfinder",
@@ -138,7 +96,6 @@ extension VICameraCaptureView {
                     )
                     .help(Constants.showGuidesHelp)
                     .toggleStyle(.button)
-                    //  .buttonStyle(.glass)
                     .glassEffectID("toolbar.glass.guide", in: namespace)
 
                     Toggle(
@@ -148,9 +105,14 @@ extension VICameraCaptureView {
                     )
                     .help(Constants.showMaskHelp)
                     .toggleStyle(.button)
-                    //r .buttonStyle(.glass)
                     .glassEffectID("toolbar.glass.mask", in: namespace)
-                    .animation(.spring(response: 0.35, dampingFraction: 0.85), value: showAspectMask)
+                    .animation(
+                        .spring(
+                            response: 0.35,
+                            dampingFraction: 0.85
+                        ),
+                        value: showAspectMask
+                    )
 
                     if showAspectMask {
 
@@ -161,8 +123,6 @@ extension VICameraCaptureView {
                                     .labelStyle(.titleAndIcon)
                             }
                         }
-
-
                         .pickerStyle(.automatic)
                         .buttonStyle(.glass)
                         .glassEffectID("toolbar.glass.focus", in: namespace)
@@ -191,28 +151,56 @@ extension VICameraCaptureView {
 
     @ViewBuilder
     func bottomContent() -> some View {
-        GlassEffectContainer(spacing: isTimerEnabled ? 8 : 0) {
-            HStack(alignment: .center) {
+        GlassEffectContainer(spacing: 8) {
+            HStack(alignment: .center, spacing: 6) {
                 Spacer()
+
                 recordButton()
-                    .padding(.vertical, 8)
-                    .padding(.trailing, 16)
-                    .padding(.leading, 8)
-                    .glassEffect()
-                    .glassEffectUnion(id: 1, namespace: namespace2)
-                    .glassEffectTransition(.materialize)
+
+                HStack(spacing:4) {
+                    Button {
+                        //
+                    } label: {
+                        Label("Pause", systemImage: "pause.circle")
+                            .font(.title3)
+                            .padding(6)
+
+                    }
+                    .buttonBorderShape(.capsule)
+                    .buttonStyle(.plain)
+
+                    Button {
+                        //
+                    } label: {
+                        Label("On", systemImage: "microphone")
+                            .font(.title3)
+                            .padding(6)
+
+                    }
+                    .buttonBorderShape(.capsule)
+                    .buttonStyle(.plain)
+
+                }
+                .padding(8)
+                .glassEffect(.regular.interactive())
+                .glassEffectUnion(id: 4, namespace: namespace2)
+                .animation(.bouncy.delay(isTimerEnabled ? 0.2 : 0), value: isTimerEnabled)
+                .glassEffectTransition(.materialize)
 
 
                 HStack {
 
                     Toggle(isOn: $isTimerEnabled) {
                         Label("Timer", systemImage: "timer")
+                            .font(.title3)
+                            .padding(4)
                     }
                     .labelStyle(.iconOnly)
                     .symbolVariableValueMode(.draw)
                     .fontWeight(.bold)
                     .toggleStyle(.button)
                     .buttonBorderShape(.circle)
+                    .buttonStyle(.glass)
 
 
                     if isTimerEnabled {
@@ -226,7 +214,7 @@ extension VICameraCaptureView {
 
                     }
                 }
-                .padding(8)
+            //
                 .glassEffect(.regular.interactive())
                 .glassEffectUnion(id: isTimerEnabled ? 2 : 1, namespace: namespace2)
                 .animation(.bouncy.delay(isTimerEnabled ? 0.2 : 0), value: isTimerEnabled)
@@ -247,7 +235,7 @@ extension VICameraCaptureView {
 extension VICameraCaptureView {
 
     struct DesignToken {
-        static let defaultCornerRadius: CGFloat = 12
+        static let defaultCornerRadius: CGFloat = 24
         static let defaultBorderWidth: CGFloat = 1
         static let defaultBorderColor: NSColor = .secondaryLabelColor
         static let topPadding: CGFloat = 54
