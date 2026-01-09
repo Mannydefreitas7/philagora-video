@@ -26,13 +26,7 @@ struct VICameraCaptureView: View {
     @State private var isTimerEnabled: Bool = false
     @State private var timerSelection: TimerSelection = .threeSeconds
 
-    enum TimerSelection: String, CaseIterable, Identifiable {
-        case threeSeconds = "3"
-        case fiveSeconds = "5"
-        case tenSeconds = "10"
-
-        var id: String { rawValue }
-    }
+    
 
     @Namespace private var namespace
     @Namespace private var namespace2
@@ -85,6 +79,43 @@ extension VICameraCaptureView {
 
     @ToolbarContentBuilder
     func topTrailingControls() -> some ToolbarContent {
+
+        ToolbarItem {
+            GlassEffectContainer {
+                HStack {
+
+                    Toggle(isOn: $isTimerEnabled) {
+                        Label("Timer", systemImage: "timer")
+                            .font(.title2)
+
+                    }
+                    .labelStyle(.iconOnly)
+
+                    .toggleStyle(.automatic)
+                    .buttonBorderShape(.circle)
+                    .buttonStyle(.glass)
+
+
+                    if isTimerEnabled {
+                        Picker("Timer", selection: $timerSelection) {
+                            ForEach(TimerSelection.allCases) { option in
+                                Text("\(option.rawValue)s").tag(option)
+                            }
+                        }
+                        .labelsHidden()
+                        .pickerStyle(.segmented)
+                        .buttonStyle(.glass)
+
+
+                    }
+                }
+
+                .glassEffect(.regular)
+                .glassEffectUnion(id: isTimerEnabled ? 2 : 1, namespace: namespace2)
+                .animation(.bouncy.delay(isTimerEnabled ? 0.2 : 0), value: isTimerEnabled)
+                .glassEffectTransition(.materialize)
+            }
+        }
 
         ToolbarItemGroup {
             GlassEffectContainer {
@@ -149,83 +180,45 @@ extension VICameraCaptureView {
 
     }
 
+    // Glass group namespace ids
+    enum nameSpaceNames {
+        case recordControls
+        case mediaControls
+
+    }
+
     @ViewBuilder
     func bottomContent() -> some View {
-        GlassEffectContainer(spacing: 8) {
-            HStack(alignment: .center, spacing: 6) {
-                Spacer()
-
+        GlassEffectContainer {
+            HStack(alignment: .center, spacing: 8) {
                 recordButton()
-
-                HStack(spacing:4) {
                     Button {
                         //
                     } label: {
                         Label("Pause", systemImage: "pause.circle")
-                            .font(.title3)
-                            .padding(6)
-
+                            .font(.title2)
                     }
-                    .buttonBorderShape(.capsule)
-                    .buttonStyle(.plain)
+                    .labelStyle(.iconOnly)
+                    .buttonBorderShape(.circle)
+                    .buttonStyle(.glass)
+                    .glassEffectUnion(id: 4, namespace: namespace2)
 
                     Button {
                         //
                     } label: {
                         Label("On", systemImage: "microphone")
-                            .font(.title3)
-                            .padding(6)
-
-                    }
-                    .buttonBorderShape(.capsule)
-                    .buttonStyle(.plain)
-
-                }
-                .padding(8)
-                .glassEffect(.regular.interactive())
-                .glassEffectUnion(id: 4, namespace: namespace2)
-                .animation(.bouncy.delay(isTimerEnabled ? 0.2 : 0), value: isTimerEnabled)
-                .glassEffectTransition(.materialize)
-
-
-                HStack {
-
-                    Toggle(isOn: $isTimerEnabled) {
-                        Label("Timer", systemImage: "timer")
-                            .font(.title3)
-                            .padding(4)
+                            .font(.title2)
                     }
                     .labelStyle(.iconOnly)
-                    .symbolVariableValueMode(.draw)
-                    .fontWeight(.bold)
-                    .toggleStyle(.button)
                     .buttonBorderShape(.circle)
                     .buttonStyle(.glass)
+                    .glassEffectUnion(id: 4, namespace: namespace2)
+                    .animation(.bouncy.delay(isTimerEnabled ? 0.2 : 0), value: isTimerEnabled)
+                    .glassEffectTransition(.materialize)
 
-
-                    if isTimerEnabled {
-                        Picker("Timer", selection: $timerSelection) {
-                            ForEach(TimerSelection.allCases) { option in
-                                Text("\(option.rawValue)s").tag(option)
-                            }
-                        }
-                        .labelsHidden()
-                        .pickerStyle(.segmented)
-
-                    }
-                }
-            //
-                .glassEffect(.regular.interactive())
-                .glassEffectUnion(id: isTimerEnabled ? 2 : 1, namespace: namespace2)
-                .animation(.bouncy.delay(isTimerEnabled ? 0.2 : 0), value: isTimerEnabled)
-                .glassEffectTransition(.materialize)
-                Spacer()
             }
-            .controlSize(.extraLarge)
-            .glassEffectTransition(.materialize)
-
+//            .controlSize(.extraLarge)
         }
-
         .padding(.bottom, (DesignToken.bottomPadding / 2) + 8)
         .animation(.bouncy, value: isTimerEnabled)
     }
@@ -235,11 +228,11 @@ extension VICameraCaptureView {
 extension VICameraCaptureView {
 
     struct DesignToken {
-        static let defaultCornerRadius: CGFloat = 24
+        static let defaultCornerRadius: CGFloat = 32
         static let defaultBorderWidth: CGFloat = 1
         static let defaultBorderColor: NSColor = .secondaryLabelColor
         static let topPadding: CGFloat = 54
-        static let bottomPadding: CGFloat = 64
+        static let bottomPadding: CGFloat = 48
         static let dimmingAlpha: CGFloat = 0.5
 
         static let maskColor: Color = .recordingRed.opacity(0.1)

@@ -62,8 +62,8 @@ extension CGSize {
 extension CGFloat {
     var isEven: Bool { truncatingRemainder(dividingBy: 2) == 0 }
 
-    static var recordWidth: Self { 36 }
-    static var recordHeight: Self { 36 }
+    static var recordWidth: Self { 32 }
+    static var recordHeight: Self { 32 }
 
 
     static var windowWidth: Self {

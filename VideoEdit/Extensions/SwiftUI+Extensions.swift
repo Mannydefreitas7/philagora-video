@@ -153,3 +153,29 @@ extension ButtonStyle where Self == ShineEffectButtonStyle {
         return ShineEffectButtonStyle(isEnabled: isEnabled)
     }
 }
+
+extension Namespace {
+
+     struct RecorderTopBar: Hashable {
+         static let cameraDisplay = "CameraDisplay"
+         static let setting = "Settings"
+         static  let recordControl = "RecordControl"
+         static  let devideControl = "DevideControl"
+         static let mediaControl = "MediaControl"
+    }
+
+}
+
+extension TimeInterval {
+
+    static var options = Option.allCases
+
+    enum Option: String, CaseIterable, Identifiable {
+        case threeSeconds = "3"
+        case fiveSeconds = "5"
+        case tenSeconds = "10"
+
+        var id: String { rawValue }
+    }
+
+}

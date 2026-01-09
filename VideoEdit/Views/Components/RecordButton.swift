@@ -69,7 +69,7 @@ struct RecordButtonView: View {
     @ViewBuilder
     func buttonShape() -> some View {
         _IconContent(isRecording: $isRecording)
-            .scaleEffect(isRecording ? 0.7 : 1.0)
+            .scaleEffect(isRecording ? 0.5 : 1.0)
     }
 
 
@@ -86,8 +86,9 @@ struct RecordButtonView: View {
                     .font(.title3)
             } icon: {
                 buttonShape()
+                    .offset(x: -8)
             }
-            .labelIconToTitleSpacing(8)
+            .labelIconToTitleSpacing(4)
             .conditionalEffect(.repeat(.glow(color: .white, radius: 10), every: 2), condition: isRecording)
         }
         .buttonBorderShape(.capsule)
