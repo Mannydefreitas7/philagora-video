@@ -12,20 +12,23 @@ struct EditorSettingsModal: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var cameraManager: CameraPreviewViewModel = .init()
     var body: some View {
-      //  NavigationStack {
-            VStack {
+        NavigationStack {
+            //VStack {
 
                 TabView {
 
                     Tab("Video", systemImage: "web.camera") {
                         CameraSettingsView(cameraManager: cameraManager)
+                            .navigationSubtitle("Video")
                     }
 
                     Tab("Audio", systemImage: "microphone") {
                         Text("Settings")
+                            .navigationSubtitle("Audio")
                     }
                 }
-            }
+                .tabViewStyle(.grouped)
+          //  }
 
             .toolbar {
 
@@ -46,9 +49,10 @@ struct EditorSettingsModal: View {
             .toolbarTitleDisplayMode(.automatic)
             .presentedWindowToolbarStyle(.automatic)
             .navigationTitle("Settings")
-            .navigationSubtitle("Audio")
+
         }
 
+    }
 }
 
 #Preview {

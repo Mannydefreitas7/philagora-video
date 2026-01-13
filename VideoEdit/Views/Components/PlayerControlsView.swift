@@ -170,7 +170,7 @@ extension PlayerControlsView {
         .sheet(isPresented: $viewModel.isSettingsPresented) {
             SettingsModal()
                 .presentedWindowToolbarStyle(.unified)
-                .frame(width: 400, height: 300)
+                .frame(width: .windowWidth * 0.6, height: 360)
         }
     }
 

@@ -20,7 +20,7 @@ struct CameraSettingsView: View {
                     isMirror: $cameraManager.isMirrored
                 )
 
-                if !cameraViewModel.isLoading || isVisible {
+                if cameraViewModel.isLoading && isVisible {
 
 
                     ProgressView()
@@ -42,31 +42,10 @@ struct CameraSettingsView: View {
             }
 
 
-            if isVisible {
-                Section("Appearance") {
-                    Picker("Position", selection: $position) {
-                        ForEach(CameraPosition.allCases, id: \.self) { pos in
-                            Label(pos.rawValue, systemImage: pos.systemImage).tag(pos)
-                        }
-                    }
-
-                    Picker("Size", selection: $size) {
-                        ForEach(CameraSize.allCases, id: \.self) { size in
-                            Text(size.rawValue).tag(size)
-                        }
-                    }
-
-                    Picker("Shape", selection: $shape) {
-                        ForEach(CameraShape.allCases, id: \.self) { shape in
-                            Text(shape.rawValue).tag(shape)
-                        }
-                    }
-                }
-            }
         }
         .formStyle(.automatic)
         .controlSize(.large)
-       // .task(cameraViewModel.loadCameras)
+        .task(cameraViewModel.loadCameras)
     }
 }
 

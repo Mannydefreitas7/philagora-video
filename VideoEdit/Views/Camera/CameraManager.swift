@@ -108,7 +108,7 @@ public final class CameraPreviewViewModel: ObservableObject {
         }
 
         Task {
-            
+            await loadCameras()
         }
 
         $session
@@ -133,9 +133,9 @@ public final class CameraPreviewViewModel: ObservableObject {
             .assign(to: \.isConnected, on: self)
             .store(in: &cancellables)
 
-        $selectedCamera
-            .compactMap { $0 }
-            .map { !$0.device.isConnected }
+
+        $availableCameras
+            .map(\.isEmpty)
             .assign(to: \.isLoading, on: self)
             .store(in: &cancellables)
 
