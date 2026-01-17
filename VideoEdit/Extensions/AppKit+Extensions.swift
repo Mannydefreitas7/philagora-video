@@ -8,10 +8,16 @@
 import AppKit
 import SwiftUI
 
-extension OpenWindowAction {
-    func callAsFunction(sceneID: Constants.SceneID) {
-        callAsFunction(id: sceneID.rawValue)
+extension NSWindow {
+
+    var isKeyWindow: Bool {
+        NSApp.keyWindow == self
     }
+
+    var isFrontmost: Bool {
+        NSApp.windows.contains(where: \.isKeyWindow).hashValue == hashValue
+    }
+
 }
 
 extension NSApplication {

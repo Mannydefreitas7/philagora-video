@@ -7,67 +7,34 @@
 
 import SwiftUI
 import ScreenCaptureKit
-import SceneKit
+import SFSafeSymbols
+
 
 struct TextView: View {
     @Environment(\.window) var backgroundStyle
 
-    
+    @Environment(\.styleMask) var styleMask
 
+    @Environment(\.openWindow) var openWindow
     var body: some View {
         Button {
-            //
+            openWindow(id: .window(.recording))
         } label: {
             Text("Hello, World!")
                 .padding()
                 .background(.red)
         }
-
-
-
+        //.styleMask([.])
     }
 }
 
-struct ScreenOverlayWindow: Scene {
+struct FloatingVideoWindow: Scene {
     var body: some Scene {
 
-
-
-
-        Window("Screen Recording", id: Constants.Windows.main.rawValue) {
+        Window("", id: "main") {
             TextView()
-
-                .windowFullScreenBehavior(.enabled)
-                .windowFullScreenBehavior(.enabled)
-                .windowToolbarFullScreenVisibility(.onHover)
-                .hideWindowControls()
-                .presentationBackgroundInteraction(.enabled)
-                .background(.clear, ignoresSafeAreaEdges: .all)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding()
         }
-
-        .windowIdealSize(.maximum)
-        .defaultLaunchBehavior(.presented)
-
-        UtilityWindow("", id: Constants.Windows.screenRecording.rawValue) {
-            VStack {
-                Text("TESTING").padding()
-                    .background(.recordingRed)
-            }
-            .windowFullScreenBehavior(.enabled)
-            .windowToolbarFullScreenVisibility(.onHover)
-            .hideWindowControls()
-            .presentationBackgroundInteraction(.enabled)
-            .background(.clear, ignoresSafeAreaEdges: .all)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-        .defaultPosition(.center)
-        .persistentSystemOverlays(.visible)
-        .restorationBehavior(.disabled)
-        .windowBackgroundDragBehavior(.disabled)
-        .windowManagerRole(.principal)
-        .windowLevel(.floating)
-        .windowStyle(.hiddenTitleBar)
     }
 }
 

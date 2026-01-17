@@ -1,5 +1,5 @@
 {
-  "originHash" : "3ac6b3aabf02a1d7c85cf30f76dc449b777f2033b0c8e2ee47f2e369e885d855",
+  "originHash" : "b79092f45804a1382400dee95dfe627056ba140532af4f01b80e4139668b08e1",
   "pins" : [
     {
       "identity" : "capcutsdk",
@@ -56,6 +56,15 @@
       }
     },
     {
+      "identity" : "sfsafesymbols",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SFSafeSymbols/SFSafeSymbols.git",
+      "state" : {
+        "revision" : "e01b3d4f861412f8dcee8d93c417d2c2b0cdfd77",
+        "version" : "7.0.0"
+      }
+    },
+    {
       "identity" : "swift-syntax",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swiftlang/swift-syntax.git",
@@ -71,6 +80,15 @@
       "state" : {
         "revision" : "9bbc46a4cf8275ceb39334f6276b6b215d67d5d5",
         "version" : "0.62.2"
+      }
+    },
+    {
+      "identity" : "swiftui-introspect",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/siteline/swiftui-introspect",
+      "state" : {
+        "revision" : "a08b87f96b41055577721a6e397562b21ad52454",
+        "version" : "26.0.0"
       }
     },
     {

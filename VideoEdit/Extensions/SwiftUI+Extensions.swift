@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftUIIntrospect
 
 // MARK: - Color Extensions
 
@@ -35,6 +36,7 @@ extension Color {
 
 extension ToggleStyle where Self == RecordToggleStyle {
      static var recordButton: RecordToggleStyle { get { .init() } }
+    static var secondary: SecondaryToggleStyle { .init() }
 }
 
 // MARK: - Image Extensions
@@ -58,6 +60,8 @@ extension Shape {
 // MARK: - View Extensions
 
 extension View {
+
+    // 
 
     // Hides the window control buttons
     func hideWindowControls(close: Bool = true, minimize: Bool = true, zoom: Bool = true) -> some View {
@@ -142,6 +146,8 @@ extension View {
     func pressPushEffect() -> some View {
         modifier(PushDownEffect())
     }
+
+    
 }
 
 extension ButtonStyle where Self == WelcomeButtonStyle {

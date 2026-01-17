@@ -1,80 +1,32 @@
 import SwiftUI
 import AVFoundation
 import Onboarding
+import SFSafeSymbols
 //import ScreenCaptureKit
 
 @main
-struct ClaquetteApp: App {
+struct VideoEditApp: App {
     @StateObject private var appState = AppState()
     @AppStorage(.onboardingKey) var showOnboarding: Bool = true
 
-  
     var body: some Scene {
 
-//        VIWelcomeWindow()
-//
-//        VIEditorWindow()
-
-
-        ScreenOverlayWindow()
-            .windowIdealSize(.maximum)
-            .defaultLaunchBehavior(.presented)
-
-
-//
-//        WindowGroup {
-//            ContentView()
-//                .environmentObject(appState)
-//                .frame(minWidth: 900, minHeight: 600)
-//        }
-//        .windowStyle(.hiddenTitleBar)
-//        .windowToolbarStyle(.automatic)
-
-        .commands {
-            CommandGroup(replacing: .newItem) {
-                Button("Open Video...") {
-                    appState.openFile()
-                }
-                .keyboardShortcut("o", modifiers: .command)
-                
-                Divider()
-                
-                Button("New Screen Recording") {
-                    appState.showRecordingSheet = true
-                }
-                .keyboardShortcut("r", modifiers: [.command, .shift])
+        VEWelcomeWindow()
+            .environmentObject(appState)
+            .commands {
+                // General Commands
+                GeneralCommand(appState: appState)
             }
-            
-            CommandMenu("Video") {
-                Button("Crop") {
-                    appState.currentTool = .crop
-                }
-                .keyboardShortcut("c", modifiers: [.command, .shift])
-                .disabled(appState.videoURL == nil)
-                
-                Button("Trim") {
-                    appState.currentTool = .trim
-                }
-                .keyboardShortcut("t", modifiers: [.command, .shift])
-                .disabled(appState.videoURL == nil)
-                
-                Divider()
-                
-                Button("Export as GIF...") {
-                    appState.showExportSheet = true
-                    appState.exportFormat = .gif
-                }
-                .keyboardShortcut("e", modifiers: [.command, .shift])
-                .disabled(appState.videoURL == nil)
-                
-                Button("Export as Movie...") {
-                    appState.showExportSheet = true
-                    appState.exportFormat = .movie
-                }
-                .keyboardShortcut("e", modifiers: .command)
-                .disabled(appState.videoURL == nil)
+
+        RecordingWindow()
+            .windowBackgroundDragBehavior(.enabled)
+            .environmentObject(appState)
+            .commands {
+                // General Commands
+                GeneralCommand(appState: appState)
+                // Video Commands
+                VideoCommand(appState: appState)
             }
-        }
         
         Settings {
             SettingsView()

@@ -25,12 +25,7 @@ struct TimerPicker: View {
                     Label(Constants.timer.capitalized, systemImage: Constants.timer)
                         .font(.title2)
                 }
-                .labelStyle(.iconOnly)
-                .toggleStyle(.button)
-                .labelsHidden()
-                .buttonBorderShape(.circle)
-                .buttonStyle(.accessoryBarAction)
-                .tint(Color(.labelColor))
+                .toggleStyle(.secondary)
 
                 if isTimerEnabled {
                     Picker(Constants.timer.capitalized, selection: $timerSelection) {
@@ -42,7 +37,7 @@ struct TimerPicker: View {
                     .pickerStyle(.segmented)
                 }
             }
-            
+        .padding(.horizontal, .zero)
     }
 }
 

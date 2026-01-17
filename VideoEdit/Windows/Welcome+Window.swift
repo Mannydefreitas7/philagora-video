@@ -4,7 +4,7 @@ import Onboarding
 import UserNotifications
 import AppKit
 
-struct VIWelcomeWindow: Scene {
+struct VEWelcomeWindow: Scene {
     @EnvironmentObject var appState: AppState
     @FocusState var focusedField: FocusTarget?
     @Environment(\.openWindow) var openWindow
@@ -33,7 +33,8 @@ struct VIWelcomeWindow: Scene {
                 iconName: "record.circle",
                 title: "Record",
                 action: {
-                    openWindow(sceneID: .editor)
+                    dismissWindow()
+                    openWindow(id: .window(.recording))
                 }
             )
 
@@ -44,7 +45,7 @@ struct VIWelcomeWindow: Scene {
                     NSDocumentController.shared.openDocumentWithDialog(
                         configuration: .init(canChooseDirectories: false),
                         onDialogPresented: { dismissWindow() },
-                        onCancel: { openWindow(id: Constants.SceneID.welcome.rawValue) }
+                        onCancel: { openWindow(id: .window(.welcome)) }
                     )
                 }
             )
@@ -56,7 +57,7 @@ struct VIWelcomeWindow: Scene {
                     NSDocumentController.shared.openDocumentWithDialog(
                         configuration: .init(canChooseDirectories: true),
                         onDialogPresented: { dismissWindow() },
-                        onCancel: { openWindow(id: Constants.SceneID.welcome.rawValue) }
+                        onCancel: { openWindow(id: .window(.welcome)) }
                     )
                 }
             )
@@ -94,7 +95,7 @@ extension WelcomeScreen {
 }
 
 
-extension VIWelcomeWindow {
+extension VEWelcomeWindow {
 
     @ViewBuilder
     func createProjectButton() -> some View {

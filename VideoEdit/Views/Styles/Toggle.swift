@@ -7,6 +7,28 @@
 
 import SwiftUI
 import Shimmer
+import Engine
+
+struct SecondaryToggleStyle: ToggleStyle {
+
+    func makeBody(configuration: Configuration) -> some View {
+        let style: AnyButtonStyle = configuration.isOn ? .init(.glassProminent) : .init(.glassToolBar)
+        Button {
+            withAnimation(.bouncy) {
+                configuration.isOn.toggle()
+            }
+        } label: {
+            configuration.label
+        }
+        .labelStyle(.iconOnly)
+        .buttonBorderShape(.circle)
+        .buttonStyle(style)
+        .tint(.white)
+
+    }
+}
+
+
 
 struct RecordToggleStyle: ToggleStyle {
 
@@ -60,7 +82,7 @@ struct RecordToggleStyle: ToggleStyle {
                     )
 
             } icon: {
-                    Image(systemName: configuration.isOn ? "square.fill" : "record.circle")
+                    Image(systemName: configuration.isOn ? "" : "record.circle")
                         .symbolRenderingMode(.hierarchical)
                         .font(.title)
                         .scaleEffect(configuration.isOn ? 0.8 : 1.2)
@@ -72,3 +94,19 @@ struct RecordToggleStyle: ToggleStyle {
         .buttonBorderShape(.capsule)
     }
 }
+
+#Preview("SecondaryToggleStyle") {
+
+    @Previewable @State var isOn: Bool = false
+
+    VStack {
+        Toggle(isOn:  $isOn) {
+            Label("", systemImage: "star")
+        }
+        .toggleStyle(SecondaryToggleStyle())
+    }
+
+    .padding()
+    .frame(width: 300, height: 200)
+}
+

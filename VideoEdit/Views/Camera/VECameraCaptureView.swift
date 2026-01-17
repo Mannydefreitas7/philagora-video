@@ -28,6 +28,8 @@ struct VECameraCaptureView: View {
     @Namespace private var namespace
     @Namespace private var namespace2
 
+    private let ratioSize = CGSize(width: 16, height: 9)
+
     var body: some View {
 
         NavigationStack  {
@@ -44,7 +46,7 @@ struct VECameraCaptureView: View {
                     showPlatformSafe: showPlatformSafe
                 )
                 .environmentObject(viewModel)
-                .frame(maxWidth: .windowWidth, maxHeight: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .allowsHitTesting(false)
 
                 // MARK: Bottom bar content
@@ -52,13 +54,10 @@ struct VECameraCaptureView: View {
             }
             .environmentObject(viewModel)
         }
-
         // Keep the window resizable but constrained to 16:9.
-        .background(WindowAspectRatioLock(ratio: CGSize(width: 16, height: 9)))
+        .background(WindowAspectRatioLock(ratio: ratioSize))
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        
     }
-
 }
 
 
@@ -67,16 +66,14 @@ extension VECameraCaptureView {
 
     @ViewBuilder
     func BottomBar() -> some View {
-        LazyHStack(alignment: .bottom) {
-            PlayerControlsView(viewModel: viewModel.playerControlViewModel)
-        }
-        .padding(.bottom, DesignToken.bottomPadding / 2)
-        .inspector(isPresented: $viewModel.isSettingsPresented) {
-            EditorSettingsView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(.underPageBackgroundColor))
-                .inspectorColumnWidth(.columnWidth(spacing: .threeOfTwelve))
-        }
+        PlayerControlsView(viewModel: viewModel.playerControlViewModel)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+            .padding(.bottom, .small)
+            .inspector(isPresented: $viewModel.isSettingsPresented) {
+                EditorSettingsView()
+                    .background(Color(.underPageBackgroundColor))
+                    .inspectorColumnWidth(.columnWidth(spacing: .threeOfTwelve))
+            }
     }
 
     @ViewBuilder
@@ -228,7 +225,6 @@ extension VECameraCaptureView {
                     .glassEffectTransition(.materialize)
 
                 }
-                //            .controlSize(.extraLarge)
             }
             .padding(.bottom, (DesignToken.bottomPadding / 2) + 8)
             .animation(.bouncy, value: isTimerEnabled)
@@ -245,7 +241,7 @@ extension VECameraCaptureView {
         static let defaultBorderWidth: CGFloat = 1
         static let defaultBorderColor: NSColor = .secondaryLabelColor
         static let topPadding: CGFloat = 54
-        static let bottomPadding: CGFloat = 54
+        static let bottomPadding: CGFloat = 64
         static let dimmingAlpha: CGFloat = 0.5
 
         static let maskColor: Color = .recordingRed.opacity(0.1)
@@ -433,7 +429,7 @@ extension VECameraCaptureView {
 
                         // Border for the target rect.
                         RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                            .stroke(.regularMaterial, lineWidth: borderLineWidth * 2)
+                            .stroke(.ultraThickMaterial.quinary, lineWidth: borderLineWidth * 2)
                             .frame(width: target.width, height: target.height)
                             .position(x: originX + target.width / 2, y: originY + target.height / 2)
                     }
@@ -443,10 +439,12 @@ extension VECameraCaptureView {
                         let insetX = target.width * 0.05
                         let insetY = target.height * 0.05
 
-                        RoundedRectangle(cornerRadius: max(0, cornerRadius - 2))
-                            .stroke(DesignToken.guideColor, style: StrokeStyle(lineWidth: 2, dash: [6, 6]))
+                        RoundedRectangle(cornerRadius: cornerRadius / 1.5, style: .continuous)
+                            .stroke(.ultraThickMaterial, style: StrokeStyle(lineWidth: 2, dash: [6, 6]))
                             .frame(width: target.width - (insetX * 2), height: target.height - (insetY * 2))
                             .position(x: originX + target.width / 2, y: originY + target.height / 2)
+
+                        //
 
                         // Crosshair guides.
                         Path { p in
@@ -455,7 +453,7 @@ extension VECameraCaptureView {
                             p.move(to: CGPoint(x: originX, y: originY + target.height / 2))
                             p.addLine(to: CGPoint(x: originX + target.width, y: originY + target.height / 2))
                         }
-                        .stroke(DesignToken.guideColor, lineWidth: 1)
+                        .stroke(.thickMaterial, style: StrokeStyle(lineWidth: 2, dash: [6, 6]))
                     }
                 }
             }
@@ -489,7 +487,7 @@ extension VECameraCaptureView {
             func path(in rect: CGRect) -> Path {
                 var path = Path()
                 path.addRect(CGRect(origin: .zero, size: outerSize))
-                path.addRoundedRect(in: innerRect, cornerSize: CGSize(width: cornerRadius, height: cornerRadius))
+                path.addRoundedRect(in: innerRect, cornerSize: CGSize(width: cornerRadius, height: cornerRadius), style: .continuous)
                 return path
             }
         }

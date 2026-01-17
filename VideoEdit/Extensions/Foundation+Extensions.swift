@@ -217,3 +217,24 @@ extension URL {
 
 extension NSObject: NamePrintable {}
 
+extension String {
+
+    /// Returns the raw string identifier for a given application window.
+    ///
+    /// Use this helper to obtain the string value associated with a specific
+    /// window identifier defined in `Constants.Window`. This is useful when
+    /// interacting with APIs that expect a string-based window identifier,
+    /// such as SwiftUI's `.window(id:)`, AppKit window lookups, or persistence
+    /// keys.
+    ///
+    /// - Parameter id: A case of `Constants.Window` representing a specific window in the app.
+    /// - Returns: The `String` raw value associated with the provided window identifier.
+    ///
+    /// - Note: Ensure that `Constants.Window` is a `RawRepresentable` (typically an `enum`)
+    ///         with `String` raw values so that each window case maps to a unique identifier.
+   static func window(_ id: Constants.Window) -> Self {
+        return id.rawValue
+    }
+
+}
+

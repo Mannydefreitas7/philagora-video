@@ -12,30 +12,31 @@ struct AudioInputView: View {
 
     @State var isPresented: Bool = false
     @State var volume: Double = 0
+
     var body: some View {
         HStack {
             Toggle(isOn: $isOn) {
                 Label("Device name", systemImage: isOn ? "microphone.fill" : "microphone.slash")
-                    .frame(minWidth: .medium)
+                    .font(.title2)
             }
-            .toggleStyle(.button)
+            .buttonStyle(.glassToolBar)
             .buttonBorderShape(.circle)
+            .toggleStyle(.button)
             .labelStyle(.iconOnly)
-            .buttonStyle(.glass)
-            .animation(.bouncy, value: isOn)
+
 
             if isOn {
                 Button {
-                    isPresented.toggle()
+                    withAnimation(.bouncy) {
+                        isPresented.toggle()
+                    }
                 } label: {
                     Text("Device name")
                 }
                 .labelStyle(.titleAndIcon)
-                .buttonStyle(.accessoryBar)
+                .buttonStyle(.glassToolBar)
             }
         }
-        .controlSize(.extraLarge)
-        .animation(.bouncy, value: isOn)
         .popover(isPresented: $isPresented) {
             VolumeHUD(volume: $volume)
                 .frame(minWidth: .popoverWidth)

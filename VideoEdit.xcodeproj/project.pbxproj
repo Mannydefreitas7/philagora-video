@@ -14,7 +14,7 @@
 		1000000000000006 /* VideoEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2000000000000006 /* VideoEditor.swift */; };
 		1000000000000007 /* GIFExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2000000000000007 /* GIFExporter.swift */; };
 		1000000000000010 /* MouseClickVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2000000000000010 /* MouseClickVisualizer.swift */; };
-		1400C8F72F04C2A5001EF209 /* VIWelcomeWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1400C8F52F04C2A5001EF209 /* VIWelcomeWindow.swift */; };
+		1400C8F72F04C2A5001EF209 /* Welcome+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1400C8F52F04C2A5001EF209 /* Welcome+Window.swift */; };
 		1400C8F82F04C2A5001EF209 /* TrimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1400C8EE2F04C2A5001EF209 /* TrimView.swift */; };
 		1400C8F92F04C2A5001EF209 /* QuickActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1400C8D52F04C2A5001EF209 /* QuickActionButton.swift */; };
 		1400C8FA2F04C2A5001EF209 /* ExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1400C8DE2F04C2A5001EF209 /* ExportView.swift */; };
@@ -85,8 +85,12 @@
 		144E65FD2F0A57C600D044AD /* WelcomeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144E65FC2F0A57C600D044AD /* WelcomeButton.swift */; };
 		144E66002F0A583500D044AD /* FocusRingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144E65FF2F0A583500D044AD /* FocusRingModifier.swift */; };
 		144E66022F0A687100D044AD /* RectCorner+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144E66012F0A687100D044AD /* RectCorner+Model.swift */; };
-		144E66042F0A6C0D00D044AD /* VIEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144E66032F0A6C0D00D044AD /* VIEditorWindow.swift */; };
+		144E66042F0A6C0D00D044AD /* Recording+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144E66032F0A6C0D00D044AD /* Recording+Window.swift */; };
 		144E66072F0A70DD00D044AD /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = 144E66062F0A70DD00D044AD /* Onboarding */; };
+		146CAEC02F1949200021CE3A /* SFSafeSymbols in Frameworks */ = {isa = PBXBuildFile; productRef = 146CAEBF2F1949200021CE3A /* SFSafeSymbols */; };
+		146CAEC22F1966880021CE3A /* FloatingPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146CAEC12F1966880021CE3A /* FloatingPanel.swift */; };
+		146CAEC52F1AD6E60021CE3A /* General+Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146CAEC42F1AD6E60021CE3A /* General+Command.swift */; };
+		146CAEC72F1ADB020021CE3A /* Video+Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146CAEC62F1ADAF40021CE3A /* Video+Command.swift */; };
 		146E4EF82F0A7C0000AA07CC /* SwiftBasicFormat in Frameworks */ = {isa = PBXBuildFile; productRef = 146E4EF72F0A7C0000AA07CC /* SwiftBasicFormat */; };
 		146E4EFA2F0A7C0000AA07CC /* SwiftCompilerPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 146E4EF92F0A7C0000AA07CC /* SwiftCompilerPlugin */; };
 		146E4EFC2F0A7C0000AA07CC /* SwiftDiagnostics in Frameworks */ = {isa = PBXBuildFile; productRef = 146E4EFB2F0A7C0000AA07CC /* SwiftDiagnostics */; };
@@ -97,7 +101,7 @@
 		146E4F092F0A7CC200AA07CC /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = 146E4F082F0A7CC200AA07CC /* Onboarding */; };
 		146E4F0B2F0A830000AA07CC /* VIRecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E4F0A2F0A830000AA07CC /* VIRecordingView.swift */; };
 		146E4F0E2F0A8DE900AA07CC /* VideoEditorCore in Frameworks */ = {isa = PBXBuildFile; productRef = 146E4F0D2F0A8DE900AA07CC /* VideoEditorCore */; };
-		146E4F102F0AA8B900AA07CC /* VICameraCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E4F0F2F0AA8B900AA07CC /* VICameraCaptureView.swift */; };
+		146E4F102F0AA8B900AA07CC /* VECameraCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E4F0F2F0AA8B900AA07CC /* VECameraCaptureView.swift */; };
 		146E4F122F0B5DA900AA07CC /* CameraCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E4F112F0B5DA900AA07CC /* CameraCaptureView.swift */; };
 		146E4F142F0D66EB00AA07CC /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 146E4F132F0D66EB00AA07CC /* AppIcon.icon */; };
 		146E4F172F0DA03700AA07CC /* Pow in Frameworks */ = {isa = PBXBuildFile; productRef = 146E4F162F0DA03700AA07CC /* Pow */; };
@@ -131,7 +135,8 @@
 		14FC9ED72F16FB750053C019 /* EngineCore in Frameworks */ = {isa = PBXBuildFile; productRef = 14FC9ED62F16FB750053C019 /* EngineCore */; };
 		14FC9ED92F16FB760053C019 /* EngineCoreC in Frameworks */ = {isa = PBXBuildFile; productRef = 14FC9ED82F16FB760053C019 /* EngineCoreC */; };
 		14FC9EDB2F16FB760053C019 /* EngineMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 14FC9EDA2F16FB760053C019 /* EngineMacros */; };
-		14FC9EDD2F1785C60053C019 /* ScreenOverlayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FC9EDC2F1785C60053C019 /* ScreenOverlayWindow.swift */; };
+		14FC9EDD2F1785C60053C019 /* Floating+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FC9EDC2F1785C60053C019 /* Floating+Window.swift */; };
+		14FC9EE02F19158D0053C019 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 14FC9EDF2F19158D0053C019 /* SwiftUIIntrospect */; };
 		14FFBDB12F128F9A00B96C92 /* PlayerControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFBDB02F128F9A00B96C92 /* PlayerControlsView.swift */; };
 		14FFBDB32F12949800B96C92 /* PauseButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFBDB22F12949800B96C92 /* PauseButtonView.swift */; };
 		14FFBDB52F12992800B96C92 /* AudioInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFBDB42F12992800B96C92 /* AudioInputView.swift */; };
@@ -176,7 +181,7 @@
 		1400C8F12F04C2A5001EF209 /* VideoPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerManager.swift; sourceTree = "<group>"; };
 		1400C8F22F04C2A5001EF209 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		1400C8F32F04C2A5001EF209 /* VideoTimeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTimeline.swift; sourceTree = "<group>"; };
-		1400C8F52F04C2A5001EF209 /* VIWelcomeWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIWelcomeWindow.swift; sourceTree = "<group>"; };
+		1400C8F52F04C2A5001EF209 /* Welcome+Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Welcome+Window.swift"; sourceTree = "<group>"; };
 		1400C91A2F04C472001EF209 /* AspectRatio+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AspectRatio+Model.swift"; sourceTree = "<group>"; };
 		1400C91B2F04C472001EF209 /* CameraPosition+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraPosition+Model.swift"; sourceTree = "<group>"; };
 		1400C91C2F04C472001EF209 /* CameraShape+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraShape+Model.swift"; sourceTree = "<group>"; };
@@ -211,9 +216,12 @@
 		144E65FC2F0A57C600D044AD /* WelcomeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeButton.swift; sourceTree = "<group>"; };
 		144E65FF2F0A583500D044AD /* FocusRingModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusRingModifier.swift; sourceTree = "<group>"; };
 		144E66012F0A687100D044AD /* RectCorner+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RectCorner+Model.swift"; sourceTree = "<group>"; };
-		144E66032F0A6C0D00D044AD /* VIEditorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIEditorWindow.swift; sourceTree = "<group>"; };
+		144E66032F0A6C0D00D044AD /* Recording+Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recording+Window.swift"; sourceTree = "<group>"; };
+		146CAEC12F1966880021CE3A /* FloatingPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanel.swift; sourceTree = "<group>"; };
+		146CAEC42F1AD6E60021CE3A /* General+Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "General+Command.swift"; sourceTree = "<group>"; };
+		146CAEC62F1ADAF40021CE3A /* Video+Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Video+Command.swift"; sourceTree = "<group>"; };
 		146E4F0A2F0A830000AA07CC /* VIRecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIRecordingView.swift; sourceTree = "<group>"; };
-		146E4F0F2F0AA8B900AA07CC /* VICameraCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VICameraCaptureView.swift; sourceTree = "<group>"; };
+		146E4F0F2F0AA8B900AA07CC /* VECameraCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VECameraCaptureView.swift; sourceTree = "<group>"; };
 		146E4F112F0B5DA900AA07CC /* CameraCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureView.swift; sourceTree = "<group>"; };
 		146E4F132F0D66EB00AA07CC /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		146E4F182F0DA45E00AA07CC /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
@@ -236,7 +244,7 @@
 		14FC9EC52F156D6A0053C019 /* EditorSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSettingsView.swift; sourceTree = "<group>"; };
 		14FC9EC72F16C35C0053C019 /* SettingsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButton.swift; sourceTree = "<group>"; };
 		14FC9ED02F16F6930053C019 /* Picker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Picker.swift; sourceTree = "<group>"; };
-		14FC9EDC2F1785C60053C019 /* ScreenOverlayWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenOverlayWindow.swift; sourceTree = "<group>"; };
+		14FC9EDC2F1785C60053C019 /* Floating+Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Floating+Window.swift"; sourceTree = "<group>"; };
 		14FFBDB02F128F9A00B96C92 /* PlayerControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlsView.swift; sourceTree = "<group>"; };
 		14FFBDB22F12949800B96C92 /* PauseButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseButtonView.swift; sourceTree = "<group>"; };
 		14FFBDB42F12992800B96C92 /* AudioInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioInputView.swift; sourceTree = "<group>"; };
@@ -265,6 +273,7 @@
 				144E66072F0A70DD00D044AD /* Onboarding in Frameworks */,
 				14D9D6AB2F05974400065B49 /* SwiftIDEUtils in Frameworks */,
 				144E65E22F094FA400D044AD /* WelcomeWindow in Frameworks */,
+				146CAEC02F1949200021CE3A /* SFSafeSymbols in Frameworks */,
 				146E4EFA2F0A7C0000AA07CC /* SwiftCompilerPlugin in Frameworks */,
 				14D9D6AD2F05974400065B49 /* SwiftIfConfig in Frameworks */,
 				146E4F062F0A7C2800AA07CC /* CombineAsync in Frameworks */,
@@ -272,6 +281,7 @@
 				14D9D6A72F05974400065B49 /* SwiftCompilerPlugin in Frameworks */,
 				14FC9ED92F16FB760053C019 /* EngineCoreC in Frameworks */,
 				146E4F002F0A7C0000AA07CC /* SwiftIfConfig in Frameworks */,
+				14FC9EE02F19158D0053C019 /* SwiftUIIntrospect in Frameworks */,
 				146E4F0E2F0A8DE900AA07CC /* VideoEditorCore in Frameworks */,
 				146E4F172F0DA03700AA07CC /* Pow in Frameworks */,
 				14FC9EDB2F16FB760053C019 /* EngineMacros in Frameworks */,
@@ -294,7 +304,7 @@
 				1400C8CA2F04C2A5001EF209 /* CameraManager.swift */,
 				1400C8CB2F04C2A5001EF209 /* CameraOverlayView.swift */,
 				1400C8CC2F04C2A5001EF209 /* CameraPreviewView.swift */,
-				146E4F0F2F0AA8B900AA07CC /* VICameraCaptureView.swift */,
+				146E4F0F2F0AA8B900AA07CC /* VECameraCaptureView.swift */,
 				146E4F112F0B5DA900AA07CC /* CameraCaptureView.swift */,
 			);
 			path = Camera;
@@ -327,6 +337,7 @@
 				14FFBDB62F12A4D200B96C92 /* VideoInputView.swift */,
 				14FC9EC52F156D6A0053C019 /* EditorSettingsView.swift */,
 				14FC9EC72F16C35C0053C019 /* SettingsButton.swift */,
+				146CAEC12F1966880021CE3A /* FloatingPanel.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -450,12 +461,21 @@
 			path = Modifiers;
 			sourceTree = "<group>";
 		};
+		146CAEC32F1AD69D0021CE3A /* Commands */ = {
+			isa = PBXGroup;
+			children = (
+				146CAEC62F1ADAF40021CE3A /* Video+Command.swift */,
+				146CAEC42F1AD6E60021CE3A /* General+Command.swift */,
+			);
+			path = Commands;
+			sourceTree = "<group>";
+		};
 		148AAC642F0784CF0087D649 /* Windows */ = {
 			isa = PBXGroup;
 			children = (
-				1400C8F52F04C2A5001EF209 /* VIWelcomeWindow.swift */,
-				144E66032F0A6C0D00D044AD /* VIEditorWindow.swift */,
-				14FC9EDC2F1785C60053C019 /* ScreenOverlayWindow.swift */,
+				1400C8F52F04C2A5001EF209 /* Welcome+Window.swift */,
+				144E66032F0A6C0D00D044AD /* Recording+Window.swift */,
+				14FC9EDC2F1785C60053C019 /* Floating+Window.swift */,
 			);
 			path = Windows;
 			sourceTree = "<group>";
@@ -503,6 +523,7 @@
 		5000000000000002 /* VideoEdit */ = {
 			isa = PBXGroup;
 			children = (
+				146CAEC32F1AD69D0021CE3A /* Commands */,
 				144E65F42F0966A100D044AD /* Controllers */,
 				148AAC642F0784CF0087D649 /* Windows */,
 				2000000000000011 /* VideoEdit.entitlements */,
@@ -593,6 +614,8 @@
 				14FC9ED62F16FB750053C019 /* EngineCore */,
 				14FC9ED82F16FB760053C019 /* EngineCoreC */,
 				14FC9EDA2F16FB760053C019 /* EngineMacros */,
+				14FC9EDF2F19158D0053C019 /* SwiftUIIntrospect */,
+				146CAEBF2F1949200021CE3A /* SFSafeSymbols */,
 			);
 			productName = Claquette;
 			productReference = 3000000000000001 /* VideoEdit.app */;
@@ -634,6 +657,8 @@
 				146E4F152F0DA03700AA07CC /* XCRemoteSwiftPackageReference "Pow" */,
 				14FFBDBC2F13194A00B96C92 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				14FC9ED22F16F8660053C019 /* XCRemoteSwiftPackageReference "Engine" */,
+				14FC9EDE2F19158D0053C019 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
+				146CAEBE2F1949200021CE3A /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
 			);
 			preferredProjectObjectVersion = 90;
 			productRefGroup = 5000000000000003 /* Products */;
@@ -678,7 +703,7 @@
 				1400C93A2F04C472001EF209 /* RecordingError+Model.swift in Sources */,
 				1400C93C2F04C472001EF209 /* CameraPosition+Model.swift in Sources */,
 				14FFBDBB2F12E6B200B96C92 /* Shape.swift in Sources */,
-				146E4F102F0AA8B900AA07CC /* VICameraCaptureView.swift in Sources */,
+				146E4F102F0AA8B900AA07CC /* VECameraCaptureView.swift in Sources */,
 				1400C93D2F04C472001EF209 /* VideoEditorError+Model.swift in Sources */,
 				14FFBDB32F12949800B96C92 /* PauseButtonView.swift in Sources */,
 				1400C93E2F04C472001EF209 /* ClickEvent+Model.swift in Sources */,
@@ -686,9 +711,10 @@
 				1400C9412F04C472001EF209 /* ExportPreset+Model.swift in Sources */,
 				1400C9422F04C472001EF209 /* CameraShape+Model.swift in Sources */,
 				1400C9432F04C472001EF209 /* AspectRatio+Model.swift in Sources */,
-				144E66042F0A6C0D00D044AD /* VIEditorWindow.swift in Sources */,
+				144E66042F0A6C0D00D044AD /* Recording+Window.swift in Sources */,
 				144E66002F0A583500D044AD /* FocusRingModifier.swift in Sources */,
 				1400C9442F04C472001EF209 /* RoundedCornerShape+Model.swift in Sources */,
+				146CAEC22F1966880021CE3A /* FloatingPanel.swift in Sources */,
 				1400C9452F04C472001EF209 /* VideoCodec+Model.swift in Sources */,
 				1400C9462F04C472001EF209 /* ExportSettings+Model.swift in Sources */,
 				1400C9472F04C472001EF209 /* CropHandle+Model.swift in Sources */,
@@ -706,7 +732,7 @@
 				14FC9EC82F16C35C0053C019 /* SettingsButton.swift in Sources */,
 				1000000000000006 /* VideoEditor.swift in Sources */,
 				1000000000000007 /* GIFExporter.swift in Sources */,
-				1400C8F72F04C2A5001EF209 /* VIWelcomeWindow.swift in Sources */,
+				1400C8F72F04C2A5001EF209 /* Welcome+Window.swift in Sources */,
 				1400C8F82F04C2A5001EF209 /* TrimView.swift in Sources */,
 				1400C8F92F04C2A5001EF209 /* QuickActionButton.swift in Sources */,
 				144E65EF2F09632900D044AD /* Bundle+Extensions.swift in Sources */,
@@ -726,6 +752,7 @@
 				1400C9012F04C2A5001EF209 /* EditorToolbar.swift in Sources */,
 				144E65FB2F0A538C00D044AD /* Button.swift in Sources */,
 				1400C9022F04C2A5001EF209 /* TimeInputField.swift in Sources */,
+				146CAEC52F1AD6E60021CE3A /* General+Command.swift in Sources */,
 				1400C9032F04C2A5001EF209 /* AspectRatioButton.swift in Sources */,
 				1400C9042F04C2A5001EF209 /* CaptureModeButton.swift in Sources */,
 				148AAC682F0785520087D649 /* Constants.swift in Sources */,
@@ -735,7 +762,7 @@
 				1400C9062F04C2A5001EF209 /* CameraSettingsView.swift in Sources */,
 				146E4F1B2F0DE4F200AA07CC /* Button+ViewModifier.swift in Sources */,
 				144E66022F0A687100D044AD /* RectCorner+Model.swift in Sources */,
-				14FC9EDD2F1785C60053C019 /* ScreenOverlayWindow.swift in Sources */,
+				14FC9EDD2F1785C60053C019 /* Floating+Window.swift in Sources */,
 				1400C9072F04C2A5001EF209 /* FormatButton.swift in Sources */,
 				14FFBDB72F12A4D200B96C92 /* VideoInputView.swift in Sources */,
 				1400C9082F04C2A5001EF209 /* CropOverlay.swift in Sources */,
@@ -751,6 +778,7 @@
 				1400C90F2F04C2A5001EF209 /* PresetButton.swift in Sources */,
 				144E65F32F0964F500D044AD /* EnvironmentValues.swift in Sources */,
 				1400C9102F04C2A5001EF209 /* CropHandleView.swift in Sources */,
+				146CAEC72F1ADB020021CE3A /* Video+Command.swift in Sources */,
 				1400C9112F04C2A5001EF209 /* CameraManager.swift in Sources */,
 				144E65FD2F0A57C600D044AD /* WelcomeButton.swift in Sources */,
 				1400C9122F04C2A5001EF209 /* CameraOverlayView.swift in Sources */,
@@ -1058,6 +1086,14 @@
 				kind = branch;
 			};
 		};
+		146CAEBE2F1949200021CE3A /* XCRemoteSwiftPackageReference "SFSafeSymbols" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SFSafeSymbols/SFSafeSymbols.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 		146E4EF62F0A7C0000AA07CC /* XCRemoteSwiftPackageReference "swift-syntax" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/swiftlang/swift-syntax.git";
@@ -1130,6 +1166,14 @@
 				minimumVersion = 2.4.0;
 			};
 		};
+		14FC9EDE2F19158D0053C019 /* XCRemoteSwiftPackageReference "swiftui-introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/swiftui-introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 26.0.0;
+			};
+		};
 		14FFBDBC2F13194A00B96C92 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer.git";
@@ -1155,6 +1199,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 144E66052F0A70DD00D044AD /* XCRemoteSwiftPackageReference "Onboarding" */;
 			productName = Onboarding;
+		};
+		146CAEBF2F1949200021CE3A /* SFSafeSymbols */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 146CAEBE2F1949200021CE3A /* XCRemoteSwiftPackageReference "SFSafeSymbols" */;
+			productName = SFSafeSymbols;
 		};
 		146E4EF72F0A7C0000AA07CC /* SwiftBasicFormat */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1255,6 +1304,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 14FC9ED22F16F8660053C019 /* XCRemoteSwiftPackageReference "Engine" */;
 			productName = EngineMacros;
+		};
+		14FC9EDF2F19158D0053C019 /* SwiftUIIntrospect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14FC9EDE2F19158D0053C019 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;
+			productName = SwiftUIIntrospect;
 		};
 		14FFBDBD2F13194A00B96C92 /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;

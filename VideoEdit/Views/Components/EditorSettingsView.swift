@@ -11,7 +11,7 @@ import SwiftUI
 struct EditorSettingsView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var cameraManager: CameraPreviewViewModel = .init()
-    @EnvironmentObject var editorViewModel: VICameraCaptureView.ViewModel
+    @EnvironmentObject var editorViewModel: VECameraCaptureView.ViewModel
     @ObservedObject var viewModel: ViewModel = .init()
 
     var body: some View {
@@ -83,6 +83,6 @@ extension EditorSettingsView {
 #Preview {
 
         EditorSettingsView()
-        .frame(width: 600, height: 300)
+            .frame(width: 600, height: 300)
 
 }

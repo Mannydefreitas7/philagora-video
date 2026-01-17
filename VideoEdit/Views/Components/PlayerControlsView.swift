@@ -14,65 +14,67 @@ struct PlayerControlsView: View {
 
 
     var body: some View {
-        GlassEffectContainer(spacing: .zero) {
-            HStack(alignment: .center, spacing: .medium) {
+        VStack {
 
-                    // MARK: Record button
-                    RecordButton()
-                        .glassEffect(
-                            viewModel.isRecording ? .regular
-                                .tint(.recordingRed) : .regular.tint(Color(.windowBackgroundColor))
-                        )
-                        .glassEffectUnion(
-                            id: ControlGroup.record,
-                            namespace: controlGroup
-                        )
+            // MARK: - Record button
+            RecordCircleButton()
+                .padding(.bottom, .small)
+
+            GlassEffectContainer(spacing: .small) {
+
+                HStack(alignment: .center, spacing: .small) {
 
                     if !viewModel.isRecording {
                         // MARK: Timer Control
                         TimerControl()
-           
-                            .padding(.horizontal, viewModel.isTimerEnabled ? .small : .zero)
+                            .padding(viewModel.isTimerEnabled ? .horizontal : .leading, .small)
                             .frame(height: .minHeight)
-                            .glassEffect(.regular)
+                            .glassEffect(.clear)
                             .glassEffectUnion(
                                 id: viewModel.isTimerEnabled ? ControlGroup.timer : ControlGroup.all,
                                 namespace: controlGroup
                             )
                     }
 
-
-
-                HStack(spacing: 0) {
-
                     if viewModel.isRecording {
                         // MARK: Pause Button
                         PauseButton()
+                            .padding(.horizontal, .small)
+                            .frame(height: .minHeight)
+                            .glassEffect(.clear)
+
                     }
 
-                    // MARK: Audio Input
-                    AudioInput()
+                    HStack(spacing: .zero) {
 
-                    // MARK: Video Input
-                    VideoInput()
+                        // MARK: Audio Input
+                        AudioInput()
+
+                        // MARK: Video Input
+                        VideoInput()
+
+                    }
+                    .padding(.trailing, .small)
+                    .padding(.leading, viewModel.isTimerEnabled ? .small : .zero)
+                    .frame(height: .minHeight)
+                    .glassEffect(.clear)
+                    .glassEffectUnion(
+                        id: viewModel.isTimerEnabled ? ControlGroup.options : ControlGroup.all,
+                        namespace: controlGroup
+                    )
 
                     // MARK: Settings Input
                     SettingsButtonView()
-
+                        .padding(.horizontal, .small)
+                        .frame(height: .minHeight)
+                        .glassEffect(.clear)
+                        //
                 }
-               // .padding(.vertical, 6)
-                .padding(.trailing, .small)
-                .padding(.leading, viewModel.isTimerEnabled || viewModel.isRecording ? .small : .zero)
-                .frame(height: .minHeight)
-                .glassEffect(.regular)
-                .glassEffectUnion(
-                    id: viewModel.isTimerEnabled ? ControlGroup.options : ControlGroup.all,
-                    namespace: controlGroup
-                )
+                .animation(.bouncy, value: viewModel.isTimerEnabled)
+                .glassEffectTransition(.materialize)
+                .controlSize(.large)
+
             }
-            .animation(.bouncy, value: viewModel.isTimerEnabled)
-            .glassEffectTransition(.materialize)
-            .controlSize(.large)
         }
     }
 }
@@ -83,8 +85,7 @@ extension CGFloat {
     static let  medium: Self  = 16
     static let  large: Self  = 24
     static let  extraLarge: Self  = 32
-
-    static let  minHeight: Self  = 54
+    static let  minHeight: Self  = 48
 
 }
 
@@ -125,6 +126,33 @@ extension PlayerControlsView {
             )
             .buttonStyle(.pushDown(glass: .regular))
     }
+
+    @ViewBuilder
+    func RecordCircleButton() -> some View {
+            Button {
+                withAnimation(.bouncy) {
+                    viewModel.isRecording.toggle()
+                }
+            } label: {
+
+                ZStack {
+                    Circle()
+                        .fill(.clear)
+                        .glassEffect(.regular.interactive())
+
+                    Image(systemSymbol: viewModel.isRecording ? .appFill : .circleFill)
+                        .resizable()
+                        .foregroundStyle(.recordingRed.gradient)
+                        .scaleEffect(viewModel.isRecording ? 0.5 : 0.8)
+
+                }
+                .frame(width: .recordWidth * 2, height: .recordWidth * 2)
+
+            }
+            .buttonStyle(.borderless)
+            .buttonBorderShape(.circle)
+        }
+
 
     @ViewBuilder
     func PauseButton() -> some View {

@@ -8,11 +8,31 @@ import SwiftUI
 
 class Constants {
 
-    enum Windows: String, Hashable {
-        case main = "main"
-        case settings = "settings"
-        case welcome = "welcome"
-        case screenRecording = "screen-recording"
+    enum Window: CaseIterable, RawRepresentable, Hashable {
+        init?(rawValue: String) {
+            switch rawValue {
+                case "main": self = .main
+                case "settings": self = .settings
+                case "welcome": self = .welcome
+                case "recording": self = .recording
+                default: return nil
+            }
+        }
+
+
+        var rawValue: Self.RawValue {
+            switch self {
+                case .main: return "main"
+                case .settings: return "settings"
+                case .welcome: return "welcome"
+                case .recording: return "recording"
+            }
+        }
+
+        case main
+        case settings
+        case welcome
+        case recording
     }
 
     enum SceneID: String, CaseIterable, Hashable {
@@ -57,5 +77,7 @@ class Constants {
     static let showPlatformSafeStorageKey = "VICameraCaptureView.showPlatformSafe"
 
     static let screen_capture_security_key: String = "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"
+
+    
 
 }

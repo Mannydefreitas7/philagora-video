@@ -6,32 +6,35 @@
 //
 
 import SwiftUI
+import SwiftUIIntrospect
 
-struct VIEditorWindow: Scene {
+struct RecordingWindow: Scene {
 
-    @StateObject var appState: AppState = AppState()
+    @EnvironmentObject var appState: AppState
     @StateObject var viewModel = ViewModel()
 
     var body: some Scene {
-        WindowGroup("Editor", id: Constants.SceneID.editor.rawValue) {
-            VICameraCaptureView()
+        WindowGroup(Constants.Window.recording.rawValue, id: .window(.recording)) {
 
+            VECameraCaptureView()
+                .introspect(.window, on: .macOS(.v26)) {
+                    $0.isMovableByWindowBackground = true
+                }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .windowResizeAnchor(.bottomLeading)
                 .ignoresSafeArea(.all)
                 .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
                 .environmentObject(appState)
-                
+            
         }
+        
         .windowStyle(.hiddenTitleBar)
         .windowToolbarStyle(.unified)
-        .windowResizability(.contentSize)
+        .windowResizability(.contentMinSize)
     }
 }
 
-extension VIEditorWindow {
-
-  
+extension RecordingWindow {
 
     class ViewModel: ObservableObject {
 
@@ -40,8 +43,5 @@ extension VIEditorWindow {
         @Published var size: CameraSize = .small
         @Published var shape: CameraShape = .circle
 
-    
-
     }
-
 }

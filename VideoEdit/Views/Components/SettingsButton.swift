@@ -20,8 +20,7 @@ struct SettingsButton: View {
         }
         .toggleStyle(.button)
         .buttonBorderShape(.circle)
-        .controlSize(.extraLarge)
-        .buttonStyle(.glass)
+        .buttonStyle(.glassToolBar)
     }
 }
 

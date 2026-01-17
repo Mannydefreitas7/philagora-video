@@ -16,9 +16,10 @@ struct VideoInputView: View {
         Button {
             isPresented.toggle()
         } label: {
-            Label(UIString.label.rawValue, systemImage: UIString.icon.rawValue).font(.body)
-                .padding(.vertical, .small)
+            Label(UIString.label.rawValue, systemImage: UIString.icon.rawValue)
+                .font(.title2)
         }
+        
         .buttonStyle(.glassToolBar)
         .popover(isPresented: $isPresented) {
             Text("Content")
