@@ -4,7 +4,8 @@
 //
 //  Created by Emmanuel on 2026-01-17.
 //
-
+import Foundation
+import AVFoundation
 
 struct CameraInfo: Identifiable, Hashable {
     let id: String
