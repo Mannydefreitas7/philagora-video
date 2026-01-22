@@ -10,28 +10,27 @@ import SFSafeSymbols
 
 struct AudioInputView: View {
 
-    var label: String
     var controlGroup: Namespace.ID
-    @Binding var viewModel: ViewModel
+    @Binding var device: DeviceInfo
 
     var body: some View {
         Group {
-            if viewModel.isPresented {
+            if device.showSettings {
                 ToolBarOptions()
             } else {
-                ToolbarButton(viewModel.isOn)
+                ToolbarButton(device.isOn)
             }
         }
         .frame(
-            height: viewModel.isPresented ? nil : .minHeight,
+            height: device.showSettings ? nil : .minHeight,
             alignment: .center
         )
         .glassEffect(
             .regular,
-            in: viewModel.shape
+            in: device.shape
         )
         .toolEffectUnion(
-            id: viewModel.toolGroup,
+            id: device.isOn ? .audio : .options,
             namespace: controlGroup
         )
     }
@@ -39,49 +38,39 @@ struct AudioInputView: View {
 
 extension AudioInputView {
 
-    @MainActor
-    @Observable class ViewModel {
-
-        var isOn: Bool = false
-        var volume: Double = 0
-        var isPresented: Bool = false
-        var device: DeviceInfo?
-
-        var shape: AnyShape {
-            return isPresented || isOn ? AnyShape(.rect(cornerRadius: .large, style: .continuous)) : AnyShape(.capsule)
-        }
-
-        var toolGroup: ToolGroup {
-            isPresented || isOn ? .audio : .options
-        }
-
-    }
-
     @ViewBuilder
     func ToolBarOptions() -> some View {
-        if let device = viewModel.device {
-            VolumeHUD(volume: $viewModel.volume, connectedDevice: device) {
-                ToolbarButton(false)
+        VolumeHUD(for: $device) {
+            Button("Close", systemImage: "xmark", role: .close) {
+                withAnimation(.bouncy) {
+                    device.showSettings.toggle()
+                }
             }
-            .padding(.large)
+            .labelStyle(.iconOnly)
+            .buttonBorderShape(.circle)
         }
+        .padding(.large)
     }
 
     @ViewBuilder
     func ToolbarButton(_ displayLabel: Bool) -> some View {
         HStack(spacing: .small / 2) {
-            Toggle(isOn: $viewModel.isOn) {
-                Image(systemSymbol: viewModel.isOn ? .microphoneFill : .microphoneSlash)
+            Toggle(isOn: $device.isOn) {
+                Image(systemSymbol: device.isOn ? .microphoneFill : .microphoneSlash)
                     .font(.title2)
+                    .frame(width: .recordWidth)
             }
             .toggleStyle(.secondary)
+            .animation(.bouncy, value: device.isOn)
+
+
             if displayLabel {
                 Button {
                     withAnimation(.bouncy) {
-                        viewModel.isPresented.toggle()
+                        device.showSettings.toggle()
                     }
                 } label: {
-                    Text(label)
+                    Text(device.name)
                 }
                 .labelStyle(.titleAndIcon)
                 .buttonStyle(.accessoryBar)

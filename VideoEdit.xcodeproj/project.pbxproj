@@ -126,6 +126,19 @@
 		148AAC6C2F0793A80087D649 /* View+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148AAC6B2F07939E0087D649 /* View+Modifiers.swift */; };
 		148AAC6E2F0793D00087D649 /* View+NSViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148AAC6D2F0793C00087D649 /* View+NSViewRepresentable.swift */; };
 		148B59452F1E9D3100F840BF /* AppState+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B59442F1E9D1D00F840BF /* AppState+Extensions.swift */; };
+		148B59532F213BB600F840BF /* CaptureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B59522F213BB600F840BF /* CaptureService.swift */; };
+		148B59552F213BEA00F840BF /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B59542F213BEA00F840BF /* CameraModel.swift */; };
+		148B595A2F213C6300F840BF /* MovieCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B59572F213C6300F840BF /* MovieCapture.swift */; };
+		148B595B2F213C6300F840BF /* DeviceLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B59562F213C6300F840BF /* DeviceLookup.swift */; };
+		148B595C2F213C6300F840BF /* PhotoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B59582F213C6300F840BF /* PhotoCapture.swift */; };
+		148B595D2F213C6300F840BF /* SPCObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B59592F213C6300F840BF /* SPCObserver.swift */; };
+		148B59612F213CDD00F840BF /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B59602F213CDD00F840BF /* DataTypes.swift */; };
+		148B59622F213CDD00F840BF /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B595E2F213CDD00F840BF /* Camera.swift */; };
+		148B59632F213CDD00F840BF /* CameraState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B595F2F213CDD00F840BF /* CameraState.swift */; };
+		148B59652F213D0E00F840BF /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B59642F213D0E00F840BF /* MediaLibrary.swift */; };
+		148B59692F213D4500F840BF /* Capture+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B59662F213D4500F840BF /* Capture+Extensions.swift */; };
+		148B596B2F213D4500F840BF /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B59682F213D4500F840BF /* View+Extensions.swift */; };
+		148B596D2F2142E800F840BF /* PreviewSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148B596C2F2142E300F840BF /* PreviewSource.swift */; };
 		14972F432F0EC72A002CE41C /* View+ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14972F422F0EC72A002CE41C /* View+ViewModifier.swift */; };
 		14972F452F10EDFF002CE41C /* TimerPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14972F442F10EDFF002CE41C /* TimerPicker.swift */; };
 		14D9D6A52F05974400065B49 /* SwiftBasicFormat in Frameworks */ = {isa = PBXBuildFile; productRef = 14D9D6A42F05974400065B49 /* SwiftBasicFormat */; };
@@ -252,6 +265,19 @@
 		148AAC6B2F07939E0087D649 /* View+Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Modifiers.swift"; sourceTree = "<group>"; };
 		148AAC6D2F0793C00087D649 /* View+NSViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+NSViewRepresentable.swift"; sourceTree = "<group>"; };
 		148B59442F1E9D1D00F840BF /* AppState+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppState+Extensions.swift"; sourceTree = "<group>"; };
+		148B59522F213BB600F840BF /* CaptureService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureService.swift; sourceTree = "<group>"; };
+		148B59542F213BEA00F840BF /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
+		148B59562F213C6300F840BF /* DeviceLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceLookup.swift; sourceTree = "<group>"; };
+		148B59572F213C6300F840BF /* MovieCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCapture.swift; sourceTree = "<group>"; };
+		148B59582F213C6300F840BF /* PhotoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCapture.swift; sourceTree = "<group>"; };
+		148B59592F213C6300F840BF /* SPCObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPCObserver.swift; sourceTree = "<group>"; };
+		148B595E2F213CDD00F840BF /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		148B595F2F213CDD00F840BF /* CameraState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraState.swift; sourceTree = "<group>"; };
+		148B59602F213CDD00F840BF /* DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTypes.swift; sourceTree = "<group>"; };
+		148B59642F213D0E00F840BF /* MediaLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
+		148B59662F213D4500F840BF /* Capture+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Capture+Extensions.swift"; sourceTree = "<group>"; };
+		148B59682F213D4500F840BF /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		148B596C2F2142E300F840BF /* PreviewSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSource.swift; sourceTree = "<group>"; };
 		14972F422F0EC72A002CE41C /* View+ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ViewModifier.swift"; sourceTree = "<group>"; };
 		14972F442F10EDFF002CE41C /* TimerPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerPicker.swift; sourceTree = "<group>"; };
 		14D9D6AF2F0717AF00065B49 /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
@@ -497,6 +523,7 @@
 		146CAECC2F1C80A10021CE3A /* Actors */ = {
 			isa = PBXGroup;
 			children = (
+				148B59522F213BB600F840BF /* CaptureService.swift */,
 				145D15E52F1D393F00F8A4BB /* CaptureEngine+Actor.swift */,
 				146CAECD2F1C80B30021CE3A /* Device+Actor.swift */,
 			);
@@ -525,6 +552,8 @@
 		14D9D6B32F07191000065B49 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				148B59662F213D4500F840BF /* Capture+Extensions.swift */,
+				148B59682F213D4500F840BF /* View+Extensions.swift */,
 				148B59442F1E9D1D00F840BF /* AppState+Extensions.swift */,
 				144E65F02F09639F00D044AD /* AppKit+Extensions.swift */,
 				148AAC5F2F0742700087D649 /* NamePrintable+Extensions.swift */,
@@ -588,6 +617,11 @@
 		5000000000000005 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				148B595E2F213CDD00F840BF /* Camera.swift */,
+				148B59642F213D0E00F840BF /* MediaLibrary.swift */,
+				148B595F2F213CDD00F840BF /* CameraState.swift */,
+				148B59602F213CDD00F840BF /* DataTypes.swift */,
+				148B59542F213BEA00F840BF /* CameraModel.swift */,
 				145D15E32F1D390D00F8A4BB /* CaptureStatus+Model.swift */,
 				145D15E12F1D37EB00F8A4BB /* DeviceInfo+Model.swift */,
 				146CAECA2F1C7EEF0021CE3A /* MicrophoneInfo+Model.swift */,
@@ -623,6 +657,11 @@
 		5000000000000006 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				148B596C2F2142E300F840BF /* PreviewSource.swift */,
+				148B59562F213C6300F840BF /* DeviceLookup.swift */,
+				148B59572F213C6300F840BF /* MovieCapture.swift */,
+				148B59582F213C6300F840BF /* PhotoCapture.swift */,
+				148B59592F213C6300F840BF /* SPCObserver.swift */,
 				144E65F22F0964DF00D044AD /* EnvironmentValues.swift */,
 				148AAC6D2F0793C00087D649 /* View+NSViewRepresentable.swift */,
 				148AAC6B2F07939E0087D649 /* View+Modifiers.swift */,
@@ -783,6 +822,9 @@
 				144E65EF2F09632900D044AD /* Bundle+Extensions.swift in Sources */,
 				1400C8FA2F04C2A5001EF209 /* ExportView.swift in Sources */,
 				14FFBDB52F12992800B96C92 /* AudioInputView.swift in Sources */,
+				148B59612F213CDD00F840BF /* DataTypes.swift in Sources */,
+				148B59622F213CDD00F840BF /* Camera.swift in Sources */,
+				148B59632F213CDD00F840BF /* CameraState.swift in Sources */,
 				14FFBDB12F128F9A00B96C92 /* PlayerControlsView.swift in Sources */,
 				1400C8FB2F04C2A5001EF209 /* ShortcutsSettingsView.swift in Sources */,
 				1400C8FC2F04C2A5001EF209 /* RecordingInProgressView.swift in Sources */,
@@ -792,6 +834,7 @@
 				145D15E92F1D3F0A00F8A4BB /* AVCapture+Delegate.swift in Sources */,
 				146CAEC92F1C7EAE0021CE3A /* CameraInfo+Model.swift in Sources */,
 				1400C8FF2F04C2A5001EF209 /* SidebarContent.swift in Sources */,
+				148B59532F213BB600F840BF /* CaptureService.swift in Sources */,
 				148AAC602F0742800087D649 /* NamePrintable+Extensions.swift in Sources */,
 				1400C9002F04C2A5001EF209 /* RecordingView.swift in Sources */,
 				146CAECE2F1C80C40021CE3A /* Device+Actor.swift in Sources */,
@@ -800,6 +843,10 @@
 				1400C9012F04C2A5001EF209 /* EditorToolbar.swift in Sources */,
 				144E65FB2F0A538C00D044AD /* Button.swift in Sources */,
 				1400C9022F04C2A5001EF209 /* TimeInputField.swift in Sources */,
+				148B595A2F213C6300F840BF /* MovieCapture.swift in Sources */,
+				148B595B2F213C6300F840BF /* DeviceLookup.swift in Sources */,
+				148B595C2F213C6300F840BF /* PhotoCapture.swift in Sources */,
+				148B595D2F213C6300F840BF /* SPCObserver.swift in Sources */,
 				146CAEC52F1AD6E60021CE3A /* General+Command.swift in Sources */,
 				1400C9032F04C2A5001EF209 /* AspectRatioButton.swift in Sources */,
 				1400C9042F04C2A5001EF209 /* CaptureModeButton.swift in Sources */,
@@ -820,13 +867,17 @@
 				1400C90B2F04C2A5001EF209 /* PlaybackControls.swift in Sources */,
 				14972F432F0EC72A002CE41C /* View+ViewModifier.swift in Sources */,
 				1400C90C2F04C2A5001EF209 /* ExportSettingsView.swift in Sources */,
+				148B59652F213D0E00F840BF /* MediaLibrary.swift in Sources */,
 				1400C90D2F04C2A5001EF209 /* VideoPlayerView.swift in Sources */,
 				144E65F62F0966AB00D044AD /* DocumentController.swift in Sources */,
 				1400C90E2F04C2A5001EF209 /* VideoTimeline.swift in Sources */,
+				148B59692F213D4500F840BF /* Capture+Extensions.swift in Sources */,
+				148B596B2F213D4500F840BF /* View+Extensions.swift in Sources */,
 				1400C90F2F04C2A5001EF209 /* PresetButton.swift in Sources */,
 				144E65F32F0964F500D044AD /* EnvironmentValues.swift in Sources */,
 				1400C9102F04C2A5001EF209 /* CropHandleView.swift in Sources */,
 				146CAEC72F1ADB020021CE3A /* Video+Command.swift in Sources */,
+				148B59552F213BEA00F840BF /* CameraModel.swift in Sources */,
 				1400C9112F04C2A5001EF209 /* CameraManager.swift in Sources */,
 				144E65FD2F0A57C600D044AD /* WelcomeButton.swift in Sources */,
 				1400C9122F04C2A5001EF209 /* CameraOverlayView.swift in Sources */,
@@ -837,6 +888,7 @@
 				144E65E72F09619C00D044AD /* NewFileButton.swift in Sources */,
 				1400C9162F04C2A5001EF209 /* CameraPreviewView.swift in Sources */,
 				1400C9172F04C2A5001EF209 /* GeneralSettingsView.swift in Sources */,
+				148B596D2F2142E800F840BF /* PreviewSource.swift in Sources */,
 				1400C9182F04C2A5001EF209 /* RecordingSetupView.swift in Sources */,
 				14FFBDB92F12DF0E00B96C92 /* Toggle.swift in Sources */,
 				1400C9192F04C2A5001EF209 /* ToolButton.swift in Sources */,

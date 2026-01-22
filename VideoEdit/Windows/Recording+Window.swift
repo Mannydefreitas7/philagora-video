@@ -11,21 +11,16 @@ import SwiftUIIntrospect
 struct RecordingWindow: Scene {
 
     @EnvironmentObject var appState: AppState
-
     @StateObject private var viewModel: ViewModel = .init()
 
     var body: some Scene {
         WindowGroup(Constants.Window.recording.rawValue, id: .window(.recording)) {
             VECameraCaptureView(captureViewModel: appState.captureViewModel)
-                .introspect(.window, on: .macOS(.v26)) {
-                    $0.isMovableByWindowBackground = true
-                }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .windowResizeAnchor(.bottomLeading)
                 .ignoresSafeArea(.all)
                 .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
                 .environmentObject(appState)
-            //.onAppear(perform: appState.captureViewModel.onAppear)
                 .onDisappear {
                     appState.captureViewModel.onDisappear()
                 }

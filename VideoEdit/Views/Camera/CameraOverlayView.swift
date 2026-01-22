@@ -17,7 +17,7 @@ struct CameraOverlayView: View {
             GeometryReader { geometry in
                 ZStack {
                     // Camera preview
-                    CameraPreviewView(session: $cameraManager.session)
+                    CameraPreviewView(session: cameraManager.session)
                         .frame(width: size.dimensions.width, height: size.dimensions.height)
                         .clipShape(shape.shape)
                         .overlay(

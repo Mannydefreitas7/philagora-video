@@ -6,116 +6,116 @@
 //
 
 import SwiftUI
+import Combine
 
 struct PlayerControlsView: View {
 
     @Namespace var controlGroup
     @ObservedObject var viewModel: ViewModel
-    @EnvironmentObject var captureViewModel: CaptureViewModel
 
     var body: some View {
-
+        
         VStack {
-            if captureViewModel.showRecordingButton {
+            if viewModel.showRecordButton {
                 // MARK: - Record button
                 RecordCircleButton()
                     .padding(.bottom, .small)
-
+                    .animation(.bouncy, value: viewModel.showRecordButton)
             }
 
-        GlassEffectContainer(spacing: .zero) {
+            GlassEffectContainer(spacing: .zero) {
 
-                HStack(alignment: .bottom, spacing: .small) {
+                    HStack(alignment: .bottom, spacing: .small) {
 
-                    if !viewModel.isRecording {
-                        // MARK: Timer Control
-                        TimerControl()
+                        if !viewModel.isRecording {
+                            // MARK: Timer Control
+                            TimerControl()
+                                .padding(.horizontal, .small)
+                                .frame(height: .minHeight)
+                                .glassEffect()
+                                .toolEffectUnion(
+                                    id: .timer,
+                                    namespace: controlGroup
+                                )
+                        }
+
+                        if viewModel.isRecording {
+                            // MARK: Pause Button
+                            PauseButton()
+                                .padding(.horizontal, .small)
+                                .frame(height: .minHeight)
+                                .glassEffect()
+                        }
+
+                        // MARK: Audio Input
+                        AudioInput()
+
+                        // MARK: Video Input
+                        VideoInput()
+
+                        // MARK: Settings Input
+                        SettingsButtonView()
                             .padding(.horizontal, .small)
                             .frame(height: .minHeight)
                             .glassEffect()
-                            .toolEffectUnion(
-                                id: .timer,
-                                namespace: controlGroup
-                            )
                     }
-
-                    if viewModel.isRecording {
-                        // MARK: Pause Button
-                        PauseButton()
-                            .padding(.horizontal, .small)
-                            .frame(height: .minHeight)
-                            .glassEffect()
-                    }
-
-                    // MARK: Audio Input
-                    AudioInput()
-
-                    // MARK: Video Input
-                    VideoInput()
-                        .padding(.horizontal, .small)
-                        .frame(height: .minHeight)
-                        .glassEffect(.regular)
-                        .toolEffectUnion(
-                            id: viewModel.isVideoEnabled ? .video : .options,
-                            namespace: controlGroup
-                        )
-
-                    // MARK: Settings Input
-                    SettingsButtonView()
-                        .padding(.horizontal, .small)
-                        .frame(height: .minHeight)
-                        .glassEffect()
-                }
-                .animation(.bouncy, value: viewModel.toggleAnimation)
-                .glassEffectTransition(.matchedGeometry)
-                .controlSize(.large)
+                    .animation(.bouncy, value: viewModel.toggleAnimation)
+                    .glassEffectTransition(.matchedGeometry)
+                    .controlSize(.large)
             }
         }
+
     }
 }
 
-extension CGFloat {
-
-    static let small: Self = 8
-    static let  medium: Self  = 16
-    static let  large: Self  = 24
-    static let  extraLarge: Self  = 32
-    static let  minHeight: Self  = 48
-
-}
 
 extension PlayerControlsView {
 
-
-    @MainActor
     final class ViewModel: ObservableObject {
         @Published var isRecording: Bool = false
         @Published var isTimerEnabled: Bool = false
         @Published var timerSelection: TimeInterval.Option = .threeSeconds
-        @Published var isMicrophoneEnabled: Bool = false
-        @Published var isVideoEnabled: Bool = false
         @Published var isSettingsPresented: Bool = false
-        @Published var selectedCamera: CameraInfo?
-        @Published var selectedMicrophone: MicrophoneInfo?
+        @Published var showRecordButton: Bool = true
+
+        private var cancellables: Set<AnyCancellable> = []
+
+        @Published var microphone: DeviceInfo = .init(
+            id: UUID().uuidString,
+            kind: .audio,
+            name: "Unknown",
+            position: .unspecified,
+            isOn: false,
+            showSettings: false
+        )
+        @Published var camera: DeviceInfo = .init(
+            id: UUID().uuidString,
+            kind: .video,
+            name: "Unknown",
+            position: .unspecified,
+            isOn: false,
+            showSettings: false
+        )
 
         var spacing: CGFloat {
-            isTimerEnabled || isRecording || eitherMediaDeviceEnabled ? .small : .zero
-        }
-
-        var bothMediaDevicesEnabled: Bool {
-            isVideoEnabled && isMicrophoneEnabled
-        }
-
-        var eitherMediaDeviceEnabled: Bool {
-            isVideoEnabled || isMicrophoneEnabled
+            isTimerEnabled || isRecording ? .small : .zero
         }
 
         var toggleAnimation: Bool {
-            isRecording || isTimerEnabled || eitherMediaDeviceEnabled
+            isRecording || isTimerEnabled
         }
 
-        var cameraName: String {
-            return selectedCamera?.name ?? "None selected"
+        init() {
+
+                $microphone
+                    .map { !$0.showSettings }
+                    .assign(to: \.showRecordButton, on: self)
+                    .store(in: &cancellables)
+
+                $camera
+                    .map { !$0.showSettings }
+                    .assign(to: \.showRecordButton, on: self)
+                    .store(in: &cancellables)
         }
     }
 }
@@ -140,7 +140,6 @@ extension PlayerControlsView {
                     viewModel.isRecording.toggle()
                 }
             } label: {
-
                 ZStack {
                     Circle()
                         .fill(.clear)
@@ -152,7 +151,6 @@ extension PlayerControlsView {
                         .scaleEffect(viewModel.isRecording ? 0.5 : 0.8)
                 }
                 .frame(width: .recordWidth * 2, height: .recordWidth * 2)
-
             }
             .buttonStyle(.borderless)
             .buttonBorderShape(.circle)
@@ -172,18 +170,12 @@ extension PlayerControlsView {
 
     @ViewBuilder
     func AudioInput() -> some View {
-        AudioInputView(
-            label: captureViewModel.selectedAudioDevice.name,
-            controlGroup: controlGroup, viewModel: $captureViewModel.audioViewModel
-        )
+        AudioInputView(controlGroup: controlGroup, device: $viewModel.microphone)
     }
 
     @ViewBuilder
     func VideoInput() -> some View {
-
-        VideoInputView(isOn: $viewModel.isVideoEnabled, label: captureViewModel.selectedVideoDevice.name) {
-            //
-        }
+        VideoInputView(controlGroup: controlGroup, device: $viewModel.camera)
     }
 
     @ViewBuilder
@@ -192,8 +184,3 @@ extension PlayerControlsView {
     }
 }
 
-
-
-#Preview {
-    PlayerControlsView(viewModel: .init())
-}

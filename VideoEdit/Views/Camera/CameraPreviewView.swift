@@ -2,19 +2,17 @@ import SwiftUI
 import AVFoundation
 
 struct CameraPreviewView: NSViewRepresentable {
-    @Binding var session: AVCaptureSession
+    var session: AVCaptureSession
 
     func makeNSView(context: Context) -> NSView {
         let view = CameraPreviewNSView()
         view.session =  session
-
         return view
     }
 
     func updateNSView(_ nsView: NSView, context: Context) {
         guard let previewView = nsView as? CameraPreviewNSView else { return }
         previewView.session =  session
-
     }
 }
 

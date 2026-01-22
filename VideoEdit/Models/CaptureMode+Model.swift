@@ -1,6 +1,6 @@
 import Foundation
 
-enum CaptureMode {
+enum CaptureAera {
     case display
     case window
     case area

@@ -24,6 +24,7 @@ class AppState: ObservableObject {
 
     // Capture view model
     @Published var captureViewModel: CaptureViewModel = .init()
+    @Published var previewViewModel: CaptureViewModel = .init()
 
     // Crop settings
     @Published var cropRect: CGRect = .zero
@@ -87,30 +88,36 @@ final class CaptureViewModel: ObservableObject {
     @Published var selectedVideoID: String?
     @Published var selectedAudioID: String?
     @Published var session: AVCaptureSession = .init()
-    @Published var showRecordingButton: Bool = false
+    @Published var showRecordingButton: Bool = true
 
     @Published var selectedVideoDevice = DeviceInfo(
         id: "placeholder",
         kind: .video,
         name: "Not found",
-        position: .unspecified
+        position: .unspecified,
+        isOn: false,
+        showSettings: false
     )
 
     @Published var selectedAudioDevice = DeviceInfo(
         id: "placeholder",
         kind: .audio,
         name: "Not found",
-        position: .unspecified
+        position: .unspecified,
+        isOn: false,
+        showSettings: false
     )
 
-    @Published var audioViewModel: AudioInputView.ViewModel = .init()
-    @Published var videoViewModel: VideoInputView.ViewModel = .init()
+    @Published var controlsBarViewModel: PlayerControlsView.ViewModel = .init()
 
     // The engine
     let engine = CaptureEngine()
 
     init() {
+        // Set engine session
         session = engine.session
+        // Forward the session to respective viewModels
+
         // Set video device when available
         $selectedVideoID
             .compactMap { $0 }
@@ -121,8 +128,9 @@ final class CaptureViewModel: ObservableObject {
                 return availableDevices.first(where: { $0.id == selectedID })
             }
             .compactMap { $0 }
-            .assign(to: \.selectedVideoDevice, on: self)
+            .assign(to: \.camera, on: controlsBarViewModel)
             .store(in: &cancellables)
+
         // Set audio device when available
         $selectedAudioID
             .compactMap { $0 }
@@ -133,24 +141,9 @@ final class CaptureViewModel: ObservableObject {
                 return availableDevices.first(where: { $0.id == selectedID })
             }
             .compactMap { $0 }
-            .assign(to: \.selectedAudioDevice, on: self)
+            .assign(to: \.microphone, on: controlsBarViewModel)
             .store(in: &cancellables)
 
-        $selectedAudioDevice
-            .compactMap { $0 }
-            .assign(to: \.device, on: audioViewModel)
-            .store(in: &cancellables)
-
-        $audioViewModel
-            .map { !$0.isPresented }
-            .sink {  print("showRecordingButton: \($0)")  }
-          //  .assign(to: \.showRecordingButton, on: self)
-            .store(in: &cancellables)
-
-        $videoViewModel
-            .map { !$0.isPresented }
-            .assign(to: \.showRecordingButton, on: self)
-            .store(in: &cancellables)
     }
 
     // Modern observation tasks (async sequences)
@@ -258,10 +251,17 @@ final class CaptureViewModel: ObservableObject {
         let a = await engine.refreshAudioDevices()
 
         let vInfos = v.map {
-            DeviceInfo(id: $0.uniqueID, kind: .video, name: $0.localizedName, position: $0.position)
+            DeviceInfo(
+                id: $0.uniqueID,
+                kind: .video,
+                name: $0.localizedName,
+                position: $0.position,
+                isOn: false,
+                showSettings: false
+            )
         }
         let aInfos = a.map {
-            DeviceInfo(id: $0.uniqueID, kind: .audio, name: $0.localizedName, position: $0.position)
+            DeviceInfo(id: $0.uniqueID, kind: .audio, name: $0.localizedName, position: $0.position, isOn: false, showSettings: false)
         }
 
         videoDevices = vInfos

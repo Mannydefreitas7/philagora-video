@@ -1,3 +1,4 @@
+import os
 import SwiftUI
 import AVFoundation
 import Onboarding
@@ -35,3 +36,6 @@ struct VideoEditApp: App {
     }
 }
 
+
+// General logger
+let logger = Logger()

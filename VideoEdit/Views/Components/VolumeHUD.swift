@@ -11,15 +11,18 @@ import AVFoundation
 // MARK: - Public Component
 
 struct VolumeHUD<Content: View>: View {
-    @Binding var volume: Double
-    var connectedDevice: DeviceInfo?
-    var content: () -> Content
 
-    private var percentText: String { "\(Int((volume * 100).rounded()))%" }
+    @Binding var device: DeviceInfo
+    @ViewBuilder var content: () -> Content
+
+    init(for device: Binding<DeviceInfo>, content: @escaping () -> Content) {
+        self._device = device
+        self.content = content
+    }
+
+    private var percentText: String { "\(Int((device.volume * 100).rounded()))%" }
     private let imageWidth: CGFloat = .thumbnail / 2
     private let segmentedPill: CGFloat = .small * 3
-
-
 
     var body: some View {
 
@@ -31,10 +34,6 @@ struct VolumeHUD<Content: View>: View {
                             .resizable()
                             .scaledToFit()
                             .frame(height: imageWidth)
-
-                        Spacer()
-
-                        content()
                     }
 
                     VStack(alignment: .leading) {
@@ -44,47 +43,41 @@ struct VolumeHUD<Content: View>: View {
                                     .font(.caption2)
                                     .foregroundStyle(.secondary)
 
-                                Text(connectedDevice?.name.capitalized ?? "Unknown")
+                                Text(device.name.capitalized)
                                     .font(.headline)
                                     .bold()
                             }
 
-                            Spacer()
-
-                            Button("Change", systemImage: "microphone.badge.ellipsis") {
-                                //
-                            }
-                            .buttonStyle(.accessoryBarAction)
-                            .offset(x: (.small))
                         }
 
                         VStack(alignment: .leading, spacing: .small) {
 
-                            let pillWidthSpace: CGFloat = .pillWidth + .small
-                            let segments = .popoverWidth / pillWidthSpace
+                            let pillWidthSpace: CGFloat = .pillWidth + .spacing
+                            let segments = (.popoverWidth - (imageWidth)) / pillWidthSpace
 
                             SegmentedPillBar(
-                                value: volume,
+                                value: device.volume,
                                 segments: Int(segments)
                             )
                             HStack {
-                                Image(systemName: volume >= 1 ? "volume.\(volume).fill" : "volume.fill")
-                                Slider(value: $volume, in: 0...3)
+                                Image(systemName: device.volume >= 1 ? "volume.\(device.volume).fill" : "volume.fill")
+                                Slider(value: $device.volume, in: 0...3)
                             }
-
-                                .padding(.top, .small / 2)
-                                .controlSize(.mini)
+                            .padding(.top, .small / 2)
+                            .controlSize(.mini)
                         }
                     }
                 }
             }
             .frame(width: .popoverWidth)
-
-
+            .overlay(alignment: .topTrailing) {
+                content()
+                    .offset(x: .small, y: -.small)
+            }
     }
 
     private func adjust(_ delta: Double) {
-        volume = min(1.0, max(0.0, volume + delta))
+        device.volume = min(1.0, max(0.0, device.volume + delta))
     }
 }
 

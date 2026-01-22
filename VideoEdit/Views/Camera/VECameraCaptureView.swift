@@ -19,7 +19,7 @@ struct VECameraCaptureView: View {
     @AppStorage(.storageKey(.showAspectMask)) private var showAspectMask: Bool = true
     @AppStorage(.storageKey(.showSafeGuides)) private var showSafeGuides: Bool = true
     @AppStorage(.storageKey(.showPlatformGuides)) private var showPlatformSafe: Bool = true
-    @AppStorage(.storageKey(.isMirrored)) private var isMirrored: Bool = true
+    @AppStorage(.storageKey(.isMirrored)) private var isMirrored: Bool = false
 
     @State private var spacing: CGFloat = 8
     @State private var isTimerEnabled: Bool = false
@@ -67,7 +67,7 @@ extension VECameraCaptureView {
 
     @ViewBuilder
     func BottomBar() -> some View {
-        PlayerControlsView(viewModel: viewModel.playerControlViewModel)
+        PlayerControlsView(viewModel: captureViewModel.controlsBarViewModel)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             .padding(.bottom, .small)
             .inspector(isPresented: $viewModel.isSettingsPresented) {
@@ -571,10 +571,11 @@ extension VECameraCaptureView {
                 session.startRunning()
             }
 
-            playerControlViewModel.$isSettingsPresented
-                .map { $0 }
-                .assign(to: \.isSettingsPresented, on: self)
-                .store(in: &cancellables)
+//            playerControlViewModel
+//                .isSettingsPresented
+//                .map { $0 }
+//                .assign(to: \.isSettingsPresented, on: self)
+//                .store(in: &cancellables)
         }
 
         func addInputs() async {
@@ -598,9 +599,10 @@ class PlayerView: NSView {
     func setupLayer() {
         guard let previewLayer else { return }
         previewLayer.frame = self.frame
+        previewLayer.isDeferredStartEnabled = true
         previewLayer.contentsGravity = .resizeAspectFill
         previewLayer.videoGravity = .resizeAspectFill
-        previewLayer.connection?.automaticallyAdjustsVideoMirroring = false
+        previewLayer.connection?.automaticallyAdjustsVideoMirroring = true
         layer = previewLayer
     }
 
@@ -612,16 +614,13 @@ class PlayerView: NSView {
 
 struct VideoOutputView: NSViewRepresentable {
     typealias NSViewType = PlayerView
-    @Binding var captureSession: AVCaptureSession
+    var captureSession: AVCaptureSession
     @Binding var isMirror: Bool
 
     func makeNSView(context: Context) -> PlayerView {
         let player = PlayerView(captureSession: captureSession)
         guard let previewLayer = player.previewLayer, let connection = previewLayer.connection, connection.isVideoMirroringSupported else {
             return player
-        }
-        DispatchQueue.main.async {
-            connection.isVideoMirrored = isMirror
         }
 
         return player

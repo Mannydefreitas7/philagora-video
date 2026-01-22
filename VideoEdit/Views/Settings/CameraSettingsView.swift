@@ -16,7 +16,7 @@ struct CameraSettingsView: View {
             Section {
 
                 VideoOutputView(
-                    captureSession: $cameraViewModel.session,
+                    captureSession: cameraViewModel.session,
                     isMirror: $cameraManager.isMirrored
                 )
 

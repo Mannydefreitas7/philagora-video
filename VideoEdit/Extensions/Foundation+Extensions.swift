@@ -90,6 +90,11 @@ extension Double {
 extension CGFloat {
     var isEven: Bool { truncatingRemainder(dividingBy: 2) == 0 }
 
+    static var small: Self { 8 }
+    static var medium: Self { 16 }
+    static var large: Self { 24 }
+    static var extraLarge: Self { 32 }
+    static var minHeight: Self { 48 }
     static var recordWidth: Self { 28 }
     static var recordHeight: Self { 28 }
     static var popoverWidth: Self { 280 }
@@ -113,6 +118,14 @@ extension CGFloat {
 
     }
 }
+
+extension URL {
+    /// A unique output location to write a movie.
+    static var movieFileURL: URL {
+        URL.temporaryDirectory.appending(component: UUID().uuidString).appendingPathExtension(for: .quickTimeMovie)
+    }
+}
+
 
 // MARK: - CGRect
 
