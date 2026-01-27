@@ -17,8 +17,7 @@ extension CaptureView {
 
         /// The engine
         let engine = CaptureEngine()
-        private let audioMonitor = AVCaptureAudioMonitor()
-        private let audioLevelMonitor: AVAudioLevelMonitor = .init()
+    //    private let audioMonitor = AVCaptureAudioMonitor()
         private var cancellables: Set<AnyCancellable> = []
 
         /// Published UI state
@@ -86,12 +85,7 @@ extension CaptureView {
                 status = .running
                 await updateEngineDevices()
 
-                /// 
-                await engine.onChange { level in
-                    Task { @MainActor in
-                        self.audioLevel = level
-                    }
-                }
+                
             } catch {
                 status = .failed(message: String(describing: error))
                 await onDisappear()
@@ -103,7 +97,7 @@ extension CaptureView {
             observationTasks.removeAll()
             audioMonitorPollTask?.cancel()
             audioMonitorPollTask = nil
-            await audioMonitor.stop()
+         //   await audioMonitor.stop()
             status = .stopped
         }
         
@@ -113,10 +107,10 @@ extension CaptureView {
             audioMonitorPollTask = Task { @MainActor [weak self] in
                 guard let self else { return }
                 while !Task.isCancelled {
-                    let snapshot = await self.audioMonitor.snapshot()
-                    audioLevel = await self.audioMonitor.audioLevel
+                  //  let snapshot = await self.audioMonitor.snapshot()
+                  //  audioLevel = await self.audioMonitor.audioLevel
 
-                    self.audioHistory = snapshot.history
+                  //  self.audioHistory = snapshot.history
                     try? await Task.sleep(nanoseconds: 33_000_000) // ~30fps
                 }
             }

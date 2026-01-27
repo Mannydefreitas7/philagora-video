@@ -10,17 +10,20 @@ import Accelerate
 
 actor AVAudioLevelMonitor: NSObject, AVCaptureAudioDataOutputSampleBufferDelegate {
     private let audioQueue = DispatchQueue(label: .dispatchQueueKey(.audioLevel))
-
+    var audioLevel: Float = 0
     // Callback for audio level updates
     private var onLevelUpdate: (@Sendable (Float) -> Void)?
 
-    func onChange(_ handler: @escaping @Sendable (Float) -> Void) {
-        self.onLevelUpdate = handler
+    private func updateLevel(_ level: Float) -> Void {
+        self.audioLevel = level
     }
 
-    nonisolated
-    func snapshot(_ level: Float) -> Float {
-        return level
+    nonisolated func snapshot() async -> Float {
+        return await audioLevel
+    }
+
+    func onChange(_ handler: @escaping @Sendable (Float) -> Void) async {
+        self.onLevelUpdate = handler
     }
 
     // AVCaptureAudioDataOutputSampleBufferDelegate method
@@ -31,6 +34,7 @@ actor AVAudioLevelMonitor: NSObject, AVCaptureAudioDataOutputSampleBufferDelegat
         from connection: AVCaptureConnection
     ) {
         let level = calculateAudioLevel(from: sampleBuffer)
+
         Task { @MainActor in
             await self.notifyLevelUpdate(level)
         }
@@ -45,7 +49,7 @@ actor AVAudioLevelMonitor: NSObject, AVCaptureAudioDataOutputSampleBufferDelegat
     @MainActor
     private func notifyLevelUpdate(_ level: Float) async {
         await onLevelUpdate?(level)
-        snapshot(level)
+        await updateLevel(level)
     }
 
     private nonisolated func calculateAudioLevel(from sampleBuffer: CMSampleBuffer) -> Float {

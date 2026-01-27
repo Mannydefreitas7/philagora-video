@@ -41,15 +41,15 @@ actor AVCaptureAudioMonitor {
 
         task = Task(priority: .userInitiated) { [weak engine] in
             guard let engine else { return }
-            let stream = await engine.makeAudioSampleBufferStream()
-
-            for await sbuf in stream {
-                if Task.isCancelled { break }
-                let rms = Self.rms(from: sbuf)
-
-                let normalized = min(max(rms * gain, 0), 1)
-                await self.push(normalized)
-            }
+//            let stream = await engine.makeAudioSampleBufferStream()
+//
+//            for await sbuf in stream {
+//                if Task.isCancelled { break }
+//                let rms = Self.rms(from: sbuf)
+//
+//                let normalized = min(max(rms * gain, 0), 1)
+//                await self.push(normalized)
+//            }
         }
     }
 
@@ -102,7 +102,7 @@ actor AVCaptureAudioMonitor {
             totalPower += abs(channelDataArray[i])
         }
         let averagePower = totalPower / Float(frameLength)
-        currentAudioLevel = averagePower * 10
+       // currentAudioLevel = averagePower * 10
         // You can define a threshold to "detect sound"
         if averagePower > 0.01 { // Example threshold
             // Sound is being detected

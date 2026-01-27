@@ -34,6 +34,8 @@ actor CaptureEngine {
     /// Available audio capture devices.
     @Published private(set) var availableAudioDevices: [AVCaptureDevice] = []
 
+    
+
     /// A type that connects a preview destination with the capture session.
     nonisolated let previewSource: PreviewSource
 
@@ -41,7 +43,7 @@ actor CaptureEngine {
     nonisolated let captureSession = AVCaptureSession()
 
     // Audio level monitoring actor
-    private let audioLevelMonitor: AVAudioLevelMonitor = .init()
+    nonisolated let audioLevelMonitor: AVAudioLevelMonitor = .init()
 
     // An object that manages the app's photo capture behavior.
     private let photoCapture = PhotoCapture()
@@ -73,7 +75,7 @@ actor CaptureEngine {
 
     private let audioDataOutput = AVCaptureAudioDataOutput()
     private var audioStreamContinuation: AsyncStream<CMSampleBuffer>.Continuation?
-    private var audioSampleDelegate: AudioSampleOutputDelegate?
+  //  private var audioSampleDelegate: AudioSampleOutputDelegate?
     private let audioOutputQueue = DispatchQueue(label: .dispatchQueueKey(.captureAudioOutput))
 
     // A Boolean value that indicates whether the actor finished its required configuration.
@@ -141,7 +143,7 @@ actor CaptureEngine {
         // Exit early if not authorized or the session is already running.
         guard await isAuthorized, !captureSession.isRunning else { return }
         // Configure the session and start it.
-        try setUpSession()
+        try await setUpSession()
         captureSession.startRunning()
     }
 
@@ -183,8 +185,6 @@ actor CaptureEngine {
 
             // Configure the session preset based on the current capture mode.
             captureSession.sessionPreset = captureMode == .photo ? .photo : .hd4K3840x2160
-            // Add the photo capture output as the default output type.
-            try addOutput(photoCapture.output)
             // If the capture mode is set to Video, add a movie capture output.
             if captureMode == .video {
                 // Add the movie output as the default output type.
@@ -224,9 +224,7 @@ actor CaptureEngine {
 
             isSetUp = true
 
-            await audioLevelMonitor.onChange { level in
-                self.audioLevel = level
-            }
+          
         } catch {
             throw CameraError.setupFailed
         }
@@ -499,32 +497,32 @@ actor CaptureEngine {
     /// Audio samples stream from the existing `captureSession`.
     ///
     /// Use this for meters/waveforms. Keep the returned stream alive for continuous updates.
-    func makeAudioSampleBufferStream() async -> AsyncStream<CMSampleBuffer> {
-        // Verify audio setup before creating stream
-        verifyAudioConfiguration()
-        
-        return AsyncStream { continuation in
-            // Single-consumer semantics.
-            self.audioStreamContinuation = continuation
-
-            // Install delegate once.
-            if self.audioSampleDelegate == nil {
-                let delegate = AudioSampleOutputDelegate { [weak self] sbuf in
-                    // Hop onto the actor to yield.
-                    Task { await self?.yieldAudioSample(sbuf) }
-                }
-                self.audioSampleDelegate = delegate
-                self.audioDataOutput.setSampleBufferDelegate(
-                    delegate,
-                    queue: self.audioOutputQueue
-                )
-            }
-
-            continuation.onTermination = { [weak self] _ in
-                Task { await self?.clearAudioStream() }
-            }
-        }
-    }
+//    func makeAudioSampleBufferStream() async -> AsyncStream<CMSampleBuffer> {
+//        // Verify audio setup before creating stream
+//        verifyAudioConfiguration()
+//        
+//        return AsyncStream { continuation in
+//            // Single-consumer semantics.
+//            self.audioStreamContinuation = continuation
+//
+//            // Install delegate once.
+//            if self.audioSampleDelegate == nil {
+//                let delegate = AudioSampleOutputDelegate { [weak self] sbuf in
+//                    // Hop onto the actor to yield.
+//                    Task { await self?.yieldAudioSample(sbuf) }
+//                }
+//                self.audioSampleDelegate = delegate
+//                self.audioDataOutput.setSampleBufferDelegate(
+//                    delegate,
+//                    queue: self.audioOutputQueue
+//                )
+//            }
+//
+//            continuation.onTermination = { [weak self] _ in
+//                Task { await self?.clearAudioStream() }
+//            }
+//        }
+//    }
     
     /// Verifies that the audio input is properly connected to the audio data output.
     private func verifyAudioConfiguration() {
@@ -656,24 +654,6 @@ actor CaptureEngine {
             for await _ in NotificationCenter.default.notifications(named: AVCaptureSession.interruptionEndedNotification) {
                 isInterrupted = false
             }
-        }
-    }
-
-
-    // MARK: - Audio output delegate
-    final class AudioSampleOutputDelegate: NSObject, AVCaptureAudioDataOutputSampleBufferDelegate {
-        let onSample: @Sendable (CMSampleBuffer) -> Void
-
-        init(onSample: @escaping @Sendable (CMSampleBuffer) -> Void) {
-            self.onSample = onSample
-        }
-
-        func captureOutput(
-            _ output: AVCaptureOutput,
-            didOutput sampleBuffer: CMSampleBuffer,
-            from connection: AVCaptureConnection
-        ) {
-            onSample(sampleBuffer)
         }
     }
 }
