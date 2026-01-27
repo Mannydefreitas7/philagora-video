@@ -25,7 +25,9 @@ actor CaptureEngine {
     @Published var isHDRVideoEnabled: Bool = false
     /// A Boolean value that indicates whether capture controls are in a fullscreen appearance.
     @Published var isShowingFullscreenControls: Bool = false
-    
+
+    @Published private(set) var audioLevel: Float = 0
+
     /// Available video capture devices.
     @Published private(set) var availableVideoDevices: [AVCaptureDevice] = []
     
@@ -37,6 +39,9 @@ actor CaptureEngine {
 
     // The app's capture session.
     nonisolated let captureSession = AVCaptureSession()
+
+    // Audio level monitoring actor
+    private let audioLevelMonitor: AVAudioLevelMonitor = .init()
 
     // An object that manages the app's photo capture behavior.
     private let photoCapture = PhotoCapture()
@@ -79,6 +84,12 @@ actor CaptureEngine {
 
     // A map that stores capture controls by device identifier.
     private var controlsMap: [String: [AVCaptureControl]] = [:]
+
+    // A method to forward the
+    nonisolated
+    func onChange(_ handler: @escaping @Sendable (Float) -> Void) async {
+       await audioLevelMonitor.onChange(handler)
+    }
 
     // A serial dispatch queue to use for capture control actions.
     private let sessionQueue = DispatchSerialQueue(label: .dispatchQueueKey(.captureSession))
@@ -142,7 +153,7 @@ actor CaptureEngine {
 
     // MARK: - Capture setup
     // Performs the initial capture session configuration.
-    private func setUpSession() throws {
+    private func setUpSession() async throws {
         // Return early if already set up.
         guard !isSetUp else { return }
 
@@ -160,10 +171,10 @@ actor CaptureEngine {
             availableVideoDevices = deviceLookup.cameras
             availableAudioDevices = deviceLookup.microphones
 
-#if os(iOS)
+            #if os(iOS)
             // Enable using AirPods as a high-quality lapel microphone.
             captureSession.configuresApplicationAudioSessionForBluetoothHighQualityRecording = true
-#endif
+            #endif
             // Add inputs for the default camera and microphone devices.
             activeVideoInput = try addInput(for: defaultCamera)
             activeAudioInput = try addInput(for: defaultMic)
@@ -182,12 +193,13 @@ actor CaptureEngine {
             }
 
             // Add an audio data output for level monitoring / waveform rendering.
+            let audioOutput = audioLevelMonitor.start(with: audioDataOutput)
             // This is lightweight and does not create a second AVCaptureSession.
-            if captureSession.canAddOutput(audioDataOutput) {
-                captureSession.addOutput(audioDataOutput)
-                
+            if captureSession.canAddOutput(audioOutput) {
+                captureSession.addOutput(audioOutput)
+
                 // Verify the audio connection is properly established
-                if let audioConnection = audioDataOutput.connection(with: .audio) {
+                if let audioConnection = audioOutput.connection(with: .audio) {
                     if audioConnection.isEnabled {
                         logger.debug("Audio data output successfully connected to audio input.")
                     } else {
@@ -211,6 +223,10 @@ actor CaptureEngine {
             updateCaptureCapabilities()
 
             isSetUp = true
+
+            await audioLevelMonitor.onChange { level in
+                self.audioLevel = level
+            }
         } catch {
             throw CameraError.setupFailed
         }

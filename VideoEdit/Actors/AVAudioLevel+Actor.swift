@@ -18,28 +18,34 @@ actor AVAudioLevelMonitor: NSObject, AVCaptureAudioDataOutputSampleBufferDelegat
         self.onLevelUpdate = handler
     }
 
+    nonisolated
+    func snapshot(_ level: Float) -> Float {
+        return level
+    }
+
     // AVCaptureAudioDataOutputSampleBufferDelegate method
     nonisolated
-    func captureOutput(_ output: AVCaptureOutput,
-                                   didOutput sampleBuffer: CMSampleBuffer,
-                                   from connection: AVCaptureConnection) {
-
+    func captureOutput(
+        _ output: AVCaptureOutput,
+        didOutput sampleBuffer: CMSampleBuffer,
+        from connection: AVCaptureConnection
+    ) {
         let level = calculateAudioLevel(from: sampleBuffer)
-
         Task { @MainActor in
             await self.notifyLevelUpdate(level)
         }
     }
 
     nonisolated
-    func start(with session: AVCaptureSession) -> AVCaptureSession {
-        output.setSampleBufferDelegate(self, queue: audioQueue)
-        return output
+    func start(with audioOutput: AVCaptureAudioDataOutput) -> AVCaptureAudioDataOutput {
+        audioOutput.setSampleBufferDelegate(self, queue: audioQueue)
+        return audioOutput
     }
 
     @MainActor
     private func notifyLevelUpdate(_ level: Float) async {
         await onLevelUpdate?(level)
+        snapshot(level)
     }
 
     private nonisolated func calculateAudioLevel(from sampleBuffer: CMSampleBuffer) -> Float {

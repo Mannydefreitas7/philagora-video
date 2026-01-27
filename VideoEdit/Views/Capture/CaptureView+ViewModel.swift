@@ -15,12 +15,13 @@ extension CaptureView {
     @MainActor
     final class ViewModel: ObservableObject {
 
-        // The engine
+        /// The engine
         let engine = CaptureEngine()
         private let audioMonitor = AVCaptureAudioMonitor()
+        private let audioLevelMonitor: AVAudioLevelMonitor = .init()
         private var cancellables: Set<AnyCancellable> = []
 
-        // Published UI state
+        /// Published UI state
         @Published var status: CaptureStatus = .idle
         @Published var videoDevices: [DeviceInfo] = []
         @Published var audioDevices: [DeviceInfo] = []
@@ -49,9 +50,7 @@ extension CaptureView {
         }
 
         init() {
-            // Set engine session
-            session = engine.captureSession
-
+            /// Set engine session
             $selectedAudioID
                 .combineLatest($audioDevices)
                 .compactMap { (id, devices) in devices.first(where: { $0.id == id })  }
@@ -65,7 +64,7 @@ extension CaptureView {
                 .store(in: &cancellables)
         }
 
-        // Modern observation tasks (async sequences)
+        /// Modern observation tasks (async sequences)
         private var observationTasks: [Task<Void, Never>] = []
         private var audioMonitorPollTask: Task<Void, Never>?
 
@@ -73,10 +72,9 @@ extension CaptureView {
             installObservers(for: engine.captureSession)
             status = .configuring
 
-
             do {
                 await configureAudioSessionForCapture()
-                // Configure + start the single underlying captureSession.
+                /// Configure + start the single underlying captureSession.
                 try await engine.start(with: .current)
                 session = engine.captureSession
                 let connections = session.connections
@@ -88,9 +86,12 @@ extension CaptureView {
                 status = .running
                 await updateEngineDevices()
 
-                // Audio samples monitoring
-                await audioMonitor.start(using: engine)
-                startAudioMonitorPolling()
+                /// 
+                await engine.onChange { level in
+                    Task { @MainActor in
+                        self.audioLevel = level
+                    }
+                }
             } catch {
                 status = .failed(message: String(describing: error))
                 await onDisappear()
