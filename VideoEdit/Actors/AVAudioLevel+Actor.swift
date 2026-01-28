@@ -39,7 +39,7 @@ actor AVAudioLevelMonitor: NSObject, AVCaptureAudioDataOutputSampleBufferDelegat
         from connection: AVCaptureConnection
     ) {
         let gain = max(0.1, self.gain)
-        let level = calculateAudioLevel(from: sampleBuffer)
+       // let level = calculateAudioLevel(from: sampleBuffer)
         let alpha = Float(rms(from: sampleBuffer))
         let normalized = min(max(alpha * gain, 0), 1)
 

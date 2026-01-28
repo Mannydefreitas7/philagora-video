@@ -11,20 +11,18 @@ import SFSafeSymbols
 struct AudioInputView: View {
 
     var controlGroup: Namespace.ID
-    @Binding var device: DeviceInfo
+    @Binding var device: AVDeviceInfo
 
     var body: some View {
         Group {
             if device.showSettings {
                 ToolBarOptions()
+                    .frame(minHeight: nil, alignment: .center)
             } else {
-                ToolbarButton(device.isOn)
+                ToolbarButton()
+                    .frame(minHeight: .minHeight, alignment: .center)
             }
         }
-        .frame(
-            minHeight: device.showSettings ? nil : .minHeight,
-            alignment: .center
-        )
         .glassEffect(
             .regular,
             in: device.shape
@@ -50,12 +48,13 @@ extension AudioInputView {
             }
             .labelStyle(.iconOnly)
             .buttonBorderShape(.circle)
+            .fontWeight(.bold)
         }
         .padding(.large)
     }
 
     @ViewBuilder
-    func ToolbarButton(_ displayLabel: Bool) -> some View {
+    func ToolbarButton() -> some View {
         HStack(spacing: .small / 2) {
             Toggle(isOn: $device.isOn) {
                 Image(systemSymbol: device.isOn ? .microphoneFill : .microphoneSlash)
@@ -66,13 +65,10 @@ extension AudioInputView {
             .animation(.bouncy, value: device.isOn)
 
 
-            if displayLabel {
+            if device.isOn {
                 Button {
                     withAnimation(.bouncy) {
                         device.showSettings.toggle()
-//                        if let camera, camera.showSettings {
-//                            self.camera?.showSettings = false
-//                        }
                     }
                 } label: {
                     Text(device.name)

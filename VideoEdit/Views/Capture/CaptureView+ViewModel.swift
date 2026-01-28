@@ -22,8 +22,8 @@ extension CaptureView {
 
         /// Published UI state
         @Published var status: CaptureStatus = .idle
-        @Published var videoDevices: [DeviceInfo] = []
-        @Published var audioDevices: [DeviceInfo] = []
+        @Published var videoDevices: [AVDeviceInfo] = []
+        @Published var audioDevices: [AVDeviceInfo] = []
         @Published var selectedVideoID: String?
         @Published var selectedAudioID: String?
         @Published var session: AVCaptureSession = .init()
@@ -34,8 +34,8 @@ extension CaptureView {
         /// Waveform / meters
         @Published var audioLevel: Float = 0
         @Published var audioHistory: [Double] = []
-        @Published var selectedVideoDevice: DeviceInfo?
-        @Published var selectedAudioDevice: DeviceInfo?
+        @Published var selectedVideoDevice: AVDeviceInfo?
+        @Published var selectedAudioDevice: AVDeviceInfo?
         @Published var controlsBarViewModel: RecordingControlsView.ViewModel = .init()
         @Published var cameraOverlayViewModel: CameraOverlayView.ViewModel = .init()
 
@@ -53,12 +53,36 @@ extension CaptureView {
             $selectedAudioID
                 .combineLatest($audioDevices)
                 .compactMap { (id, devices) in devices.first(where: { $0.id == id })  }
+                .map { audio in
+                    let previous = self.controlsBarViewModel.microphone
+
+                    return AVDeviceInfo(
+                        id: audio.id,
+                        kind: .audio,
+                        name: audio.name,
+                        isOn: previous.isOn,
+                        showSettings: previous.showSettings,
+                        device: audio.device
+                    )
+                }
                 .assign(to: \.microphone, on: controlsBarViewModel)
                 .store(in: &cancellables)
 
             $selectedVideoID
-                .combineLatest($audioDevices)
+                .combineLatest($videoDevices)
                 .compactMap { (id, devices) in devices.first(where: { $0.id == id })  }
+                .map { cam in
+                    let previous = self.controlsBarViewModel.camera
+
+                    return AVDeviceInfo(
+                        id: cam.id,
+                        kind: .video,
+                        name: cam.name,
+                        isOn: previous.isOn,
+                        showSettings: previous.showSettings,
+                        device: cam.device
+                    )
+                }
                 .assign(to: \.camera, on: controlsBarViewModel)
                 .store(in: &cancellables)
         }
@@ -209,25 +233,25 @@ extension CaptureView {
 
             // updates camera devices
             videoDevices = await engine.availableVideoDevices.map {
-                DeviceInfo(
+                AVDeviceInfo(
                     id: $0.uniqueID,
                     kind: .video,
                     name: $0.localizedName,
-                    position: $0.position,
-                    isOn: $0.uniqueID == selectedVideoID,
-                    showSettings: false
+                    isOn: $0.uniqueID == videoID,
+                    showSettings: false,
+                    device: $0
                 )
             }
 
             // updates audio devices
             audioDevices = await engine.availableAudioDevices.map {
-                DeviceInfo(
+                AVDeviceInfo(
                     id: $0.uniqueID,
                     kind: .audio,
                     name: $0.localizedName,
-                    position: .unspecified,
-                    isOn: $0.uniqueID == selectedAudioID,
-                    showSettings: false
+                    isOn: $0.uniqueID == audioID,
+                    showSettings: false,
+                    device: $0
                 )
             }
         }

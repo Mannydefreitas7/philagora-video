@@ -489,36 +489,6 @@ actor CaptureEngine {
     func stopRecording() async throws -> Movie {
         try await movieCapture.stopRecording()
     }
-
-    /// Audio samples stream from the existing `captureSession`.
-    ///
-    /// Use this for meters/waveforms. Keep the returned stream alive for continuous updates.
-//    func makeAudioSampleBufferStream() async -> AsyncStream<CMSampleBuffer> {
-//        // Verify audio setup before creating stream
-//        verifyAudioConfiguration()
-//        
-//        return AsyncStream { continuation in
-//            // Single-consumer semantics.
-//            self.audioStreamContinuation = continuation
-//
-//            // Install delegate once.
-//            if self.audioSampleDelegate == nil {
-//                let delegate = AudioSampleOutputDelegate { [weak self] sbuf in
-//                    // Hop onto the actor to yield.
-//                    Task { await self?.yieldAudioSample(sbuf) }
-//                }
-//                self.audioSampleDelegate = delegate
-//                self.audioDataOutput.setSampleBufferDelegate(
-//                    delegate,
-//                    queue: self.audioOutputQueue
-//                )
-//            }
-//
-//            continuation.onTermination = { [weak self] _ in
-//                Task { await self?.clearAudioStream() }
-//            }
-//        }
-//    }
     
     /// Verifies that the audio input is properly connected to the audio data output.
     private func verifyAudioConfiguration() async {

@@ -144,7 +144,11 @@ extension View {
             NSCursor.pop()
         }
     }
-    
+
+    func hoverable(_ shape: any Shape = .rect) -> some View {
+        modifier(HoverEffect(in: shape))
+    }
+
     func pressPushEffect() -> some View {
         modifier(PushDownEffect())
     }
@@ -158,6 +162,12 @@ extension View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
+}
+
+extension DisclosureGroupStyle where Self == CollapsibleDisclosureGroupStyle {
+    static func collapsible(_ position: DisclosureIndicatorPosition = .leading) -> CollapsibleDisclosureGroupStyle {
+        return .init(position: position)
+    }
 }
 
 extension ButtonStyle where Self == WelcomeButtonStyle {

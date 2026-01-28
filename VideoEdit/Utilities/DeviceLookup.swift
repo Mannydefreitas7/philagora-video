@@ -32,7 +32,7 @@ final class DeviceLookup {
                                                                          mediaType: .video,
                                                                          position: .unspecified)
 
-        audioDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.microphone, .external],
+        audioDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.microphone],
                                                                  mediaType: .audio,
                                                                  position: .unspecified)
 
@@ -61,7 +61,7 @@ final class DeviceLookup {
             return audioDevice
         }
     }
-    
+
     var cameras: [AVCaptureDevice] {
         // Populate the cameras array with the available cameras.
         var cameras: [AVCaptureDevice] = []
@@ -87,6 +87,36 @@ final class DeviceLookup {
 
     var microphones : [AVCaptureDevice] {
         let devices = audioDiscoverySession.devices
+        logger.info("devices \(devices)")
         return devices
     }
+}
+
+
+extension DeviceLookup {
+
+    static var defaultCamera: AVDeviceInfo {
+        guard let device = AVCaptureDevice.default(for: .video) else {
+            return .init(id: UUID().uuidString, kind: .video, name: "Unknown", isOn: false)
+        }
+        return .init(
+            id: device.uniqueID,
+            kind: .video,
+            name: device.localizedName,
+            isOn: false
+         )
+    }
+
+    static var defaultMicrophone: AVDeviceInfo {
+        guard let device = AVCaptureDevice.default(for: .audio) else {
+            return .init(id: UUID().uuidString, kind: .audio, name: "Unknown", isOn: false)
+        }
+        return .init(
+            id: device.uniqueID,
+            kind: .audio,
+            name: device.localizedName,
+            isOn: false
+        )
+    }
+
 }

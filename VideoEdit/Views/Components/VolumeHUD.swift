@@ -6,18 +6,25 @@
 //
 
 import SwiftUI
+import Engine
+import Pow
 import AVFoundation
 
 // MARK: - Public Component
 
 struct VolumeHUD<Content: View>: View {
 
-    @Binding var device: DeviceInfo
+    @Binding var device: AVDeviceInfo
     @ViewBuilder var content: () -> Content
     @Preference(\.audioVolume) var audioVolume
     @Environment(\.audioInputWave) var audioInputWave
+    @Environment(\.audioDevices) var audioDevices
 
-    init(for device: Binding<DeviceInfo>, content: @escaping () -> Content) {
+    @EnvironmentObject var appState: AppState
+
+    @State private var isOpen: Bool = false
+
+    init(for device: Binding<AVDeviceInfo>, content: @escaping () -> Content) {
         self._device = device
         self.content = content
     }
@@ -28,19 +35,18 @@ struct VolumeHUD<Content: View>: View {
 
                 HStack(alignment: .center, spacing: .medium) {
 
-                    Image("mic")
+                    device.thumbnail
                         .resizable()
                         .scaledToFit()
                         .frame(height: imageWidth)
 
                     VStack(alignment: .leading) {
-                        Text("Device")
+                        Text(device.device?.manufacturer ?? "Device")
                             .font(.caption2)
                             .foregroundStyle(.secondary)
 
                         Text(device.name.capitalized)
                             .font(.headline)
-                            .bold()
                     }
                 }
 
@@ -54,6 +60,7 @@ struct VolumeHUD<Content: View>: View {
                         segments: Int(segments)
                     )
                     .padding(.leading, .medium)
+
                     HStack {
                         Button {
                            // device.volume
@@ -61,10 +68,9 @@ struct VolumeHUD<Content: View>: View {
                             Image(
                                 systemName: symbolName
                             )
-                            .contentTransition(.symbolEffect(.automatic)) // macOS-safe
+                            .contentTransition(.symbolEffect(.automatic))
                             .animation(.easeInOut, value: symbolName)
                         }
-
                         .buttonBorderShape(.capsule)
                         .buttonStyle(.accessoryBar)
 
@@ -72,7 +78,6 @@ struct VolumeHUD<Content: View>: View {
                             .onChange(of: device.volume) { oldValue, newValue in
                                 audioVolume = newValue
                             }
-
                     }
                     .padding(.top, .small / 2)
                     .controlSize(.regular)
@@ -81,6 +86,47 @@ struct VolumeHUD<Content: View>: View {
                     }
                     .frame(minHeight: .extraLarge)
                 }
+
+            DisclosureGroup(isExpanded: $isOpen) {
+                VStack(spacing: .zero) {
+                    ForEach(audioDevices, id: \.id) { device in
+                        Button {
+                            Task {
+                                await appState.captureViewModel.selectAudio(id: device.id)
+                            }
+                        } label: {
+                            HStack {
+                                device.thumbnail
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: .extraLarge, height: .extraLarge)
+
+                                LazyVStack(alignment: .leading) {
+                                    Text(device.name)
+                                        .foregroundStyle(isSelected(device) ? .white : .primary)
+
+                                    Text(device.isExternal ? "External" : "Built-in")
+                                        .font(.caption2)
+                                }
+                            }
+                        }
+                        .tag(device.id)
+                        .buttonBorderShape(.roundedRectangle(radius: .medium))
+                        .buttonStyle(
+                            isSelected(device) ? AnyButtonStyle(.pushDown(glass: .prominent(.accent))) :  AnyButtonStyle(.accessoryBar)
+                        )
+                    }
+                }
+            } label: {
+                HStack {
+                    Text("Inputs")
+                    Spacer()
+                    Text(audioDevices.count.formatted())
+                        .padding(.small / 1.5)
+                        .background(.background, in: .circle)
+                }
+            }
+            .disclosureGroupStyle(.collapsible(.leading))
             }
             .frame(width: .popoverWidth)
             .overlay(alignment: .topTrailing) {
@@ -94,6 +140,15 @@ struct VolumeHUD<Content: View>: View {
         print(volume)
         device.volume = min(1.0, max(0.0, device.volume + delta))
     }
+}
+
+
+extension VolumeHUD {
+
+    func isSelected(_ device: AVDeviceInfo) -> Bool {
+        return self.device.id == device.id
+    }
+
 }
 
 
@@ -133,7 +188,7 @@ struct SegmentedPillBar: View {
             let hue = (0.30 - (0.24 * t)) // 0.30 -> 0.14
             return Color(hue: hue, saturation: 0.95, brightness: 0.95)
         } else {
-            return Color.white.opacity(0.25)
+            return Color.primary.opacity(0.25)
         }
     }
 }

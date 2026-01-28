@@ -60,13 +60,9 @@ extension CameraCaptureView {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                 .padding(.bottom, .small)
                 .environment(\.audioInputWave, viewModel.audioLevel)
-
-
-//            .inspector(isPresented: $viewModel.isSettingsPresented) {
-//                EditorSettingsView()
-//                    .background(Color(.underPageBackgroundColor))
-//                    .inspectorColumnWidth(.columnWidth(spacing: .threeOfTwelve))
-//            }
+                .environment(\.audioDevices, viewModel.audioDevices)
+                .environment(\.videoDevices, viewModel.videoDevices)
+                .environmentObject(appState.previewViewModel)
     }
 
     @ViewBuilder

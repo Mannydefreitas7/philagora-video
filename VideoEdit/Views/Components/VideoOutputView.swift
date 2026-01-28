@@ -33,7 +33,9 @@ struct VideoOutputView: NSViewRepresentable {
 
         DispatchQueue.main.async {
             connection.automaticallyAdjustsVideoMirroring = false
-            connection.isVideoMirrored = isMirror
+            if connection.isVideoMirroringSupported {
+                connection.isVideoMirrored = isMirror
+            }
         }
     }
 }

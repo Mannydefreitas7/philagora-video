@@ -60,6 +60,7 @@ struct RecordingControlsView: View {
         }
         .environment(\.isCameraOn, viewModel.camera.isOn)
         .environment(\.isMicrophoneOn, viewModel.microphone.isOn)
+        
     }
 }
 

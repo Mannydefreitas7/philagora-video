@@ -21,9 +21,8 @@ extension RecordingControlsView {
         @Published var isSettingsPresented: Bool = false
         @Published var showRecordButton: Bool = true
 
-        @Published var microphone: DeviceInfo = .init(id: UUID().uuidString)
-
-        @Published var camera: DeviceInfo = .init(id: UUID().uuidString)
+        @Published var microphone: AVDeviceInfo = AVDeviceInfo.defaultDevice(.audio)
+        @Published var camera: AVDeviceInfo = AVDeviceInfo.defaultDevice(.video)
 
         var spacing: CGFloat {
             isTimerEnabled || isRecording ? .small : .zero
