@@ -127,3 +127,31 @@ extension CMTime {
         CMTime(seconds: seconds, preferredTimescale: 600)
     }
 }
+
+
+// AVAudioListener extensions
+extension AVAudioSampleListener {
+    // Private class for delegate conformance
+    internal class Delegate: NSObject, AVCaptureAudioDataOutputSampleBufferDelegate {
+        weak var listener: AVAudioSampleListener?
+        let audioQueue = DispatchQueue(label: .dispatchQueueKey(.audioLevel))
+
+        func captureOutput(_ output: AVCaptureOutput,
+                           didOutput sampleBuffer: CMSampleBuffer,
+                           from connection: AVCaptureConnection) {
+            guard let listener = listener else { return }
+
+            let samples = extractSamples(from: sampleBuffer)
+
+            // Send to actor
+            Task {
+                await listener.processSamples(samples)
+            }
+        }
+
+        private func extractSamples(from sampleBuffer: CMSampleBuffer) -> [Float] {
+            // Extraction code...
+            return []
+        }
+    }
+}

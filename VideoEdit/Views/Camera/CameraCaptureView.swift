@@ -14,10 +14,11 @@ import Combine
 struct CameraCaptureView: View {
 
     @EnvironmentObject var appState: AppState
-    @ObservedObject var viewModel: CaptureView.ViewModel
+    @ObservedObject var state: CaptureView.State
     @State private var spacing: CGFloat = 8
     @State private var isTimerEnabled: Bool = false
     @State private var timerSelection: TimeInterval.Option = .threeSeconds
+    @Environment(\.isHoveringWindow) var isHoveringWindow
 
     // User preferences to store/restore window parameters
     @Preference(\.aspectPreset) var aspectPreset
@@ -29,16 +30,23 @@ struct CameraCaptureView: View {
 
         NavigationStack  {
             ZStack(alignment: .bottom) {
-                // MARK: Video preview
-                VideoOutput()
+                if state.selectedVideoDevice.isOn {
+                    // MARK: Video preview
+                    VideoOutput()
+                } else {
+                    placeholderView()
+                }
 
                 // MARK: Crop mask for selected ratio
                 MaskAspectRatioView()
 
-                // MARK: Bottom bar content
-                BottomBar()
+                if isHoveringWindow {
+                    // MARK: Bottom bar content
+                    BottomBar()
+                }
+
             }
-            .environmentObject(appState)
+            .environmentObject(state)
         }
         // Keep the window resizable but constrained to 16:9.
         .windowAspectRatio(AspectPreset.youtube.ratio)
@@ -49,24 +57,39 @@ struct CameraCaptureView: View {
 extension CameraCaptureView {
 
     @ViewBuilder
+    func placeholderView() -> some View {
+        VStack {
+            ContentUnavailableView(
+                "Not available",
+                systemSymbol: .videoSlashCircleFill,
+                description: Text("Select a device from the menu below.")
+            )
+                .imageScale(.large)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .transition(.movingParts.wipe(
+            angle: .degrees(-45),
+            blurRadius: 50
+        ))
+
+    }
+
+    @ViewBuilder
     func VideoOutput() -> some View {
-
-        //CustomCaptureView(session: viewModel.session)
-
-        VideoOutputView(source: viewModel.engine.previewSource, captureSession: viewModel.engine.captureSession)
+        VideoOutputView(source: state.engine.previewSource, captureSession: state.engine.captureSession)
             .ignoresSafeArea(.all)
     }
 
     @ViewBuilder
     func BottomBar() -> some View {
        
-            RecordingControlsView(viewModel: viewModel.controlsBarViewModel)
+            RecordingControlsView(viewModel: state.controlsBarViewModel)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                 .padding(.bottom, .small)
-                .environment(\.audioInputWave, viewModel.audioLevel)
-                .environment(\.audioDevices, viewModel.audioDevices)
-                .environment(\.videoDevices, viewModel.videoDevices)
-                .environmentObject(appState.previewViewModel)
+                .environment(\.audioInputWave, state.audioLevel)
+                .environment(\.audioDevices, state.audioDevices)
+                .environment(\.videoDevices, state.videoDevices)
+                .environmentObject(appState.previewState)
     }
 
     @ViewBuilder
@@ -83,16 +106,16 @@ extension CameraCaptureView {
 
     @ViewBuilder
     func timeLabel() -> some View {
-        Text(viewModel.recordingTimeString)
+        Text(state.recordingTimeString)
             .font(.system(.title3, design: .monospaced))
-            .foregroundStyle(viewModel.isRecording ? .red : .secondary)
+            .foregroundStyle(state.isRecording ? .red : .secondary)
     }
 
 }
 
 #Preview {
-    @Previewable @StateObject var captureVM: CaptureView.ViewModel = .init()
-    CameraCaptureView(viewModel: captureVM)
+    @Previewable @StateObject var captureVM: CaptureView.State = .init()
+    CameraCaptureView(state: captureVM)
 }
 
 struct CustomCaptureView: NSViewRepresentable {

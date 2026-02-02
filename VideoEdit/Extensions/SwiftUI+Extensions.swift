@@ -145,6 +145,10 @@ extension View {
         }
     }
 
+    func isHovering() -> some View {
+        modifier(HoverableModifier())
+    }
+
     func hoverable(_ shape: any Shape = .rect) -> some View {
         modifier(HoverEffect(in: shape))
     }

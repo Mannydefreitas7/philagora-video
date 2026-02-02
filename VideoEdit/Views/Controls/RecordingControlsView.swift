@@ -26,6 +26,7 @@ struct RecordingControlsView: View {
             if viewModel.showRecordButton {
                 // MARK: - Record button
                 RecordCircleButton()
+                    .transition(.move(edge: .bottom).combined(with: .blurReplace))
             }
 
             GlassEffectContainer(spacing: .zero) {
@@ -50,7 +51,7 @@ struct RecordingControlsView: View {
                         VideoInput()
 
                         // MARK: Settings Input
-                        SettingsButtonView()
+                       // SettingsButtonView()
 
                     }
                     .animation(.bouncy, value: viewModel.toggleAnimation)
@@ -60,7 +61,7 @@ struct RecordingControlsView: View {
         }
         .environment(\.isCameraOn, viewModel.camera.isOn)
         .environment(\.isMicrophoneOn, viewModel.microphone.isOn)
-        
+        .animation(.bouncy, value: viewModel.showRecordButton)
     }
 }
 

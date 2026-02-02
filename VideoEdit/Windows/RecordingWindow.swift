@@ -11,16 +11,18 @@ import SwiftUIIntrospect
 struct RecordingWindow: Scene {
 
     @EnvironmentObject var appState: AppState
-    //@StateObject private var viewModel: ViewModel = .init()
 
     var body: some Scene {
         WindowGroup(Constants.Window.recording.rawValue, id: .window(.recording)) {
             CaptureView()
+                .frame(minWidth: .minWindowWidth, minHeight: .minWindowHeight)
+                .isHovering()
                 .environmentObject(appState)
         }
         .windowStyle(.hiddenTitleBar)
         .windowToolbarStyle(.unified)
-        .windowResizability(.contentMinSize)
+        .defaultSize(width: .defaultRecordWidth, height: .defaultRecordHeight)
+        .windowResizability(.contentSize)
         .windowBackgroundDragBehavior(.enabled)
         .commands {
             // General Commands
@@ -30,15 +32,3 @@ struct RecordingWindow: Scene {
         }
     }
 }
-
-//extension RecordingWindow {
-//
-//    class ViewModel: ObservableObject {
-//
-//        @Published var isVisible: Bool = true
-//        @Published var position: CameraPosition = .topLeft
-//        @Published var size: CameraSize = .small
-//        @Published var shape: CameraShape = .circle
-//
-//    }
-//}

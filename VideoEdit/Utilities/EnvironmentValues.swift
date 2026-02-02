@@ -67,6 +67,12 @@ extension EnvironmentValues {
     @Entry
     var isMicrophoneOn: Bool = false
 
+    @Entry
+    var isRecording: CaptureView.Recording = .none
+
+    @Entry
+    var isHoveringWindow: Bool = false
+
 }
 
 private struct WindowStyleMask: ViewModifier {

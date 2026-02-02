@@ -12,19 +12,21 @@ struct CaptureView: View {
     @EnvironmentObject var appState: AppState
 
     var body: some View {
-        CameraCaptureView(viewModel: appState.captureViewModel)
+        CameraCaptureView(state: appState.captureState)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .windowResizeAnchor(.bottomLeading)
             .ignoresSafeArea(.all)
             .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
-            .environmentObject(appState)
+            .toolbar {
+                ToolbarSpacer()
+            }
             .onDisappear {
                 Task {
-                    await appState.captureViewModel.onDisappear()
+                    await appState.endCapture()
                 }
             }
             .task {
-                await appState.captureViewModel.onAppear()
+                await appState.startCapture()
             }
             .windowDismissBehavior(.enabled)
     }

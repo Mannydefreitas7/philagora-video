@@ -11,7 +11,7 @@ import SwiftUI
 struct EditorSettingsView: View {
     @Environment(\.dismiss) var dismiss
     //@StateObject var cameraManager: CameraPreviewViewModel = .init()
-   // @EnvironmentObject var editorViewModel: CameraCaptureView.ViewModel
+   // @EnvironmentObject var editorViewModel: CameraCaptureView.CaptureState
     @ObservedObject var viewModel: ViewModel = .init()
 
     var body: some View {

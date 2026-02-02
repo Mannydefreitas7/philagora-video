@@ -21,10 +21,12 @@ final class AppState: ObservableObject {
     @Published var exportFormat: ExportFormat = .movie
     @Published var isRecording = false
     @Published var recordingDuration: TimeInterval = 0
+    /// properties
+    @Published var status: CaptureStatus = .idle
 
     // Capture view model
-    @Published var captureViewModel: CaptureView.ViewModel = .init()
-    @Published var previewViewModel: CaptureView.ViewModel = .init()
+    @Published var captureState: CaptureView.State = .init()
+    @Published var previewState: CaptureView.State = .init()
 
     // Crop settings
     @Published var cropRect: CGRect = .zero
@@ -60,6 +62,31 @@ final class AppState: ObservableObject {
             trimStart = 0
             trimEnd = 1
         }
+    }
+
+    func startCapture() async {
+        logger.info("Capture engine status: \(self.status == .idle ? "idle" : "running")")
+        guard status == .idle else {
+            logger.debug("Capture engine is running")
+            return
+        }
+        do {
+            status = .configuring
+            try await captureState.initialize()
+            status = .running
+        } catch {
+            logger.error("Capture error: \(error.localizedDescription)")
+            status = .failed(message: "Failed to initialize capture engine")
+        }
+    }
+
+    func endCapture() async {
+        logger.info("Ending capture engine...")
+        guard status == .running else {
+            logger.debug("Capture engine is not running")
+            return
+        }
+        status = .idle
     }
 
     func saveFile(completion: @escaping (URL?) -> Void) {

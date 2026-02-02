@@ -33,3 +33,18 @@ struct WindowCenteredModifier: ViewModifier {
     }
 }
 
+struct HoverableModifier: ViewModifier {
+
+    @State private var isHovered: Bool = false
+    @Environment(\.isHoveringWindow) var isHoveringWindow
+
+    func body(content: Content) -> some View {
+        content
+            .onHover { hovering in
+                withAnimation(.easeInOut) {
+                    isHovered = hovering
+                }
+            }
+            .environment(\.isHoveringWindow, isHovered)
+    }
+}

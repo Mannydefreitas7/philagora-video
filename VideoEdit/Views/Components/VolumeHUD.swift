@@ -19,9 +19,7 @@ struct VolumeHUD<Content: View>: View {
     @Preference(\.audioVolume) var audioVolume
     @Environment(\.audioInputWave) var audioInputWave
     @Environment(\.audioDevices) var audioDevices
-
     @EnvironmentObject var appState: AppState
-
     @State private var isOpen: Bool = false
 
     init(for device: Binding<AVDeviceInfo>, content: @escaping () -> Content) {
@@ -56,14 +54,11 @@ struct VolumeHUD<Content: View>: View {
                     let pillWidthSpace: CGFloat = CGSize.pill.width + .spacing
                     let segments = .popoverWidth / pillWidthSpace
 
-
                         SegmentedPillBar(
                             value: audioInputWave.isNaN ? 0 : audioInputWave,
                             segments: Int(segments)
                         )
                         .padding(.leading, .medium)
-                    
-
 
                     HStack {
                         Button {
@@ -119,6 +114,9 @@ struct VolumeHUD<Content: View>: View {
                         .buttonStyle(
                             isSelected(device) ? AnyButtonStyle(.pushDown(glass: .prominent(.accent))) :  AnyButtonStyle(.accessoryBar)
                         )
+                        .clipShape {
+                            RoundedRectangle(cornerRadius: .medium, style: .continuous)
+                        }
                     }
                 }
             } label: {

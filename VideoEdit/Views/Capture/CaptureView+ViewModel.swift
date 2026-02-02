@@ -12,18 +12,23 @@ import CombineAsync
 
 extension CaptureView {
 
+    enum Recording {
+        case audio
+        case video
+        case both
+        case none
+    }
+
     @MainActor
-    final class ViewModel: ObservableObject {
+    final class State: ObservableObject {
 
         /// main capture session engine
         let engine: AVCaptureEngine = AVCaptureEngine.shared
         private var cancellables: Set<AnyCancellable> = []
         /// media actors
         private let audioService = AVCaptureAudioService.shared
-        private let audioSampleBuffer = AVAudioSampleListener.shared
         private let videoService = AVCaptureVideoService.shared
-        /// properties
-        @Published var status: CaptureStatus = .idle
+
         @Published var videoDevices: [AVDeviceInfo] = []
         @Published var audioDevices: [AVDeviceInfo] = []
         @Published var isRecording: Bool = false
@@ -31,11 +36,13 @@ extension CaptureView {
         /// Waveform / meters
         @Published var audioLevel: Float = 0
         @Published var audioHistory: [Double] = []
-        @Published var selectedVideoDevice: AVDeviceInfo?
-        @Published var selectedAudioDevice: AVDeviceInfo?
+        @Published var selectedVideoDevice: AVDeviceInfo = .defaultDevice(.video)
+        @Published var selectedAudioDevice: AVDeviceInfo = .defaultDevice(.audio)
         /// View models
         @Published var controlsBarViewModel: RecordingControlsView.ViewModel =  .init()
         @Published var cameraOverlayViewModel: CameraOverlayView.ViewModel = .init()
+        @Published var downsampledMagnitudes: [Float] = []
+        @Published var fftMagnitudes: [Float] = []
         /// Recording time string
         var recordingTimeString: String {
             let total = Int(recordingDuration.rounded(.down))
@@ -45,101 +52,84 @@ extension CaptureView {
             return h > 0 ? String(format: "%d:%02d:%02d", h, m, s) : String(format: "%02d:%02d", m, s)
         }
 
-        func onAppear() async {
-            status = .configuring
+        var isMonitoring: Bool {
+            get async { await audioService.listener.isMonitoring }
+        }
+
+
+        func initialize() async throws {
             do {
-                /// Configure + start the single underlying captureSession.
+                /// Configure + start the single underlying session.
                 logger.debug("Starting capture engine")
                 try await engine.start(with: .current)
+                /// Update and fetch available devices
                 logger.info("Update and fetch available devices")
                 try await updateEngineDevices()
-                logger.info("Switch to default devices")
-                await switchToDevice(.defaultMicrophone)
-                await switchToDevice(.defaultCamera)
+                /// Audio service
+                try await audioService.initialize()
+                ///
+                await audioService.$downsampledMagnitudes
+                    .assign(to: \.downsampledMagnitudes, on: self)
+                    .store(in: &cancellables)
+                ///
+                await audioService.$fftMagnitudes
+                    .assign(to: \.fftMagnitudes, on: self)
+                    .store(in: &cancellables)
+                ///
+                await audioService.$level
+                    .assign(to: \.audioLevel, on: self)
+                    .store(in: &cancellables)
+
             } catch {
-                status = .failed(message: String(describing: error))
-                await onDisappear()
+                logger.error("Error starting capture engine: \(error.localizedDescription)")
+                throw error
             }
+            /// Switch to default devices
+            logger.info("Switch to default devices")
         }
 
         func onDisappear() async {
+            selectedAudioDevice = .defaultDevice(.audio)
+            selectedVideoDevice = .defaultDevice(.video)
+            videoDevices = []
+            audioDevices = []
+            isRecording = false
 //            observationTasks.forEach { $0.cancel() }
 //            observationTasks.removeAll()
 //            audioMonitorPollTask?.cancel()
 //            audioMonitorPollTask = nil
             //   await audioMonitor.stop()
-            status = .stopped
         }
 
-        init() {
-            /// Set engine session
-            $selectedAudioDevice
-                .compactMap { $0?.id }
-                .combineLatest($audioDevices)
-                .compactMap { (id, devices) in devices.first(where: { $0.id == id })  }
-                .removeDuplicates()
-                .map { audio in
-                    let previous = self.controlsBarViewModel.microphone
-                    return AVDeviceInfo(
-                        id: audio.id,
-                        kind: .audio,
-                        name: audio.name,
-                        isOn: previous.isOn,
-                        showSettings: previous.showSettings,
-                        device: audio.device
-                    )
-                }
-                .assign(to: \.microphone, on: controlsBarViewModel)
-                .store(in: &cancellables)
-
-            $selectedVideoDevice
-                .compactMap { $0?.id }
-                .combineLatest($videoDevices)
-                .compactMap { (id, devices) in devices.first(where: { $0.id == id })  }
-                .removeDuplicates()
-                .map { cam in
-                    let previous = self.controlsBarViewModel.camera
-                    return AVDeviceInfo(
-                        id: cam.id,
-                        kind: .video,
-                        name: cam.name,
-                        isOn: previous.isOn,
-                        showSettings: previous.showSettings,
-                        device: cam.device
-                    )
-                }
-                .assign(to: \.camera, on: controlsBarViewModel)
-                .store(in: &cancellables)
-
-            $selectedAudioDevice
-                .compactMap { $0 }
-                .asyncSink { device in
-                    if !device.isOn { return }
-                    await self.switchToDevice(device)
-                }
-                .store(in: &cancellables)
+        /// Select device
+        func selectDevice(_ device: AVDeviceInfo) async {
+            let isVideo = device.kind == .video
+            if isVideo {
+                selectedVideoDevice = device
+                return
+            }
+            selectedAudioDevice = device
         }
 
         /// Switch to a specific device
-        func switchToDevice(_ device: AVDeviceInfo) async {
+        func commitDevice(_ device: AVDeviceInfo, isOn: Bool = false) async {
             let isVideo = device.kind == .video
-            let currentDevice = isVideo ? selectedVideoDevice : selectedAudioDevice
             /// Current device
-            guard let currentDevice else {
-                logger.info("No input or device to switch to: \(device.name)")
-                return
-            }
+            let currentDevice = isVideo ? selectedVideoDevice : selectedAudioDevice
             logger.info("No input or device to switch to: \(device.name)")
             do {
                 try await engine.removeInput(for: currentDevice)
-                try await engine.addInput(for: device)
+                var newValue = device
+                newValue.isOn = isOn
+                try await engine.addInput(for: newValue)
             } catch {
                 logger.error("Failed to remove input: \(error.localizedDescription)")
+                try? await engine.addInput(for: currentDevice)
             }
         }
 
         // MARK: - Device Observation
-        /// Observes the engine's published device lists and updates the ViewModel accordingly.
+        /// Observes the engine's published device lists and updates the State accordingly.
         private func updateEngineDevices() async throws {
             // updates camera devices
             videoDevices = try await videoService.mapDevices()

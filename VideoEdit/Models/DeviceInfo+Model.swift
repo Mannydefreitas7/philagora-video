@@ -11,9 +11,9 @@ import AVFoundation
 
 extension AVDeviceInfo {
     private func shape(for device: AVDeviceInfo) -> AnyShape {
-        return device.isOn || device.showSettings ? AnyShape(.rect(cornerRadius: .extraLarge, style: .continuous)) : AnyShape(
-            .capsule
-        )
+        return device.isOn || device.showSettings ?
+        AnyShape(.rect(cornerRadius: .extraLarge, style: .continuous)) :
+        AnyShape(.capsule)
     }
 
     init (_ device: AVCaptureDevice) {

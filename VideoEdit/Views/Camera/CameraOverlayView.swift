@@ -5,7 +5,7 @@ import Combine
 struct CameraOverlayView: View {
 
     /// View model
-    @ObservedObject var viewModel: CaptureView.ViewModel
+    @ObservedObject var viewModel: CaptureView.State
 
     var body: some View {
         if viewModel.cameraOverlayViewModel.isVisible {
@@ -81,7 +81,7 @@ struct CameraOverlayView: View {
 }
 
 #Preview {
-    @Previewable @StateObject var viewModel: CaptureView.ViewModel = .init()
+    @Previewable @StateObject var viewModel: CaptureView.State = .init()
     CameraOverlayView(viewModel: viewModel)
     .frame(width: 800, height: 600)
 }

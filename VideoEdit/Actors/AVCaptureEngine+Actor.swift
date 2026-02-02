@@ -54,21 +54,21 @@ actor AVCaptureEngine {
     }
 
     // MARK: - Capture setup
-    // Performs the initial capture session configuration.
+    /// Performs the initial capture session configuration.
     private func configure() async throws {
-        // Return early if already set up.
+        /// Return early if already set up.
         guard !isSetUp else { return }
-        // fetch available devices
+        /// fetch available devices
 
         do {
             #if os(iOS)
             // Enable using AirPods as a high-quality lapel microphone.
             captureSession.configuresApplicationAudioSessionForBluetoothHighQualityRecording = true
             #endif
-            // Configure the session preset based on the current capture mode.
+            /// Configure the session preset based on the current capture mode.
             captureSession.sessionPreset = captureMode == .photo ? .photo : .hd4K3840x2160
-            // If the capture mode is set to Video, add a movie capture output.
-            // Add the movie output as the default output type.
+            /// If the capture mode is set to Video, add a movie capture output.
+            /// Add the movie output as the default output type.
             isSetUp = true
         } catch {
             throw CameraError.setupFailed
@@ -77,7 +77,7 @@ actor AVCaptureEngine {
 
     // MARK: - Access to nested video preview layer
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer {
-        // Access the capture session's connected preview layer.
+        /// Access the capture session's connected preview layer.
         guard let previewLayer = captureSession.connections.compactMap({ $0.videoPreviewLayer }).first else {
             fatalError("The app is misconfigured. The capture session should have a connection to a preview layer.")
         }
@@ -93,12 +93,11 @@ actor AVCaptureEngine {
 
     // MARK: - Remove existing input
     func removeInput(for device: AVDeviceInfo) throws {
-        guard let input = device.input, captureSession.inputs.contains(input) else {
-            throw AVError(.deviceNotConnected)
+        if let input = device.input, captureSession.inputs.contains(input) {
+            captureSession.beginConfiguration()
+            defer { captureSession.commitConfiguration() }
+            captureSession.removeInput(input)
         }
-        captureSession.beginConfiguration()
-        defer { captureSession.commitConfiguration() }
-        captureSession.removeInput(input)
     }
 
     // Adds an input to the capture session to connect the specified capture device.
@@ -108,6 +107,7 @@ actor AVCaptureEngine {
         }
         captureSession.beginConfiguration()
         defer { captureSession.commitConfiguration() }
+        // Add the input process
         if captureSession.canAddInput(input) {
             captureSession.addInput(input)
         } else {

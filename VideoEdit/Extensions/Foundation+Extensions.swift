@@ -35,12 +35,15 @@ extension CGSize {
         width.isZero ? 1.0 : CGFloat(height) / CGFloat(width)
     }
 
+    /// Current window size
     var windowSize: Self {
         guard let window = NSApplication.shared.keyWindow else {
             return .zero
         }
         return window.frame.size
     }
+
+    /// Minimum window recording size - (width: ``
 
     /// Record circle shape height, inherit record width - value: `self.recordWidth`
     static var recordCircle: Self { .init(width: .recordWidth, height: .recordHeight) }
@@ -65,23 +68,61 @@ extension Double {
         return Double(CGFloat.windowWidth) / gridColumns
     }
 
+    /// Grid spacing helper representing a number of 12-column grid units.
+    /// Use with layout helpers like `CGFloat.columnWidth(spacing:)` to get widths
+    /// that span a given number of columns based on the current window width.
     enum Spacing: Int {
-
+        /// Spans 1 of 12 grid columns
         case oneOfTwelve = 1
+        /// Spans 2 of 12 grid columns
         case twoOfTwelve = 2
+        /// Spans 3 of 12 grid columns
         case threeOfTwelve = 3
+        /// Spans 4 of 12 grid columns
         case fourOfTwelve = 4
+        /// Spans 5 of 12 grid columns
         case fiveOfTwelve = 5
+        /// Spans 6 of 12 grid columns
         case sixOfTwelve = 6
+        /// Spans 7 of 12 grid columns
         case sevenOfTwelve = 7
+        /// Spans 8 of 12 grid columns
         case eightOfTwelve = 8
+        /// Spans 9 of 12 grid columns
         case nineOfTwelve = 9
+        /// Spans 10 of 12 grid columns
         case tenOfTwelve = 10
+        /// Spans 11 of 12 grid columns
         case elevenOfTwelve = 11
+        /// Spans 12 of 12 grid columns (full width)
         case twelveOfTwelve = 12
     }
 
+    /// Window minimum width: `1600 / 1.5`
+    static var minWindowWidth: Self { 1600 / 1.5 }
+    /// Window minimum height: `900 / 1.5`
+    static var minWindowHeight: Self { 900 / 1.5 }
+    /// Window default recording width: `1600`
+    static var defaultRecordWidth: Self { 1600 }
+    /// Window default recording height: `900`
+    static var defaultRecordHeight: Self { 900 }
+}
 
+// MARK: - Int
+
+extension Int {
+
+    /// Sample amount for audio wave: `300`
+    static var sampleAmount: Self { 300 }
+    /// Down sample factor: `16`
+    static var downsampleFactor: Self { 16 }
+
+
+}
+
+extension Float {
+    /// Magnitude limit: `50`
+    static var magnitudeLimit: Self { 50 }
 }
 
 // MARK: - CGFloat
@@ -109,11 +150,28 @@ extension CGFloat {
     /// Spacing size - value: `6`
     static var spacing: Self { 6 }
 
+    /// Window minimum width: `1600 / 1.5`
+    static var minWindowWidth: Self { 1600 / 1.5 }
+    /// Window minimum height: `900 / 1.5`
+    static var minWindowHeight: Self { 900 / 1.5 }
+    /// Window default recording width: `1600`
+    static var defaultRecordWidth: Self { 1600 }
+    /// Window default recording height: `900`
+    static var defaultRecordHeight: Self { 900 }
+
+    // c. Handle high spikes distortion in the chart
+
+
+    /// Corners radius - value: `32`
     static var cornerRadius: Self { 32 }
+    /// Border width - value: `1`
     static var borderWidth: Self { 1 }
 
+    /// Top padding - value: `54`
     static var topPadding: Self { 54 }
+    /// Bottom padding radius - value: `64`
     static var bottomPadding: Self { 64 }
+    /// Dimming alpha - value: `0.5`
     static var dimmingAlpha: Self { 0.5 }
 
     static func columnWidth(spacing: Double.Spacing) -> CGFloat {

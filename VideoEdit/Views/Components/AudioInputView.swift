@@ -12,6 +12,7 @@ struct AudioInputView: View {
 
     var controlGroup: Namespace.ID
     @Binding var device: AVDeviceInfo
+    @Environment(\.isRecording) var isRecording
 
     var body: some View {
         Group {
@@ -39,7 +40,7 @@ extension AudioInputView {
     @ViewBuilder
     func ToolBarOptions() -> some View {
         VolumeHUD(for: $device) {
-            Button("Close", systemImage: "xmark", role: .close) {
+            Button("Close", systemSymbol: .xmark, role: .close) {
                 withAnimation(.bouncy) {
                     device.showSettings.toggle()
                 }
@@ -55,7 +56,8 @@ extension AudioInputView {
     func ToolbarButton() -> some View {
         HStack(spacing: .small / 2) {
             Toggle(isOn: $device.isOn) {
-                Image(systemSymbol: device.isOn ? .microphoneFill : .microphoneSlash)
+                Image(systemSymbol: device.isOn ? .microphoneFill : .microphoneSlashFill)
+                    .contentTransition(.symbolEffect(.replace.wholeSymbol))
                     .font(.title2)
                     .frame(width: .recordWidth)
             }
@@ -73,6 +75,10 @@ extension AudioInputView {
                 }
                 .labelStyle(.titleAndIcon)
                 .buttonStyle(.accessoryBar)
+
+                if isRecording == .audio || isRecording == .both {
+                    AudioWaveMonitor(style: .indicator, isActive: $device.isOn)
+                }
             }
         }
         .padding(.horizontal, .small)

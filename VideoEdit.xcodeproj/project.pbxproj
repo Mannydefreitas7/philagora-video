@@ -89,6 +89,9 @@
 		1431F8482F25E55A000855C6 /* CaptureEngine+ScreenRecording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1431F8472F25E55A000855C6 /* CaptureEngine+ScreenRecording.swift */; };
 		1431F84A2F25E579000855C6 /* CaptureEngine+ScreenCapture+Usage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1431F8492F25E579000855C6 /* CaptureEngine+ScreenCapture+Usage.swift */; };
 		1431F84C2F25E596000855C6 /* ScreenCaptureExtensions-README.md in Resources */ = {isa = PBXBuildFile; fileRef = 1431F84B2F25E596000855C6 /* ScreenCaptureExtensions-README.md */; };
+		144D27612F2F1ED300681899 /* DSWaveformImage in Frameworks */ = {isa = PBXBuildFile; productRef = 144D27602F2F1ED300681899 /* DSWaveformImage */; };
+		144D27632F2F1ED300681899 /* DSWaveformImageViews in Frameworks */ = {isa = PBXBuildFile; productRef = 144D27622F2F1ED300681899 /* DSWaveformImageViews */; };
+		144D27652F2F239800681899 /* AudioWaveMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144D27642F2F239800681899 /* AudioWaveMonitor.swift */; };
 		144D9D542F241A8B00E21458 /* AudioEqualizerBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144D9D532F241A8B00E21458 /* AudioEqualizerBars.swift */; };
 		144E65E22F094FA400D044AD /* WelcomeWindow in Frameworks */ = {isa = PBXBuildFile; productRef = 144E65E12F094FA400D044AD /* WelcomeWindow */; };
 		144E65E52F09556E00D044AD /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = 144E65E42F09556E00D044AD /* Onboarding */; };
@@ -262,6 +265,7 @@
 		1431F8472F25E55A000855C6 /* CaptureEngine+ScreenRecording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureEngine+ScreenRecording.swift"; sourceTree = "<group>"; };
 		1431F8492F25E579000855C6 /* CaptureEngine+ScreenCapture+Usage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureEngine+ScreenCapture+Usage.swift"; sourceTree = "<group>"; };
 		1431F84B2F25E596000855C6 /* ScreenCaptureExtensions-README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "ScreenCaptureExtensions-README.md"; sourceTree = "<group>"; };
+		144D27642F2F239800681899 /* AudioWaveMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioWaveMonitor.swift; sourceTree = "<group>"; };
 		144D9D532F241A8B00E21458 /* AudioEqualizerBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEqualizerBars.swift; sourceTree = "<group>"; };
 		144E65E62F09619C00D044AD /* NewFileButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFileButton.swift; sourceTree = "<group>"; };
 		144E65E82F0961ED00D044AD /* OpenFileOrFolderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFileOrFolderButton.swift; sourceTree = "<group>"; };
@@ -370,7 +374,9 @@
 				14FC9EDB2F16FB760053C019 /* EngineMacros in Frameworks */,
 				146E4EFC2F0A7C0000AA07CC /* SwiftDiagnostics in Frameworks */,
 				1431F8442F25A013000855C6 /* Aperture in Frameworks */,
+				144D27632F2F1ED300681899 /* DSWaveformImageViews in Frameworks */,
 				146E4EF82F0A7C0000AA07CC /* SwiftBasicFormat in Frameworks */,
+				144D27612F2F1ED300681899 /* DSWaveformImage in Frameworks */,
 				14FFBDBE2F13194A00B96C92 /* Shimmer in Frameworks */,
 				146E4EFE2F0A7C0000AA07CC /* SwiftIDEUtils in Frameworks */,
 				146E4F032F0A7C1400AA07CC /* WelcomeWindow in Frameworks */,
@@ -424,6 +430,7 @@
 				14FC9EC72F16C35C0053C019 /* SettingsButton.swift */,
 				146CAEC12F1966880021CE3A /* FloatingPanel.swift */,
 				144D9D532F241A8B00E21458 /* AudioEqualizerBars.swift */,
+				144D27642F2F239800681899 /* AudioWaveMonitor.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -790,6 +797,8 @@
 				146CAEBF2F1949200021CE3A /* SFSafeSymbols */,
 				1431F8402F259B5D000855C6 /* FluidAudio */,
 				1431F8432F25A013000855C6 /* Aperture */,
+				144D27602F2F1ED300681899 /* DSWaveformImage */,
+				144D27622F2F1ED300681899 /* DSWaveformImageViews */,
 			);
 			productName = Claquette;
 			productReference = 3000000000000001 /* VideoEdit.app */;
@@ -835,6 +844,7 @@
 				146CAEBE2F1949200021CE3A /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
 				1431F83F2F259B5D000855C6 /* XCRemoteSwiftPackageReference "FluidAudio" */,
 				1431F8422F25A013000855C6 /* XCRemoteSwiftPackageReference "Aperture" */,
+				144D275F2F2F1ED300681899 /* XCRemoteSwiftPackageReference "DSWaveformImage" */,
 			);
 			preferredProjectObjectVersion = 90;
 			productRefGroup = 5000000000000003 /* Products */;
@@ -905,6 +915,7 @@
 				1400C9482F04C472001EF209 /* FourCharCode+Model.swift in Sources */,
 				1400C9492F04C472001EF209 /* RecentFilesManager+Model.swift in Sources */,
 				1400C94A2F04C472001EF209 /* CaptureMode+Model.swift in Sources */,
+				144D27652F2F239800681899 /* AudioWaveMonitor.swift in Sources */,
 				1431F81F2F2484F8000855C6 /* CaptureControl+Delegate.swift in Sources */,
 				148AAC5E2F073CB60087D649 /* MouseVisualizerSettingsView.swift in Sources */,
 				148AAC6A2F078B610087D649 /* ScreenRecorderView.swift in Sources */,
@@ -1294,6 +1305,14 @@
 				kind = branch;
 			};
 		};
+		144D275F2F2F1ED300681899 /* XCRemoteSwiftPackageReference "DSWaveformImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmrschmidt/DSWaveformImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 14.3.0;
+			};
+		};
 		144E65E02F094FA400D044AD /* XCRemoteSwiftPackageReference "WelcomeWindow" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/CodeEditApp/WelcomeWindow";
@@ -1426,6 +1445,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1431F8422F25A013000855C6 /* XCRemoteSwiftPackageReference "Aperture" */;
 			productName = Aperture;
+		};
+		144D27602F2F1ED300681899 /* DSWaveformImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 144D275F2F2F1ED300681899 /* XCRemoteSwiftPackageReference "DSWaveformImage" */;
+			productName = DSWaveformImage;
+		};
+		144D27622F2F1ED300681899 /* DSWaveformImageViews */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 144D275F2F2F1ED300681899 /* XCRemoteSwiftPackageReference "DSWaveformImage" */;
+			productName = DSWaveformImageViews;
 		};
 		144E65E12F094FA400D044AD /* WelcomeWindow */ = {
 			isa = XCSwiftPackageProductDependency;

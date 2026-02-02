@@ -20,38 +20,21 @@ actor AVCaptureVideoService {
     var errorMessage: String?
     //
     private var videoDevices: [AVDeviceInfo] = []
-    // MARK: - video input
-    var videoInput: AVCaptureDeviceInput?
     // A serial dispatch queue to use for capture control actions.
     private let sessionQueue = DispatchSerialQueue(label: .dispatchQueueKey(.captureVideoOutput))
-
-    init() {
-        Task { try? await configure() }
-    }
-
-    // MARK: - configures the service
-    func configure() async throws {
-        guard let cameraDevice = DeviceLookup.defaultCamera else {
-            throw AVError(.deviceNotConnected)
+    // MARK: - access authorization
+    var isAuthorized: Bool {
+        let authorized = AVCaptureDevice.authorizationStatus(for: .audio) == .authorized
+        if !authorized {
+            Task { return await AVCaptureDevice.requestAccess(for: .audio) }
         }
-        logger.log("Default video device: \(cameraDevice.localizedName)")
-        videoInput = try AVCaptureDeviceInput(device: cameraDevice)
-    }
-    // MARK: - video device input
-    var input: AVCaptureDeviceInput {
-        get throws {
-            guard let videoInput else {
-                errorMessage = AVError(.deviceNotConnected).localizedDescription
-                throw AVError(.deviceNotConnected)
-            }
-            return videoInput
-        }
+        return authorized
     }
 
     // MARK: - get audio devices
-    func mapDevices() async throws -> [AVDeviceInfo] {
+    func mapDevices(_ device: AVDeviceInfo? = nil) async throws -> [AVDeviceInfo] {
         let devices = devices()
-        let selected = try input.device.uniqueID
+        let selected = device?.id
         // updates camera devices
         let _videoDevices = devices.map {
             AVDeviceInfo(

@@ -25,7 +25,7 @@ struct AudioInputProxy<Content: View>: View {
 
     /// Behavior:
     /// - Creates an `AVCaptureAudioMonitor` with the provided tuning parameters and binds it
-    ///   to an internal `ViewModel`.
+    ///   to an internal `CaptureState`.
     /// - Injects `viewModel.level` into the environment as `audioInputWave`.
     /// - Injects `viewModel.history` into the environment as `audioInputWaveHistory`.
     /// - Starts monitoring in a task when the view appears, and stops on disappearance.
@@ -45,7 +45,7 @@ struct AudioInputProxy<Content: View>: View {
     ///   placeholder values until the stream becomes active.
 
     /// Internal `ViewModel` state to be initialized accordingly with the actor binding.
-    @ObservedObject var viewModel: CaptureView.ViewModel
+    @ObservedObject var viewModel: CaptureView.State
 
     /// Generic Parameters:
     /// - Content: The SwiftUI `View` type being wrapped.

@@ -15,7 +15,7 @@ struct VideoInputView: View {
     var controlGroup: Namespace.ID
     @Binding var device: AVDeviceInfo
 
-    @EnvironmentObject var viewModel: CaptureView.ViewModel
+    @EnvironmentObject var viewModel: CaptureView.State
 
     var body: some View {
         Group {
@@ -33,14 +33,6 @@ struct VideoInputView: View {
             id: device.isOn ? .video : .options,
             namespace: controlGroup
         )
-        .onDisappear {
-            Task {
-                await viewModel.onDisappear()
-            }
-        }
-        .task {
-            await viewModel.onAppear()
-        }
     }
 }
 
@@ -65,7 +57,8 @@ extension VideoInputView {
     func ToolButton() -> some View {
         HStack(spacing: .small / 2) {
             Toggle(isOn: $device.isOn) {
-                Image(systemSymbol: .webCamera)
+                Image(systemSymbol: device.isOn ? .videoFill : .videoSlashFill)
+                    .contentTransition(.symbolEffect(.replace))
                     .font(.title2)
                     .frame(width: .recordWidth)
             }
@@ -94,7 +87,7 @@ extension VideoInputView {
         VStack(alignment: .leading) {
                 HStack {
 
-                    Image("imac")
+                    Image(.imac)
                         .resizable()
                         .scaledToFit()
                         .frame(width: imageWidth)

@@ -20,9 +20,9 @@ final class Preferences {
     }
 
     @UserDefault(.storageKey(.aspectPreset)) var aspectPreset: AspectPreset = .youtube
-    @UserDefault(.storageKey(.showAspectMask)) var showAspectMask: Bool = true
-    @UserDefault(.storageKey(.showSafeGuides)) var showSafeGuides: Bool = true
-    @UserDefault(.storageKey(.showPlatformGuides)) var showPlatformSafe: Bool = true
+    @UserDefault(.storageKey(.showAspectMask)) var showAspectMask: Bool = false
+    @UserDefault(.storageKey(.showSafeGuides)) var showSafeGuides: Bool = false
+    @UserDefault(.storageKey(.showPlatformGuides)) var showPlatformSafe: Bool = false
     @UserDefault(.storageKey(.isMirrored)) var isMirrored: Bool = false
     @UserDefault(.storageKey(.audioVolume)) var audioVolume: Double = 0.5
 }

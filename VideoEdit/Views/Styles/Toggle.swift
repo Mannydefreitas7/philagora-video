@@ -26,7 +26,7 @@ struct SecondaryToggleStyle: ToggleStyle {
         .buttonBorderShape(.circle)
         .buttonStyle(style)
         .if(configuration.isOn) {
-            $0.tint(.white)
+            $0.tint(Color.primary)
         }
     }
 }

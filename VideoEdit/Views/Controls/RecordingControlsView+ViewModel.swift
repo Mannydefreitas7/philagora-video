@@ -34,14 +34,21 @@ extension RecordingControlsView {
         }
 
         init() {
-            $microphone
-                .combineLatest($camera)
-                .compactMap { $0.showSettings == false && $1.showSettings == false }
+
+            Publishers.CombineLatest($microphone, $camera)
+                .map { (microphone, camera) in
+                    let settingsVisible = microphone.showSettings || camera.showSettings
+                    if microphone.isOn {
+                        return !settingsVisible
+                    }
+                    if camera.isOn {
+                        return !settingsVisible
+                    }
+                    return false
+                }
                 .receive(on: RunLoop.main)
                 .assign(to: \.showRecordButton, on: self)
                 .store(in: &cancellables)
-
-
         }
     }
 }
