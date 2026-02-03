@@ -328,6 +328,9 @@
 		14B0AD7B2F31563D00181545 /* CaptureDeviceInput+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureDeviceInput+ViewModel.swift"; sourceTree = "<group>"; };
 		14B0AD7D2F315FFB00181545 /* DeviceInput+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeviceInput+ViewModel.swift"; sourceTree = "<group>"; };
 		14B0AD7F2F31626B00181545 /* AVCaptureDevice+Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVCaptureDevice+Actor.swift"; sourceTree = "<group>"; };
+		14B0AD822F31E29200181545 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		14B0AD832F31E2D200181545 /* Store+Modifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Store+Modifier.swift"; sourceTree = "<group>"; };
+		14B0AD852F31E3F700181545 /* Store+Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Store+Enum.swift"; sourceTree = "<group>"; };
 		14D7B36E2F27F1F90095A508 /* Combine+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Combine+Extensions.swift"; sourceTree = "<group>"; };
 		14D9D6AF2F0717AF00065B49 /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		14D9D6B12F0718AB00065B49 /* NamePrintable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamePrintable.swift; sourceTree = "<group>"; };
@@ -650,6 +653,22 @@
 			path = Windows;
 			sourceTree = "<group>";
 		};
+		14B0AD812F31E27200181545 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				14B0AD832F31E2D200181545 /* Store+Modifier.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		14B0AD842F31E3ED00181545 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				14B0AD852F31E3F700181545 /* Store+Enum.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
 		14D9D6AE2F0717A100065B49 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -698,12 +717,12 @@
 		14E2DD292F31BB620074AAEA /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				14B0AD842F31E3ED00181545 /* Enums */,
+				14B0AD812F31E27200181545 /* Modifiers */,
 				14E2DD382F31BFD30074AAEA /* Protocols */,
 				14E2DD362F31BF100074AAEA /* Stores */,
-				14E2DD312F31BDC60074AAEA /* Modifiers */,
 				14E2DD2F2F31BC1B0074AAEA /* Extensions */,
 				14E2DD2E2F31BC150074AAEA /* Models */,
-				14E2DD2D2F31BBF00074AAEA /* Views */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -737,13 +756,6 @@
 			path = Capture;
 			sourceTree = "<group>";
 		};
-		14E2DD2D2F31BBF00074AAEA /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		14E2DD2E2F31BC150074AAEA /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -755,23 +767,10 @@
 		14E2DD2F2F31BC1B0074AAEA /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				14B0AD822F31E29200181545 /* View+Extension.swift */,
 				14E2DD3B2F31C43F0074AAEA /* AVDevice+Extension.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		14E2DD302F31BDB60074AAEA /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
-		14E2DD312F31BDC60074AAEA /* Modifiers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Modifiers;
 			sourceTree = "<group>";
 		};
 		14E2DD362F31BF100074AAEA /* Stores */ = {
@@ -800,7 +799,6 @@
 		5000000000000001 = {
 			isa = PBXGroup;
 			children = (
-				14E2DD302F31BDB60074AAEA /* Services */,
 				14E2DD2B2F31BB930074AAEA /* Features */,
 				14E2DD2A2F31BB6C0074AAEA /* Resources */,
 				14E2DD292F31BB620074AAEA /* Shared */,

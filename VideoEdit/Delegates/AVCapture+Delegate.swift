@@ -147,7 +147,7 @@ class AudioDataDelegate: NSObject, AVCaptureAudioDataOutputSampleBufferDelegate 
         let level = calculateLevel(from: sampleBuffer)
 
         Task {
-            await state.updateAudioLevel(level)
+         //   await state.updateAudioLevel(level)
         }
     }
 

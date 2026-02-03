@@ -4,7 +4,7 @@
 //
 //  Created by Emmanuel on 2/2/26.
 //
-
+import AVFoundation
 
 struct AVDevice: Identifiable, Hashable, Equatable {
     enum Kind: Equatable { case video, audio }

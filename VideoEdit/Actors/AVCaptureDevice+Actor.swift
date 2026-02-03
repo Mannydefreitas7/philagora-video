@@ -12,11 +12,9 @@ import Combine
 actor AVCaptureDevice {
 
     private let captureSession = AVCaptureSession()
-    private var videoDelegate = VideoOutputDelegate()
+  //  private var videoDelegate = VideoOutputDelegate()
     private var audioLevel: Float = 0.0
 
-
-    let
 
 }
 
