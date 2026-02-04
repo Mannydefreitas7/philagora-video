@@ -9,7 +9,7 @@ import AVFoundation
 import Accelerate
 import Combine
 
-actor AVCaptureDevice {
+actor VCaptureDevice {
 
     private let captureSession = AVCaptureSession()
   //  private var videoDelegate = VideoOutputDelegate()
@@ -19,7 +19,7 @@ actor AVCaptureDevice {
 }
 
 
-extension AVCaptureDevice {
+extension VCaptureDevice {
 
     // Private class for delegate conformance
     private class Delegate: NSObject, AVCaptureAudioDataOutputSampleBufferDelegate {
@@ -31,27 +31,27 @@ extension AVCaptureDevice {
                            from connection: AVCaptureConnection) {
             guard let manager = manager else { return }
 
-            let samples = extractSamples(from: sampleBuffer)
+           // let samples = extractSamples(from: sampleBuffer)
 
             // Send to actor
             Task {
-                await manager.processSamples(samples)
+             //   await manager.processSamples(samples)
             }
         }
+    }
 
         private func extractSamples(from sampleBuffer: CMSampleBuffer) -> [Float] {
             // Extraction code...
             return []
         }
-    }
 
-    private func processSamples(_ samples: [Float]) {
-        // Actor-isolated processing
-        let rms = samples.reduce(0.0) { $0 + $1 * $1 } / Float(samples.count)
-        audioLevel = 20 * log10(sqrt(rms))
-    }
+        private func processSamples(_ samples: [Float]) {
+            // Actor-isolated processing
+            let rms = samples.reduce(0.0) { $0 + $1 * $1 } / Float(samples.count)
+            audioLevel = 20 * log10(sqrt(rms))
+        }
 
-    func getAudioLevel() -> Float {
-        return audioLevel
-    }
+        func getAudioLevel() -> Float {
+            return audioLevel
+        }
 }

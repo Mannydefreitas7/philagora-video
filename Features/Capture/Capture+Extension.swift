@@ -64,7 +64,5 @@ extension CaptureView {
 }
 
 extension CaptureView {
-
     static let sceneName: String = "Capture"
-
 }
