@@ -9,25 +9,23 @@ import SwiftUI
 
 struct CaptureWindow: Scene {
 
-    @EnvironmentObject var appState: AppState
-
     var body: some Scene {
-        WindowGroup(.sceneIdentifier, id: .window(.recording)) {
+        WindowGroup {
             CaptureView()
                 .frame(minWidth: .minWindowWidth, minHeight: .minWindowHeight)
                 .isHovering()
-                .environmentObject(appState)
         }
+        .commands {
+            // General Commands
+            GeneralCommand()
+            // Video Commands
+            VideoCommand()
+        }
+        // Window styles
         .windowStyle(.hiddenTitleBar)
         .windowToolbarStyle(.unified)
         .defaultSize(width: .defaultRecordWidth, height: .defaultRecordHeight)
         .windowResizability(.contentSize)
         .windowBackgroundDragBehavior(.enabled)
-        .commands {
-            // General Commands
-            GeneralCommand(appState: appState)
-            // Video Commands
-            VideoCommand(appState: appState)
-        }
     }
 }

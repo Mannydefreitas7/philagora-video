@@ -1,5 +1,5 @@
 {
-  "originHash" : "675189a327721008707bed8037564ac816626fa19eba85bba59c76cae6c36337",
+  "originHash" : "75cb34e8fcb9c197b30702225a52db1505d47729c0eb2afdf1528306569c7c6e",
   "pins" : [
     {
       "identity" : "aperture",
@@ -8,6 +8,24 @@
       "state" : {
         "branch" : "main",
         "revision" : "7591bb540c844fe6c47edeac34b17c25e92a717f"
+      }
+    },
+    {
+      "identity" : "appstate",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/0xLeif/AppState",
+      "state" : {
+        "revision" : "10e8c65935abb39812aa0fb9d3ebc26e8ad56bf0",
+        "version" : "2.2.0"
+      }
+    },
+    {
+      "identity" : "cache",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/0xLeif/Cache",
+      "state" : {
+        "revision" : "ff7c208eb8311c9bd150a87792d1df36851b95f1",
+        "version" : "2.1.2"
       }
     },
     {
@@ -53,6 +71,15 @@
       "state" : {
         "branch" : "main",
         "revision" : "7459740a6b30755c51c1594ff08ee80e1527dc5d"
+      }
+    },
+    {
+      "identity" : "ignition",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nathantannar4/Ignition",
+      "state" : {
+        "revision" : "9452deeee9533985f1ad49341e32a38f1c5f2f02",
+        "version" : "2.1.1"
       }
     },
     {
@@ -125,6 +152,24 @@
       "state" : {
         "revision" : "0226e21f9bf355d40e07e5f5e1c33679d50e167f",
         "version" : "1.5.1"
+      }
+    },
+    {
+      "identity" : "transmission",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nathantannar4/Transmission",
+      "state" : {
+        "revision" : "045d593ef5008041deea1632ead78cdbdcfc051e",
+        "version" : "2.5.43"
+      }
+    },
+    {
+      "identity" : "turbocharger",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nathantannar4/Turbocharger",
+      "state" : {
+        "revision" : "a1df764ded1ee8f99163dc12d7de1ca956b62e6e",
+        "version" : "2.5.0"
       }
     },
     {

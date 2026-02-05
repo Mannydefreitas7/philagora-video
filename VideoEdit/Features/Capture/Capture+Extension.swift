@@ -4,6 +4,7 @@
 //
 //  Created by Emmanuel on 2/2/26.
 //
+import SwiftUI
 
 extension CaptureView {
 
@@ -26,20 +27,20 @@ extension CaptureView {
 
     @ViewBuilder
     func VideoOutput() -> some View {
-        VideoOutputView(source: state.engine.previewSource, captureSession: state.engine.captureSession)
+       CaptureVideoPreview(store: captureStore)
+      //  VideoOutputView(source: state.engine.previewSource, captureSession: state.engine.captureSession)
             .ignoresSafeArea(.all)
     }
 
     @ViewBuilder
     func BottomBar() -> some View {
 
-            RecordingControlsView(viewModel: state.controlsBarViewModel)
+            RecordingControlsView(viewModel: captureStore.controlsBarViewModel)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                 .padding(.bottom, .small)
-                .environment(\.audioInputWave, state.audioLevel)
-                .environment(\.audioDevices, state.audioDevices)
-                .environment(\.videoDevices, state.videoDevices)
-                .environmentObject(appState.previewState)
+                .environment(\.audioInputWave, captureStore.audioLevel)
+                .environment(\.audioDevices, mainStore.microphones)
+                .environment(\.videoDevices, mainStore.cameras)
     }
 
     @ViewBuilder
@@ -56,13 +57,14 @@ extension CaptureView {
 
     @ViewBuilder
     func timeLabel() -> some View {
-        Text(state.recordingTimeString)
+        Text("")
             .font(.system(.title3, design: .monospaced))
-            .foregroundStyle(state.isRecording ? .red : .secondary)
+            .foregroundStyle(captureStore.isRecording ? .red : .secondary)
     }
 
 }
 
 extension CaptureView {
-    static let sceneName: String = "Capture"
+     let sceneName: String = "capture"
+     let windowID: UUID = UUID()
 }

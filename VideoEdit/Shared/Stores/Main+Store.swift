@@ -7,23 +7,29 @@
 
 import SwiftUI
 
-
-
 @MainActor
-@Observable
-final class MainStore {
+final class MainStore: ObservableObject {
 
     // MARK: - Singleton
     /// Global, shared instance of the main app store.
     static let shared = MainStore()
-
+    private let devices = DeviceDiscovery.shared
     /// Prevent external instantiation; use `MainStore.shared`.
     private init() {}
 
     // MARK: - State
     /// Current capture pipeline status (idle, preparing, recording, etc.).
-    var status: CaptureStatus = .idle
+    @Published var status: CaptureStatus = .idle
 
     /// Convenience flag that mirrors whether we're actively recording.
-    var isRecording: Bool = false
+    @Published var isRecording: Bool = false
+
+   /// Devices when loaded
+   @Published var cameras: [AVDevice] = []
+   @Published var microphones: [AVDevice] = []
+
+    func loadDevices() async {
+        self.cameras = await self.devices.cameras
+        self.microphones = await self.devices.microphones
+    }
 }

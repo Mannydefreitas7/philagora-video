@@ -56,19 +56,16 @@ extension EnvironmentValues {
     var audioInputWaveHistory: [Double] = []
 
     @Entry
-    var audioDevices: [AVDeviceInfo] = []
+    var audioDevices: [AVDevice] = []
 
     @Entry
-    var videoDevices: [AVDeviceInfo] = []
+    var videoDevices: [AVDevice] = []
 
     @Entry
     var isCameraOn: Bool = false
 
     @Entry
     var isMicrophoneOn: Bool = false
-
-    @Entry
-    var isRecording: CaptureView.Recording = .none
 
     @Entry
     var isHoveringWindow: Bool = false

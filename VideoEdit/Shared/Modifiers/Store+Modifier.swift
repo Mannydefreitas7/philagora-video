@@ -14,6 +14,6 @@ struct StoreModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .environmentObject(mainStore)
+            .environment(mainStore)
     }
 }

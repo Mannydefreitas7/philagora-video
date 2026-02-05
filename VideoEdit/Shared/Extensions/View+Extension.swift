@@ -6,21 +6,17 @@
 //
 
 import SwiftUI
+//import Engine
 
 extension View {
 
     //
-    func store<T: Store>(with store: T) -> some View {
+    func store(with store: Store) -> some View {
         switch store {
             case .main:
                 modifier(StoreModifier())
-            case .cature:
             default:
-                EmptyView()
+                modifier(StoreModifier())
         }
-    }
-
-    func windowStyle() -> some View {
-
     }
 }

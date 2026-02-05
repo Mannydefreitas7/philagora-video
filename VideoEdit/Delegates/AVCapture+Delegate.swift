@@ -64,34 +64,6 @@ protocol AVInputDelegate {
 }
 
 // Delegate classes
-class OutputDataDelegate: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, AVInputDelegate {
-    typealias AVDelegateOutput = AVCaptureVideoDataOutput
-
-    var connection: AVCaptureConnection?
-
-    var output: AVDelegateOutput?
-
-    var sampleBuffer: CMSampleBuffer?
-
-    var url: URL? = nil
-
-    func process(_ output: AVDelegateOutput, sampleBuffer: CMSampleBuffer?, url: URL? = nil, connection: AVCaptureConnection) {
-        self.output = output
-        self.sampleBuffer = sampleBuffer
-        self.connection = connection
-    }
-
-    func captureOutput(_
-        output: AVCaptureOutput,
-        didOutput sampleBuffer: CMSampleBuffer,
-        from connection: AVCaptureConnection
-    ) {
-        guard let videoOutput = output as? AVDelegateOutput else { return }
-        process(videoOutput, sampleBuffer: sampleBuffer, connection: connection)
-    }
-}
-
-// Delegate classes
 class VideoFileDelegate: NSObject, AVCaptureFileOutputRecordingDelegate, AVInputDelegate {
 
     typealias AVDelegateOutput = AVCaptureMovieFileOutput

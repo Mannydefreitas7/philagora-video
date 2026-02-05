@@ -10,15 +10,17 @@ import AVFoundation
 import AppKit
 import AVKit
 import Combine
+import AppState
 
 struct CaptureView: View {
 
-    @EnvironmentObject var appState: AppState
-    @ObservedObject var state: CaptureView.ViewModel
     @State private var spacing: CGFloat = 8
     @State private var isTimerEnabled: Bool = false
     @State private var timerSelection: TimeInterval.Option = .threeSeconds
     @Environment(\.isHoveringWindow) var isHoveringWindow
+    @AppState(\.selectedCamera) var selectedCamera: AVDevice
+    @ObservedDependency(\.captureStore) var captureStore: CaptureView.Store
+    @ObservedDependency(\.mainStore) var mainStore: MainStore
 
     // User preferences to store/restore window parameters
     @Preference(\.aspectPreset) var aspectPreset
@@ -30,7 +32,7 @@ struct CaptureView: View {
 
         NavigationStack  {
             ZStack(alignment: .bottom) {
-                if state.selectedVideoDevice.isOn {
+                if selectedCamera.isOn {
                     // MARK: Video preview
                     VideoOutput()
                 } else {
@@ -45,7 +47,6 @@ struct CaptureView: View {
                     .opacity(isHoveringWindow ? 1.0 : 0.0)
 
             }
-            .environmentObject(state)
         }
         // Keep the window resizable but constrained to 16:9.
         .windowAspectRatio(AspectPreset.youtube.ratio)

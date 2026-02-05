@@ -13,7 +13,7 @@ import Combine
 // MARK: - App State
 
 @MainActor
-final class AppState: ObservableObject {
+final class IAppState: ObservableObject {
     @Published var videoURL: URL?
     @Published var currentTool: EditingTool = .none
     @Published var showRecordingSheet = false
