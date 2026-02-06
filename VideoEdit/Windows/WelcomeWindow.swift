@@ -5,7 +5,7 @@ import UserNotifications
 import AppKit
 
 struct VEWelcomeWindow: Scene {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: IAppState
     @FocusState var focusedField: FocusTarget?
     @Environment(\.openWindow) var openWindow
 

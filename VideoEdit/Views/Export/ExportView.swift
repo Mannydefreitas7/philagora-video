@@ -3,7 +3,7 @@ import AVFoundation
 import UniformTypeIdentifiers
 
 struct ExportView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: IAppState
     @StateObject private var videoEditor = VideoEditor()
     @StateObject private var gifExporter = GIFExporter()
     
@@ -455,5 +455,5 @@ struct ExportView: View {
 }
 #Preview {
     ExportView()
-        .environmentObject(AppState())
+        .environmentObject(IAppState())
 }

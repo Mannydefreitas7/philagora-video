@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct EditorToolbar: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: IAppState
 
     var body: some View {
         HStack(spacing: 16) {

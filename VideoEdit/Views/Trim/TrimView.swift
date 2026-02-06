@@ -3,7 +3,7 @@ import AVFoundation
 import AVKit
 
 struct TrimView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: IAppState
     @State private var videoDuration: Double = 1
     @State private var thumbnails: [CGImage] = []
     @State private var isDraggingStart = false
@@ -248,6 +248,6 @@ extension View {
 
 #Preview {
     TrimView()
-        .environmentObject(AppState())
+        .environmentObject(IAppState())
         .frame(height: 120)
 }

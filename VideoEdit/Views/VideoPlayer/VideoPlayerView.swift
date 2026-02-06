@@ -4,7 +4,7 @@ import AVFoundation
 
 struct VideoPlayerView: View {
     let url: URL
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: IAppState
     @StateObject private var playerManager = VideoPlayerManager()
     
     var body: some View {
@@ -52,5 +52,5 @@ struct VideoPlayerView: View {
 
 #Preview {
     VideoPlayerView(url: URL(fileURLWithPath: "/path/to/video.mp4"))
-        .environmentObject(AppState())
+        .environmentObject(IAppState())
 }

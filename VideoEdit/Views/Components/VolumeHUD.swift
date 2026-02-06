@@ -14,16 +14,16 @@ import AVFoundation
 
 struct VolumeHUD<Content: View>: View {
 
-    @Binding var device: AVDeviceInfo
+    @Binding var device: AVDevice
     @ViewBuilder var content: () -> Content
     @Preference(\.audioVolume) var audioVolume
     @Environment(\.audioInputWave) var audioInputWave
     @Environment(\.audioDevices) var audioDevices
-    @EnvironmentObject var appState: AppState
-    @EnvironmentObject var captureState: CaptureView.ViewModel
+    @EnvironmentObject var appState: IAppState
+    @EnvironmentObject var captureState: CaptureView.Store
     @State private var isOpen: Bool = false
 
-    init(for device: Binding<AVDeviceInfo>, content: @escaping () -> Content) {
+    init(for device: Binding<AVDevice>, content: @escaping () -> Content) {
         self._device = device
         self.content = content
     }
@@ -122,7 +122,7 @@ struct VolumeHUD<Content: View>: View {
                 }
             } label: {
                 HStack {
-                    Text("Inputs")
+                    Text(.inputLabel)
                     Spacer()
                     Text(audioDevices.count.formatted())
                         .padding(.small / 1.5)
@@ -148,7 +148,7 @@ struct VolumeHUD<Content: View>: View {
 
 extension VolumeHUD {
 
-    func isSelected(_ device: AVDeviceInfo) -> Bool {
+    func isSelected(_ device: AVDevice) -> Bool {
         return self.device.id == device.id
     }
 

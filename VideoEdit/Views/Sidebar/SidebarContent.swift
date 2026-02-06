@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SidebarContent: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: IAppState
 
     var body: some View {
         ScrollView {

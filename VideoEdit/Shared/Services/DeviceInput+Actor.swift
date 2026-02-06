@@ -11,9 +11,11 @@ import SwiftUI
 actor DeviceInput {
     /// A value that indicates whether the capture service is idle or capturing a photo or movie.
     private(set) var captureActivity: CaptureActivity = .idle
+    ///
+    let session: AVCaptureSession = .init()
     // MARK: - access authorization
     var isAuthorized: Bool {
-        let authorized = AVCaptureDevice.authorizationStatu== .authorized
+        let authorized = AVCaptureDevice.authorizationStatus(for: .video) == .authorized
         if !authorized {
             Task { return await AVCaptureDevice.requestAccess(for: .audio) }
         }
@@ -44,13 +46,6 @@ actor DeviceInput {
         try await addInput(for: device)
         // Starts the session.
         session.startRunning()
-    }
-
-    func start() async throws {
-
-            return
-        }
-        
     }
 
 }

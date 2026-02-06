@@ -1,19 +1,16 @@
 //
-//  RecordingControlsView+ViewModel.swift
+//  Recording+ViewModel.swift
 //  VideoEdit
 //
-//  Created by Emmanuel on 2026-01-23.
+//  Created by Emmanuel on 2026-02-05.
 //
-
-import SwiftUI
 import Combine
-import CombineAsync
+import SwiftUI
 
-extension RecordingControlsView {
+extension RecordingToolbar {
 
     @MainActor
     final class ViewModel: ObservableObject {
-
         private var cancellables: Set<AnyCancellable> = []
 
         @Published var isRecording: Bool = false
@@ -24,6 +21,8 @@ extension RecordingControlsView {
 
         @Published var microphone: AVDevice = .defaultDevice(.audio)
         @Published var camera: AVDevice = .defaultDevice(.video)
+
+        @Published var videoInputViewModel: VideoInputView.ViewModel = .init()
 
         var spacing: CGFloat {
             isTimerEnabled || isRecording ? .small : .zero

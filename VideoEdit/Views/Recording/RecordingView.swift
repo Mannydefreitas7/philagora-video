@@ -2,8 +2,8 @@ import SwiftUI
 import ScreenCaptureKit
 import AVFoundation
 
-struct RecordingView: View {
-    @EnvironmentObject var appState: AppState
+struct IRecordingView: View {
+    @EnvironmentObject var appState: IAppState
     @StateObject private var recorder = ScreenRecorder()
     @State private var recordingURL: URL?
     @State private var showingRecordingControls = false
@@ -94,10 +94,4 @@ struct RecordingView: View {
             }
         }
     }
-}
-
-
-#Preview {
-    RecordingView()
-        .environmentObject(AppState())
 }

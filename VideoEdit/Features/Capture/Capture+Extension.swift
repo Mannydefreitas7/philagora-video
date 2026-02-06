@@ -12,9 +12,9 @@ extension CaptureView {
     func placeholderView() -> some View {
         VStack {
             ContentUnavailableView(
-                "Not available",
+                .notAvailableTitle,
                 systemSymbol: .videoSlashCircleFill,
-                description: Text("Select a device from the menu below.")
+                description: Text(verbatim: .notAvailbleDescription)
             )
                 .imageScale(.large)
         }
@@ -27,7 +27,7 @@ extension CaptureView {
 
     @ViewBuilder
     func VideoOutput() -> some View {
-       CaptureVideoPreview(store: captureStore)
+       CaptureVideoPreview(store: store)
       //  VideoOutputView(source: state.engine.previewSource, captureSession: state.engine.captureSession)
             .ignoresSafeArea(.all)
     }
@@ -35,12 +35,9 @@ extension CaptureView {
     @ViewBuilder
     func BottomBar() -> some View {
 
-            RecordingControlsView(viewModel: captureStore.controlsBarViewModel)
+        RecordingToolbar()
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                 .padding(.bottom, .small)
-                .environment(\.audioInputWave, captureStore.audioLevel)
-                .environment(\.audioDevices, mainStore.microphones)
-                .environment(\.videoDevices, mainStore.cameras)
     }
 
     @ViewBuilder
@@ -59,12 +56,12 @@ extension CaptureView {
     func timeLabel() -> some View {
         Text("")
             .font(.system(.title3, design: .monospaced))
-            .foregroundStyle(captureStore.isRecording ? .red : .secondary)
+            .foregroundStyle(store.isRecording ? .red : .secondary)
     }
 
 }
 
-extension CaptureView {
-     let sceneName: String = "capture"
-     let windowID: UUID = UUID()
+extension CaptureWindow {
+    var sceneName: String { "capture" }
+    var windowID: UUID { .init() }
 }

@@ -17,4 +17,6 @@ extension String {
         // For HH:MM:SS format you would need more logic
     }
 
+    static let notAvailable: Self  = "Not available"
+    static let notAvailbleDescription: Self = "Select a device from the menu below."
 }

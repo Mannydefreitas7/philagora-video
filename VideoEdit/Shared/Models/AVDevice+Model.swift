@@ -16,6 +16,7 @@ struct AVDevice: Identifiable, Hashable, Equatable {
     var showSettings: Bool = false
     var volume: Double = 0
     var device: AVCaptureDevice?
+    var toolGroup: ToolGroup = .options
 
     init (id: String, kind: AVMediaType, name: String, isOn: Bool, device: AVCaptureDevice? = nil) {
         self.id = id

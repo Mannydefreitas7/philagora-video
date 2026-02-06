@@ -2,7 +2,7 @@ import SwiftUI
 import AVFoundation
 
 struct CropView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: IAppState
     @State private var selectedAspectRatio: AspectRatio = .free
     @State private var customWidth: String = ""
     @State private var customHeight: String = ""
@@ -164,6 +164,6 @@ struct CropView: View {
 
 #Preview {
     CropView()
-        .environmentObject(AppState())
+        .environmentObject(IAppState())
         .frame(width: 280)
 }

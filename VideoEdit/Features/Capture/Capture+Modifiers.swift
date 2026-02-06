@@ -14,7 +14,3 @@ struct CaptureViewStyle: ViewModifier {
             .isHovering()
     }
 }
-
-extension View {
-    func
-}

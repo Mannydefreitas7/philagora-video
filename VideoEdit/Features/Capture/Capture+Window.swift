@@ -10,7 +10,7 @@ import SwiftUI
 struct CaptureWindow: Scene {
 
     var body: some Scene {
-        WindowGroup {
+        WindowGroup(id: .window(.recording)) {
             CaptureView()
                 .frame(minWidth: .minWindowWidth, minHeight: .minWindowHeight)
                 .isHovering()

@@ -7,14 +7,14 @@
 
 import SwiftUI
 import SFSafeSymbols
+import AppState
 
 struct AudioInputView: View {
 
     var controlGroup: Namespace.ID
-    @Binding var device: AVDeviceInfo
+    @Binding var device: AVDevice
     @Environment(\.isRecording) var isRecording
-    @EnvironmentObject var captureState: CaptureView.ViewModel
-    @StateObject var previewViewModel: CaptureView.ViewModel = .init()
+    @EnvironmentObject var viewModel: RecordingToolbar.ViewModel
 
     var body: some View {
         Group {
@@ -42,7 +42,7 @@ extension AudioInputView {
     @ViewBuilder
     func ToolBarOptions() -> some View {
         VolumeHUD(for: $device) {
-            Button("Close", systemSymbol: .xmark, role: .close) {
+            Button(.closeButton, systemSymbol: .xmark, role: .close) {
                 withAnimation(.bouncy) {
                     device.showSettings.toggle()
                 }
@@ -67,10 +67,9 @@ extension AudioInputView {
             .animation(.bouncy, value: device.isOn)
             .onChange(of: device.isOn) {
                 Task {
-                    await captureState.muteDevice(device)
+                    //await captureState.muteDevice(device)
                 }
             }
-
 
             if device.isOn {
                 Button {
@@ -83,7 +82,7 @@ extension AudioInputView {
                 .labelStyle(.titleAndIcon)
                 .buttonStyle(.accessoryBar)
 
-                if isRecording == .audio || isRecording == .both {
+                if isRecording == .audio || (isRecording == .audio && isRecording == .video) {
                     AudioWaveMonitor(style: .indicator, isActive: $device.isOn)
                 }
             }

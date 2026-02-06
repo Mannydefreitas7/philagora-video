@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct VideoTimeline: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: IAppState
     @State private var currentTime: Double = 0
     @State private var duration: Double = 1
 

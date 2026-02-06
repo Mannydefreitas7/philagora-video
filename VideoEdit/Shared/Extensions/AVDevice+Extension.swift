@@ -42,6 +42,13 @@ extension AVDevice {
         get { .init() }
     }
 
+    var thumbnail: Image {
+        if isExternal {
+            return Image(kind == .video ? .goPro : .microphone15535673)
+        }
+        return Image(.imac)
+    }
+
 }
 
 extension AVDevice {
@@ -82,20 +89,6 @@ extension AVDevice {
     static func defaultDevice(_ kind: Kind) -> Self {
         // Kind is camera
         return kind == .video ? .defaultCamera : .defaultMicrophone
-    }
-
-}
-
-
-extension AVDevice {
-
-    @MainActor
-    @Observable
-    class ViewModel {
-
-        @Published var isOn: Bool = false
-
-
     }
 
 }

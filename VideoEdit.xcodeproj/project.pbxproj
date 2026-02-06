@@ -88,7 +88,6 @@
 		1431F84A2F25E579000855C6 /* CaptureEngine+ScreenCapture+Usage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1431F8492F25E579000855C6 /* CaptureEngine+ScreenCapture+Usage.swift */; };
 		1431F84C2F25E596000855C6 /* ScreenCaptureExtensions-README.md in Resources */ = {isa = PBXBuildFile; fileRef = 1431F84B2F25E596000855C6 /* ScreenCaptureExtensions-README.md */; };
 		143AE5262F32F4F400DFED42 /* Ignition in Frameworks */ = {isa = PBXBuildFile; productRef = 143AE5252F32F4F400DFED42 /* Ignition */; };
-		143AE5292F32F53A00DFED42 /* Transmission in Frameworks */ = {isa = PBXBuildFile; productRef = 143AE5282F32F53A00DFED42 /* Transmission */; };
 		143AE52C2F32F55600DFED42 /* Turbocharger in Frameworks */ = {isa = PBXBuildFile; productRef = 143AE52B2F32F55600DFED42 /* Turbocharger */; };
 		143AE5362F333BE800DFED42 /* AppState in Frameworks */ = {isa = PBXBuildFile; productRef = 143AE5352F333BE800DFED42 /* AppState */; };
 		144D27612F2F1ED300681899 /* DSWaveformImage in Frameworks */ = {isa = PBXBuildFile; productRef = 144D27602F2F1ED300681899 /* DSWaveformImage */; };
@@ -102,7 +101,6 @@
 		144E65EB2F09624800D044AD /* WelcomeSubtitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144E65EA2F09624800D044AD /* WelcomeSubtitleView.swift */; };
 		144E65EF2F09632900D044AD /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144E65EE2F09631100D044AD /* Bundle+Extensions.swift */; };
 		144E65F12F0963BA00D044AD /* AppKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144E65F02F09639F00D044AD /* AppKit+Extensions.swift */; };
-		144E65F32F0964F500D044AD /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144E65F22F0964DF00D044AD /* EnvironmentValues.swift */; };
 		144E65F62F0966AB00D044AD /* DocumentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144E65F52F0966AB00D044AD /* DocumentController.swift */; };
 		144E65FB2F0A538C00D044AD /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144E65FA2F0A538900D044AD /* Button.swift */; };
 		144E65FD2F0A57C600D044AD /* WelcomeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144E65FC2F0A57C600D044AD /* WelcomeButton.swift */; };
@@ -130,7 +128,6 @@
 		146E4F092F0A7CC200AA07CC /* Onboarding in Frameworks */ = {isa = PBXBuildFile; productRef = 146E4F082F0A7CC200AA07CC /* Onboarding */; };
 		146E4F0B2F0A830000AA07CC /* VIRecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E4F0A2F0A830000AA07CC /* VIRecordingView.swift */; };
 		146E4F0E2F0A8DE900AA07CC /* VideoEditorCore in Frameworks */ = {isa = PBXBuildFile; productRef = 146E4F0D2F0A8DE900AA07CC /* VideoEditorCore */; };
-		146E4F102F0AA8B900AA07CC /* CameraCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E4F0F2F0AA8B900AA07CC /* CameraCaptureView.swift */; };
 		146E4F172F0DA03700AA07CC /* Pow in Frameworks */ = {isa = PBXBuildFile; productRef = 146E4F162F0DA03700AA07CC /* Pow */; };
 		146E4F192F0DA45E00AA07CC /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E4F182F0DA45E00AA07CC /* RecordButton.swift */; };
 		146E4F1B2F0DE4F200AA07CC /* Button+ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E4F1A2F0DE4F200AA07CC /* Button+ViewModifier.swift */; };
@@ -187,7 +184,6 @@
 		14FC9EE02F19158D0053C019 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 14FC9EDF2F19158D0053C019 /* SwiftUIIntrospect */; };
 		14FFBDB32F12949800B96C92 /* PauseButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFBDB22F12949800B96C92 /* PauseButtonView.swift */; };
 		14FFBDB52F12992800B96C92 /* AudioInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFBDB42F12992800B96C92 /* AudioInputView.swift */; };
-		14FFBDB72F12A4D200B96C92 /* VideoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFBDB62F12A4D200B96C92 /* VideoInputView.swift */; };
 		14FFBDB92F12DF0E00B96C92 /* Toggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFBDB82F12DF0600B96C92 /* Toggle.swift */; };
 		14FFBDBB2F12E6B200B96C92 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFBDBA2F12E6AF00B96C92 /* Shape.swift */; };
 		14FFBDBE2F13194A00B96C92 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 14FFBDBD2F13194A00B96C92 /* Shimmer */; };
@@ -272,7 +268,6 @@
 		144E65EA2F09624800D044AD /* WelcomeSubtitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeSubtitleView.swift; sourceTree = "<group>"; };
 		144E65EE2F09631100D044AD /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
 		144E65F02F09639F00D044AD /* AppKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppKit+Extensions.swift"; sourceTree = "<group>"; };
-		144E65F22F0964DF00D044AD /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
 		144E65F52F0966AB00D044AD /* DocumentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentController.swift; sourceTree = "<group>"; };
 		144E65FA2F0A538900D044AD /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		144E65FC2F0A57C600D044AD /* WelcomeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeButton.swift; sourceTree = "<group>"; };
@@ -289,7 +284,6 @@
 		146CAEC82F1C7EAE0021CE3A /* CameraInfo+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraInfo+Model.swift"; sourceTree = "<group>"; };
 		146CAECA2F1C7EEF0021CE3A /* MicrophoneInfo+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MicrophoneInfo+Model.swift"; sourceTree = "<group>"; };
 		146E4F0A2F0A830000AA07CC /* VIRecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIRecordingView.swift; sourceTree = "<group>"; };
-		146E4F0F2F0AA8B900AA07CC /* CameraCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureView.swift; sourceTree = "<group>"; };
 		146E4F182F0DA45E00AA07CC /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		146E4F1A2F0DE4F200AA07CC /* Button+ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+ViewModifier.swift"; sourceTree = "<group>"; };
 		148AAC532F073A300087D649 /* AVFoundation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVFoundation+Extensions.swift"; sourceTree = "<group>"; };
@@ -334,7 +328,6 @@
 		14FC9EDC2F1785C60053C019 /* FloatingWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingWindow.swift; sourceTree = "<group>"; };
 		14FFBDB22F12949800B96C92 /* PauseButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseButtonView.swift; sourceTree = "<group>"; };
 		14FFBDB42F12992800B96C92 /* AudioInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioInputView.swift; sourceTree = "<group>"; };
-		14FFBDB62F12A4D200B96C92 /* VideoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoInputView.swift; sourceTree = "<group>"; };
 		14FFBDB82F12DF0600B96C92 /* Toggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toggle.swift; sourceTree = "<group>"; };
 		14FFBDBA2F12E6AF00B96C92 /* Shape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 		2000000000000001 /* VideoEditApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEditApp.swift; sourceTree = "<group>"; };
@@ -395,7 +388,6 @@
 				146E4EFC2F0A7C0000AA07CC /* SwiftDiagnostics in Frameworks */,
 				143AE5262F32F4F400DFED42 /* Ignition in Frameworks */,
 				1431F8442F25A013000855C6 /* Aperture in Frameworks */,
-				143AE5292F32F53A00DFED42 /* Transmission in Frameworks */,
 				144D27632F2F1ED300681899 /* DSWaveformImageViews in Frameworks */,
 				146E4EF82F0A7C0000AA07CC /* SwiftBasicFormat in Frameworks */,
 				144D27612F2F1ED300681899 /* DSWaveformImage in Frameworks */,
@@ -416,7 +408,6 @@
 				1431F83D2F2508C4000855C6 /* CameraOverlay+ViewModel.swift */,
 				1400C8CB2F04C2A5001EF209 /* CameraOverlayView.swift */,
 				1400C8CC2F04C2A5001EF209 /* CameraPreviewView.swift */,
-				146E4F0F2F0AA8B900AA07CC /* CameraCaptureView.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -447,7 +438,6 @@
 				146E4F182F0DA45E00AA07CC /* RecordButton.swift */,
 				14FFBDB22F12949800B96C92 /* PauseButtonView.swift */,
 				14FFBDB42F12992800B96C92 /* AudioInputView.swift */,
-				14FFBDB62F12A4D200B96C92 /* VideoInputView.swift */,
 				14FC9EC52F156D6A0053C019 /* EditorSettingsView.swift */,
 				14FC9EC72F16C35C0053C019 /* SettingsButton.swift */,
 				146CAEC12F1966880021CE3A /* FloatingPanel.swift */,
@@ -775,7 +765,6 @@
 				148B59572F213C6300F840BF /* MovieCapture.swift */,
 				148B59582F213C6300F840BF /* PhotoCapture.swift */,
 				148B59592F213C6300F840BF /* SPCObserver.swift */,
-				144E65F22F0964DF00D044AD /* EnvironmentValues.swift */,
 				148AAC6D2F0793C00087D649 /* View+NSViewRepresentable.swift */,
 				148AAC6B2F07939E0087D649 /* View+Modifiers.swift */,
 				2000000000000005 /* ScreenRecorder.swift */,
@@ -820,7 +809,6 @@
 				144D27602F2F1ED300681899 /* DSWaveformImage */,
 				144D27622F2F1ED300681899 /* DSWaveformImageViews */,
 				143AE5252F32F4F400DFED42 /* Ignition */,
-				143AE5282F32F53A00DFED42 /* Transmission */,
 				143AE52B2F32F55600DFED42 /* Turbocharger */,
 				143AE5352F333BE800DFED42 /* AppState */,
 			);
@@ -870,7 +858,6 @@
 				1431F8422F25A013000855C6 /* XCRemoteSwiftPackageReference "Aperture" */,
 				144D275F2F2F1ED300681899 /* XCRemoteSwiftPackageReference "DSWaveformImage" */,
 				143AE5242F32F4F400DFED42 /* XCRemoteSwiftPackageReference "Ignition" */,
-				143AE5272F32F53A00DFED42 /* XCRemoteSwiftPackageReference "Transmission" */,
 				143AE52A2F32F55600DFED42 /* XCRemoteSwiftPackageReference "Turbocharger" */,
 				143AE5342F333BE800DFED42 /* XCRemoteSwiftPackageReference "AppState" */,
 			);
@@ -921,7 +908,6 @@
 				1400C93C2F04C472001EF209 /* CameraPosition+Model.swift in Sources */,
 				145D15E62F1D394E00F8A4BB /* CaptureEngine+Actor.swift in Sources */,
 				14FFBDBB2F12E6B200B96C92 /* Shape.swift in Sources */,
-				146E4F102F0AA8B900AA07CC /* CameraCaptureView.swift in Sources */,
 				1400C93D2F04C472001EF209 /* VideoEditorError+Model.swift in Sources */,
 				14FFBDB32F12949800B96C92 /* PauseButtonView.swift in Sources */,
 				1400C93E2F04C472001EF209 /* ClickEvent+Model.swift in Sources */,
@@ -1008,7 +994,6 @@
 				144E66022F0A687100D044AD /* RectCorner+Model.swift in Sources */,
 				14FC9EDD2F1785C60053C019 /* FloatingWindow.swift in Sources */,
 				1400C9072F04C2A5001EF209 /* FormatButton.swift in Sources */,
-				14FFBDB72F12A4D200B96C92 /* VideoInputView.swift in Sources */,
 				1431F84A2F25E579000855C6 /* CaptureEngine+ScreenCapture+Usage.swift in Sources */,
 				1400C9082F04C2A5001EF209 /* CropOverlay.swift in Sources */,
 				148AAC6E2F0793D00087D649 /* View+NSViewRepresentable.swift in Sources */,
@@ -1025,7 +1010,6 @@
 				148B59692F213D4500F840BF /* Capture+Extensions.swift in Sources */,
 				148B596B2F213D4500F840BF /* View+Extensions.swift in Sources */,
 				1400C90F2F04C2A5001EF209 /* PresetButton.swift in Sources */,
-				144E65F32F0964F500D044AD /* EnvironmentValues.swift in Sources */,
 				1400C9102F04C2A5001EF209 /* CropHandleView.swift in Sources */,
 				148B59552F213BEA00F840BF /* CameraModel.swift in Sources */,
 				144E65FD2F0A57C600D044AD /* WelcomeButton.swift in Sources */,
@@ -1339,14 +1323,6 @@
 				minimumVersion = 2.1.1;
 			};
 		};
-		143AE5272F32F53A00DFED42 /* XCRemoteSwiftPackageReference "Transmission" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nathantannar4/Transmission";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.5.43;
-			};
-		};
 		143AE52A2F32F55600DFED42 /* XCRemoteSwiftPackageReference "Turbocharger" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nathantannar4/Turbocharger";
@@ -1508,11 +1484,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 143AE5242F32F4F400DFED42 /* XCRemoteSwiftPackageReference "Ignition" */;
 			productName = Ignition;
-		};
-		143AE5282F32F53A00DFED42 /* Transmission */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 143AE5272F32F53A00DFED42 /* XCRemoteSwiftPackageReference "Transmission" */;
-			productName = Transmission;
 		};
 		143AE52B2F32F55600DFED42 /* Turbocharger */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -21,44 +21,8 @@ struct RecordingControlsView: View {
     @Preference(\.aspectPreset) var aspectPreset
 
     var body: some View {
+        VStack {}
         
-        VStack {
-            if viewModel.showRecordButton {
-                // MARK: - Record button
-                RecordCircleButton()
-                    .transition(.move(edge: .bottom).combined(with: .blurReplace))
-            }
-
-            GlassEffectContainer(spacing: .zero) {
-
-                    HStack(alignment: .bottom, spacing: .small) {
-
-                        if !viewModel.isRecording {
-                            // MARK: Timer Control
-                            TimerControl()
-                        }
-
-                        if viewModel.isRecording {
-                            // MARK: Pause Button
-                            PauseButton()
-                                .animation(.bouncy, value: viewModel.isRecording)
-                        }
-
-                        // MARK: Audio Input
-                        AudioInput()
-
-                        // MARK: Video Input
-                        VideoInput()
-
-                        // MARK: Settings Input
-                       // SettingsButtonView()
-
-                    }
-                    .animation(.bouncy, value: viewModel.toggleAnimation)
-                    .glassEffectTransition(.matchedGeometry)
-                    .controlSize(.large)
-            }
-        }
         .environment(\.isCameraOn, viewModel.camera.isOn)
         .environment(\.isMicrophoneOn, viewModel.microphone.isOn)
         .animation(.bouncy, value: viewModel.showRecordButton)

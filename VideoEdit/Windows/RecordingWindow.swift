@@ -10,7 +10,7 @@ import SwiftUIIntrospect
 
 struct RecordingWindow: Scene {
 
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: IAppState
 
     var body: some Scene {
         WindowGroup(Constants.Window.recording.rawValue, id: .window(.recording)) {
@@ -24,11 +24,5 @@ struct RecordingWindow: Scene {
         .defaultSize(width: .defaultRecordWidth, height: .defaultRecordHeight)
         .windowResizability(.contentSize)
         .windowBackgroundDragBehavior(.enabled)
-        .commands {
-            // General Commands
-            GeneralCommand(appState: appState)
-            // Video Commands
-            VideoCommand(appState: appState)
-        }
     }
 }

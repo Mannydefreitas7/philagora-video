@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var appState: AppState
-    
+    @EnvironmentObject var appState: IAppState
+
     @AppStorage("defaultRecordingQuality") private var defaultRecordingQuality = "Balanced"
     @AppStorage("defaultGifFrameRate") private var defaultGifFrameRate = 15
     @AppStorage("showCountdown") private var showCountdown = true
@@ -61,5 +61,5 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
-        .environmentObject(AppState())
+        .environmentObject(IAppState())
 }

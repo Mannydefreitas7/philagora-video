@@ -1,5 +1,5 @@
 //
-//  Capture+ViewModel.swift
+//  Capture+Store.swift
 //  VideoEdit
 //
 //  Created by Emmanuel on 2/2/26.
@@ -43,6 +43,7 @@ extension CaptureView {
             if status == .notDetermined {
                 return await AVCaptureDevice.requestAccess(for: type)
             }
+            return status == .authorized
         }
 
         func initialize() async {

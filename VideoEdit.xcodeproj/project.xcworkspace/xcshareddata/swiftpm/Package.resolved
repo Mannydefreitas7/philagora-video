@@ -1,5 +1,5 @@
 {
-  "originHash" : "75cb34e8fcb9c197b30702225a52db1505d47729c0eb2afdf1528306569c7c6e",
+  "originHash" : "29092eefea4b1840aaca382c157bb72f182d9ca12ae80cb781d904ea8cb853de",
   "pins" : [
     {
       "identity" : "aperture",
@@ -152,15 +152,6 @@
       "state" : {
         "revision" : "0226e21f9bf355d40e07e5f5e1c33679d50e167f",
         "version" : "1.5.1"
-      }
-    },
-    {
-      "identity" : "transmission",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/nathantannar4/Transmission",
-      "state" : {
-        "revision" : "045d593ef5008041deea1632ead78cdbdcfc051e",
-        "version" : "2.5.43"
       }
     },
     {

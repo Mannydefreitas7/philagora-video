@@ -2,21 +2,21 @@
 //  View+Extension.swift
 //  VideoEdit
 //
-//  Created by Emmanuel on 2026-02-03.
+//  Created by Emmanuel on 2026-02-05.
 //
 
 import SwiftUI
-//import Engine
+
 
 extension View {
+    /// Injects a live `Binding<NSWindow.StyleMask>` for the current window into the environment.
+    /// Also keeps `EnvironmentValues.styleMask` in sync with the binding's value.
+    func styleMask(_ styles: NSWindow.StyleMask) -> some View {
+        modifier(WindowStyleMask(mask: .constant(styles)))
+    }
 
-    //
-    func store(with store: Store) -> some View {
-        switch store {
-            case .main:
-                modifier(StoreModifier())
-            default:
-                modifier(StoreModifier())
-        }
+    func styleMask(_ styles: Binding<NSWindow.StyleMask>) -> some View {
+        modifier(WindowStyleMask(mask: styles))
     }
 }
+

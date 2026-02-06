@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CropOverlay: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: IAppState
     @State private var dragOffset: CGSize = .zero
     @State private var activeHandle: CropHandle?
 

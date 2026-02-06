@@ -12,6 +12,7 @@ import SwiftUI
 struct CaptureVideoPreview: NSViewRepresentable {
 
       let store: CaptureView.Store
+    
 
     func makeNSView(context: Context) -> NSView {
         let view = NSView()
@@ -43,8 +44,7 @@ struct CaptureVideoPreview: NSViewRepresentable {
         // Required delegate method
         func fileOutput(
             _ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-            guard let error else {
-                print("Error recording: \(String(describing: error?.localizedDescription))")
+                guard error != nil else {
                 Task { @MainActor in
                     captureStore.error = .outputFileNotFound(url: outputFileURL, reason: error?.localizedDescription ?? .unknown)
                 }

@@ -1,44 +1,47 @@
 import SwiftUI
 import AVFoundation
 import Combine
+import AppState
 
 struct CameraOverlayView: View {
 
+    @ObservedDependency(\.captureStore) var captureStore: CaptureView.Store
+
     /// View model
-    @ObservedObject var viewModel: CaptureView.ViewModel
+    @ObservedObject var viewModel: ViewModel
 
     var body: some View {
-        if viewModel.cameraOverlayViewModel.isVisible {
+        if viewModel.isVisible {
             GeometryReader { geometry in
                 ZStack {
                     // Camera preview
-                    CameraPreviewView(session: viewModel.engine.captureSession)
-                        .frame(width: viewModel.cameraOverlayViewModel.size.dimensions.width, height: viewModel.cameraOverlayViewModel.size.dimensions.height)
-                        .clipShape(viewModel.cameraOverlayViewModel.shape.shape)
+                    CameraPreviewView(session: captureStore.currentSession)
+                        .frame(width: viewModel.size.dimensions.width, height: viewModel.size.dimensions.height)
+                        .clipShape(viewModel.shape.shape)
                         .overlay(
-                            viewModel.cameraOverlayViewModel.shape.shape
+                            viewModel.shape.shape
                                 .stroke(Color.white.opacity(0.3), lineWidth: 2)
                         )
                         .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: 5)
                         .position(
                             calculatePosition(in: geometry.size)
                         )
-                        .offset(viewModel.cameraOverlayViewModel.dragOffset)
+                        .offset(viewModel.dragOffset)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    viewModel.cameraOverlayViewModel.isDragging = true
-                                    viewModel.cameraOverlayViewModel.dragOffset = value.translation
+                                    viewModel.isDragging = true
+                                    viewModel.dragOffset = value.translation
                                 }
                                 .onEnded { value in
-                                    viewModel.cameraOverlayViewModel.isDragging = false
+                                    viewModel.isDragging = false
                                     // Snap to nearest corner
                                     updatePositionFromDrag(translation: value.translation, in: geometry.size)
-                                    viewModel.cameraOverlayViewModel.dragOffset = .zero
+                                    viewModel.dragOffset = .zero
                                 }
                         )
-                        .animation(.spring(response: 0.3), value: viewModel.cameraOverlayViewModel.isDragging)
-                        .animation(.spring(response: 0.3), value: viewModel.cameraOverlayViewModel.position)
+                        .animation(.spring(response: 0.3), value: viewModel.isDragging)
+                        .animation(.spring(response: 0.3), value: viewModel.position)
                 }
             }
         }
@@ -46,10 +49,10 @@ struct CameraOverlayView: View {
 
     private func calculatePosition(in containerSize: CGSize) -> CGPoint {
         let padding: CGFloat = 20
-        let halfWidth = viewModel.cameraOverlayViewModel.size.dimensions.width / 2
-        let halfHeight = viewModel.cameraOverlayViewModel.size.dimensions.height / 2
+        let halfWidth = viewModel.size.dimensions.width / 2
+        let halfHeight = viewModel.size.dimensions.height / 2
 
-        switch viewModel.cameraOverlayViewModel.position {
+        switch viewModel.position {
         case .topLeft:
             return CGPoint(x: padding + halfWidth, y: padding + halfHeight)
         case .topRight:
@@ -73,15 +76,15 @@ struct CameraOverlayView: View {
         let isTop = newY < centerY
 
         if isTop {
-            viewModel.cameraOverlayViewModel.position = isLeft ? .topLeft : .topRight
+            viewModel.position = isLeft ? .topLeft : .topRight
         } else {
-            viewModel.cameraOverlayViewModel.position = isLeft ? .bottomLeft : .bottomRight
+            viewModel.position = isLeft ? .bottomLeft : .bottomRight
         }
     }
 }
 
 #Preview {
-    @Previewable @StateObject var viewModel: CaptureView.ViewModel = .init()
+    @Previewable @StateObject var viewModel: CameraOverlayView.ViewModel = .init()
     CameraOverlayView(viewModel: viewModel)
     .frame(width: 800, height: 600)
 }

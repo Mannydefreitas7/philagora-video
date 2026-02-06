@@ -3,7 +3,7 @@ import AVKit
 import UniformTypeIdentifiers
 
 struct ContentView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: IAppState
     @StateObject private var recorder = ScreenRecorder()
     @State private var isDragging = false
 
@@ -63,7 +63,7 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .environmentObject(AppState())
+        .environmentObject(IAppState())
 }
 
 

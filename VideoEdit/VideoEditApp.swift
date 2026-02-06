@@ -7,20 +7,15 @@ import SFSafeSymbols
 
 @main
 struct VideoEditApp: App {
-    @StateObject private var appState = AppState()
+    @StateObject private var appState = IAppState()
     @AppStorage(.onboardingKey) var showOnboarding: Bool = true
 
     var body: some Scene {
 
         VEWelcomeWindow()
             .environmentObject(appState)
-            .commands {
-                // General Commands
-                GeneralCommand(appState: appState)
-            }
 
-        RecordingWindow()
-            .environmentObject(appState)
+        CaptureWindow()
         
         Settings {
             SettingsView()

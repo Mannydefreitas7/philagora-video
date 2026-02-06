@@ -17,10 +17,10 @@ struct CaptureView: View {
     @State private var spacing: CGFloat = 8
     @State private var isTimerEnabled: Bool = false
     @State private var timerSelection: TimeInterval.Option = .threeSeconds
+
     @Environment(\.isHoveringWindow) var isHoveringWindow
     @AppState(\.selectedCamera) var selectedCamera: AVDevice
-    @ObservedDependency(\.captureStore) var captureStore: CaptureView.Store
-    @ObservedDependency(\.mainStore) var mainStore: MainStore
+    @StateObject var store: CaptureView.Store = .init()
 
     // User preferences to store/restore window parameters
     @Preference(\.aspectPreset) var aspectPreset
@@ -47,6 +47,7 @@ struct CaptureView: View {
                     .opacity(isHoveringWindow ? 1.0 : 0.0)
 
             }
+            .environmentObject(store)
         }
         // Keep the window resizable but constrained to 16:9.
         .windowAspectRatio(AspectPreset.youtube.ratio)

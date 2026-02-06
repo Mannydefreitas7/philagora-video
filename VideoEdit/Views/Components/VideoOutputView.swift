@@ -14,13 +14,7 @@ struct VideoOutputView: NSViewRepresentable {
     private let source: PreviewSource
     private var captureSession: AVCaptureSession
 
-    @Preference(\.isMirrored) private var isMirror
-
-
-    init(source: PreviewSource, captureSession: AVCaptureSession) {
-        self.source = source
-        self.captureSession = captureSession
-    }
+   
 
     func makeNSView(context: Context) -> PlayerView {
         let player = PlayerView()

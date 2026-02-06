@@ -3,7 +3,7 @@ import ScreenCaptureKit
 
 struct RecordingSetupView: View {
     @ObservedObject var recorder: ScreenRecorder
-    @ObservedObject var appState: AppState
+    @ObservedObject var appState: IAppState
     let startAction: () -> Void
 
     var body: some View {
