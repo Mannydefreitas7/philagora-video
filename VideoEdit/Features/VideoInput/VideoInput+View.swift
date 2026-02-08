@@ -14,42 +14,30 @@ import AppState
 struct VideoInputView: View {
 
     var controlGroup: Namespace.ID
-    @Binding var device: AVDevice
-        /// View model
-    @EnvironmentObject var viewModel: RecordingToolbar.ViewModel
+    /// View model
+    @Binding var viewModel: ViewModel
+    @Preference(\.isMirrored) var isMirrored: Bool?
 
     var body: some View {
         Group {
-            if device.showSettings {
+            if viewModel.showSettings {
                 ToolBarOptions()
-                    .frame(height: .popoverWidth)
-                    .clipShape(device.shape)
-                    .task {
-                        await viewModel.videoInputViewModel.start()
-                    }
+                    .clipShape(viewModel.selectedDevice.shape)
+                    .task { await viewModel.start() }
             } else {
                 ToolButton()
                      .frame(height: .minHeight)
                     .padding(.horizontal, .small)
             }
         }
-        .glassEffect(.regular, in: device.shape)
+        .glassEffect(.regular, in: viewModel.selectedDevice.shape)
         .toolEffectUnion(
-            id: device.isOn ? .video : .options,
+            id: viewModel.selectedDevice.isOn ? .video : .options,
             namespace: controlGroup
         )
         .onDisappear {
-            Task {
-                await viewModel.videoInputViewModel.stop()
-            }
+            Task { await viewModel.stop() }
         }
-        .task {
-            // Starts the video input if its session
-            // isn't running and device is on.
-            if device.isOn {
-                await viewModel.videoInputViewModel.initialize()
-            }
-        }
-
+        .task {  await viewModel.initialize() }
     }
 }

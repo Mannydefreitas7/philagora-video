@@ -14,7 +14,7 @@ extension VideoInputView {
     func ToolCloseButton() -> some View {
         Button {
             withAnimation(.bouncy) {
-                device.showSettings.toggle()
+                viewModel.showSettings = false
             }
         } label: {
             Image(systemSymbol: .xmark)
@@ -26,25 +26,22 @@ extension VideoInputView {
     @ViewBuilder
     func ToolButton() -> some View {
         HStack(spacing: .small / 2) {
-            Toggle(isOn: $device.isOn) {
-                Image(systemSymbol: device.isOn ? .videoFill : .videoSlashFill)
+            Toggle(isOn: $viewModel.selectedDevice.isOn) {
+                Image(systemSymbol: viewModel.selectedDevice.isOn ? .videoFill : .videoSlashFill)
                     .contentTransition(.symbolEffect(.replace))
                     .font(.title2)
                     .frame(width: .recordWidth)
             }
             .toggleStyle(.secondary)
-            .animation(.bouncy, value: device.isOn)
+            .animation(.bouncy, value: viewModel.selectedDevice.isOn)
 
-            if device.isOn {
+            if viewModel.selectedDevice.isOn {
                 Button {
                     withAnimation(.bouncy) {
-                        device.showSettings.toggle()
-                        if viewModel.microphone.showSettings {
-                            viewModel.microphone.showSettings = false
-                        }
+                        viewModel.showSettings = true
                     }
                 } label: {
-                    Text(device.device?.localizedName)
+                    Text(viewModel.deviceName)
                 }
                 .buttonStyle(.accessoryBar)
             }
@@ -54,45 +51,53 @@ extension VideoInputView {
 
     @ViewBuilder
     func ToolBarOptions() -> some View {
-        ZStack(alignment: .topLeading) {
+        ZStack(alignment: .bottom) {
 
             Placeholder()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            if viewModel.videoInputViewModel.session.isRunning {
-                VideoPreview(session: viewModel.videoInputViewModel.session)
-               // VideoInputPreview(session: viewModel.videoInputViewModel.session)
-                    .frame(width: .popoverWidth)
+            if viewModel.session.isRunning {
+                VideoPreview(session: viewModel.session, isMirrored: $isMirrored)
             }
-
-            HStack {
-                Image(.imac)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: .recordWidth)
-
-                VStack(alignment: .leading) {
-                    Text("Device")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-
-                    Text(device.name.capitalized)
-                        .font(.headline)
-                        .bold()
+            GlassEffectContainer(spacing: 20.0) {
+                HStack {
+                        //
+                    Image(.imac)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: .recordWidth)
+                        //
+                    VStack(alignment: .leading) {
+                        Text("Device")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                        
+                        Text(viewModel.deviceName.capitalized)
+                            .font(.headline)
+                            .bold()
+                    }
+                        //
+                    Spacer()
+                        //
+                    ToolCloseButton()
                 }
+                .padding(.medium)
+                .glassEffect(.clear, in: .rect(cornerRadius: .large, style: .circular))
+
             }
             .padding(.medium)
+            .padding(.leading, .small)
+        }
+        .frame(width: .popoverWidth * 1.2, height: .popoverWidth)
 
-        }
-        .frame(minHeight: .zero)
-        .frame(width: .popoverWidth * 1.2)
-        .overlay(alignment: .topTrailing) {
-            ToolCloseButton()
-                .offset(x: .medium, y: .medium)
-        }
     }
 
     @ViewBuilder
     func Placeholder() -> some View {
-        ContentUnavailableView(.notAvailableTitle, systemSymbol: .videoSlashCircle, description: .init(verbatim: .notAvailbleDescription))
+        ContentUnavailableView {
+            Image(systemSymbol: .videoSlashCircle)
+                .imageScale(.large)
+        }
+        .padding(.top, .extraLarge)
     }
 }

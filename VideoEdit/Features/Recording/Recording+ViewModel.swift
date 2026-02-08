@@ -23,6 +23,7 @@ extension RecordingToolbar {
         @Published var camera: AVDevice = .defaultDevice(.video)
 
         @Published var videoInputViewModel: VideoInputView.ViewModel = .init()
+        @Published var audioInputViewModel: AudioInputView.ViewModel = .init()
 
         var spacing: CGFloat {
             isTimerEnabled || isRecording ? .small : .zero
@@ -34,15 +35,25 @@ extension RecordingToolbar {
 
         init() {
 
+            $microphone
+                .drop(while: { $0.showSettings.isFalsy })
+                .map { $0.showSettings.inverted }
+                .receive(on: RunLoop.main)
+                .sink { self.camera.showSettings = $0 }
+                .store(in: &cancellables)
+
+            $camera
+                .drop(while: { $0.showSettings.isFalsy })
+                .map { $0.showSettings.inverted }
+                .receive(on: RunLoop.main)
+                .sink { self.microphone.showSettings = $0 }
+                .store(in: &cancellables)
+
             Publishers.CombineLatest($microphone, $camera)
                 .map { (microphone, camera) in
                     let settingsVisible = microphone.showSettings || camera.showSettings
-                    if microphone.isOn {
-                        return !settingsVisible
-                    }
-                    if camera.isOn {
-                        return !settingsVisible
-                    }
+                    if microphone.isOn { return !settingsVisible }
+                    if camera.isOn { return !settingsVisible }
                     return false
                 }
                 .receive(on: RunLoop.main)

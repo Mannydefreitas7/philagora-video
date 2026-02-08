@@ -36,9 +36,9 @@ struct RecordingToolbar: View {
                     }
 
                     // MARK: Audio Input
-                    AudioInput()
+                    AudioInputView(controlGroup: controlGroup, viewModel: $viewModel.audioInputViewModel)
                     // MARK: Video Input
-                    VideoInput()
+                    VideoInputView(controlGroup: controlGroup, viewModel: $viewModel.videoInputViewModel)
 
                 }
                 .animation(.bouncy, value: viewModel.toggleAnimation)

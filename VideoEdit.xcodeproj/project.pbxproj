@@ -73,9 +73,6 @@
 		1400C94B2F04C472001EF209 /* ExportFormat+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1400C9222F04C472001EF209 /* ExportFormat+Model.swift */; };
 		1431F81F2F2484F8000855C6 /* CaptureControl+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1431F81E2F2484F8000855C6 /* CaptureControl+Delegate.swift */; };
 		1431F8222F24873F000855C6 /* AudioInputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1431F8212F248718000855C6 /* AudioInputProxy.swift */; };
-		1431F8292F249A73000855C6 /* RecordingControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1431F8282F249A73000855C6 /* RecordingControlsView.swift */; };
-		1431F82B2F249B92000855C6 /* RecordingControlsView+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1431F82A2F249B82000855C6 /* RecordingControlsView+ViewModel.swift */; };
-		1431F82F2F24C3DD000855C6 /* RecordingControlsView+Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1431F82E2F24C3C5000855C6 /* RecordingControlsView+Views.swift */; };
 		1431F8342F24D2AE000855C6 /* WindowAspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1431F8332F24D2AE000855C6 /* WindowAspectRatio.swift */; };
 		1431F8382F24E9E3000855C6 /* MaskRatioOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1431F8372F24E9E3000855C6 /* MaskRatioOverlay.swift */; };
 		1431F83A2F24F11A000855C6 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1431F8392F24F115000855C6 /* Preferences.swift */; };
@@ -185,7 +182,6 @@
 		14FC9EDD2F1785C60053C019 /* FloatingWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FC9EDC2F1785C60053C019 /* FloatingWindow.swift */; };
 		14FC9EE02F19158D0053C019 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 14FC9EDF2F19158D0053C019 /* SwiftUIIntrospect */; };
 		14FFBDB32F12949800B96C92 /* PauseButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFBDB22F12949800B96C92 /* PauseButtonView.swift */; };
-		14FFBDB52F12992800B96C92 /* AudioInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFBDB42F12992800B96C92 /* AudioInputView.swift */; };
 		14FFBDB92F12DF0E00B96C92 /* Toggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFBDB82F12DF0600B96C92 /* Toggle.swift */; };
 		14FFBDBB2F12E6B200B96C92 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFBDBA2F12E6AF00B96C92 /* Shape.swift */; };
 		14FFBDBE2F13194A00B96C92 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 14FFBDBD2F13194A00B96C92 /* Shimmer */; };
@@ -251,9 +247,6 @@
 		1400C9312F04C472001EF209 /* VideoEditorError+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditorError+Model.swift"; sourceTree = "<group>"; };
 		1431F81E2F2484F8000855C6 /* CaptureControl+Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureControl+Delegate.swift"; sourceTree = "<group>"; };
 		1431F8212F248718000855C6 /* AudioInputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioInputProxy.swift; sourceTree = "<group>"; };
-		1431F8282F249A73000855C6 /* RecordingControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingControlsView.swift; sourceTree = "<group>"; };
-		1431F82A2F249B82000855C6 /* RecordingControlsView+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecordingControlsView+ViewModel.swift"; sourceTree = "<group>"; };
-		1431F82E2F24C3C5000855C6 /* RecordingControlsView+Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecordingControlsView+Views.swift"; sourceTree = "<group>"; };
 		1431F8332F24D2AE000855C6 /* WindowAspectRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowAspectRatio.swift; sourceTree = "<group>"; };
 		1431F8372F24E9E3000855C6 /* MaskRatioOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskRatioOverlay.swift; sourceTree = "<group>"; };
 		1431F8392F24F115000855C6 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
@@ -329,7 +322,6 @@
 		14FC9ED02F16F6930053C019 /* Picker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Picker.swift; sourceTree = "<group>"; };
 		14FC9EDC2F1785C60053C019 /* FloatingWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingWindow.swift; sourceTree = "<group>"; };
 		14FFBDB22F12949800B96C92 /* PauseButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseButtonView.swift; sourceTree = "<group>"; };
-		14FFBDB42F12992800B96C92 /* AudioInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioInputView.swift; sourceTree = "<group>"; };
 		14FFBDB82F12DF0600B96C92 /* Toggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toggle.swift; sourceTree = "<group>"; };
 		14FFBDBA2F12E6AF00B96C92 /* Shape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 		2000000000000001 /* VideoEditApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEditApp.swift; sourceTree = "<group>"; };
@@ -441,7 +433,6 @@
 				1400C8D82F04C2A5001EF209 /* ToolButton.swift */,
 				146E4F182F0DA45E00AA07CC /* RecordButton.swift */,
 				14FFBDB22F12949800B96C92 /* PauseButtonView.swift */,
-				14FFBDB42F12992800B96C92 /* AudioInputView.swift */,
 				14FC9EC52F156D6A0053C019 /* EditorSettingsView.swift */,
 				14FC9EC72F16C35C0053C019 /* SettingsButton.swift */,
 				146CAEC12F1966880021CE3A /* FloatingPanel.swift */,
@@ -527,7 +518,6 @@
 			isa = PBXGroup;
 			children = (
 				1431F8302F24C714000855C6 /* Capture */,
-				1431F8272F2499D4000855C6 /* Controls */,
 				1431F8202F2486A7000855C6 /* Audio */,
 				144E65FE2F0A582A00D044AD /* Modifiers */,
 				144E65F92F0A537F00D044AD /* Styles */,
@@ -550,16 +540,6 @@
 				1431F8212F248718000855C6 /* AudioInputProxy.swift */,
 			);
 			path = Audio;
-			sourceTree = "<group>";
-		};
-		1431F8272F2499D4000855C6 /* Controls */ = {
-			isa = PBXGroup;
-			children = (
-				1431F82A2F249B82000855C6 /* RecordingControlsView+ViewModel.swift */,
-				1431F8282F249A73000855C6 /* RecordingControlsView.swift */,
-				1431F82E2F24C3C5000855C6 /* RecordingControlsView+Views.swift */,
-			);
-			path = Controls;
 			sourceTree = "<group>";
 		};
 		1431F8302F24C714000855C6 /* Capture */ = {
@@ -904,7 +884,6 @@
 				144E65EB2F09624800D044AD /* WelcomeSubtitleView.swift in Sources */,
 				1400C9362F04C472001EF209 /* RecordingQuality+Model.swift in Sources */,
 				1400C9372F04C472001EF209 /* CameraSize+Model.swift in Sources */,
-				1431F82F2F24C3DD000855C6 /* RecordingControlsView+Views.swift in Sources */,
 				14FC9EC62F156D6A0053C019 /* EditorSettingsView.swift in Sources */,
 				14B0AD802F31626B00181545 /* AVCaptureDevice+Actor.swift in Sources */,
 				146E4F0B2F0A830000AA07CC /* VIRecordingView.swift in Sources */,
@@ -912,7 +891,6 @@
 				1400C9392F04C472001EF209 /* ExportQuality+Model.swift in Sources */,
 				145D15E22F1D37FD00F8A4BB /* DeviceInfo+Model.swift in Sources */,
 				1400C93A2F04C472001EF209 /* RecordingError+Model.swift in Sources */,
-				1431F82B2F249B92000855C6 /* RecordingControlsView+ViewModel.swift in Sources */,
 				1400C93C2F04C472001EF209 /* CameraPosition+Model.swift in Sources */,
 				145D15E62F1D394E00F8A4BB /* CaptureEngine+Actor.swift in Sources */,
 				14FFBDBB2F12E6B200B96C92 /* Shape.swift in Sources */,
@@ -957,7 +935,6 @@
 				1400C8F92F04C2A5001EF209 /* QuickActionButton.swift in Sources */,
 				144E65EF2F09632900D044AD /* Bundle+Extensions.swift in Sources */,
 				1400C8FA2F04C2A5001EF209 /* ExportView.swift in Sources */,
-				14FFBDB52F12992800B96C92 /* AudioInputView.swift in Sources */,
 				148B59612F213CDD00F840BF /* DataTypes.swift in Sources */,
 				148B59622F213CDD00F840BF /* Camera.swift in Sources */,
 				144D9D542F241A8B00E21458 /* AudioEqualizerBars.swift in Sources */,
@@ -1034,7 +1011,6 @@
 				1400C9182F04C2A5001EF209 /* RecordingSetupView.swift in Sources */,
 				14B0AD7E2F315FFB00181545 /* DeviceInput+ViewModel.swift in Sources */,
 				14FFBDB92F12DF0E00B96C92 /* Toggle.swift in Sources */,
-				1431F8292F249A73000855C6 /* RecordingControlsView.swift in Sources */,
 				1431F8382F24E9E3000855C6 /* MaskRatioOverlay.swift in Sources */,
 				1400C9192F04C2A5001EF209 /* ToolButton.swift in Sources */,
 				1000000000000010 /* MouseClickVisualizer.swift in Sources */,

@@ -39,16 +39,6 @@ extension RecordingToolbar {
     }
 
     @ViewBuilder
-    func AudioInput() -> some View {
-        AudioInputView(controlGroup: controlGroup, device: $viewModel.microphone)
-    }
-
-    @ViewBuilder
-    func VideoInput() -> some View {
-        VideoInputView(controlGroup: controlGroup, device: $viewModel.camera)
-    }
-
-    @ViewBuilder
     func SettingsButtonView() -> some View {
         SettingsButton(isOn: $viewModel.isSettingsPresented)
             .padding(.horizontal, .small)

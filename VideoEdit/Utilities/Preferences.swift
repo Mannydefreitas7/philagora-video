@@ -23,7 +23,7 @@ final class Preferences {
     @UserDefault(.storageKey(.showAspectMask)) var showAspectMask: Bool = false
     @UserDefault(.storageKey(.showSafeGuides)) var showSafeGuides: Bool = false
     @UserDefault(.storageKey(.showPlatformGuides)) var showPlatformSafe: Bool = false
-    @UserDefault(.storageKey(.isMirrored)) var isMirrored: Bool = false
+    @UserDefault(.storageKey(.isMirrored)) var isMirrored: Bool? = nil
     @UserDefault(.storageKey(.audioVolume)) var audioVolume: Double = 0.5
 }
 

@@ -17,18 +17,29 @@ extension VideoInputView {
         private var captureSession: CaptureSession = .init()
 
         var sessionError: CaptureError? = nil
-        var selectedDevice: AVDevice? = nil
+        var selectedDevice: AVDevice = .defaultDevice(.video)
         var isRecording: Bool = false
+        var showSettings: Bool = false
 
         var isRunning: Bool = false
         var url: URL? = nil
 
         var session: AVCaptureSession { captureSession.currentSession }
 
-        var hasVideo: Bool {
-            let connection = session.connections.first
-            guard let connection, let selectedDevice, let device = selectedDevice.device else { return false }
-            return device.isConnected && connection.isActive
+        var device: AVCaptureDevice {
+            get throws {
+                guard let device = selectedDevice.device else { throw AVError(.deviceNotConnected) }
+                return device
+            }
+        }
+
+        var deviceName: String { selectedDevice.device?.localizedName ?? selectedDevice.name }
+
+        var deviceInput: AVCaptureDeviceInput? {
+            get throws {
+                let input = try? selectedDevice.input
+                return input
+            }
         }
 
         func initialize() async {
@@ -38,11 +49,7 @@ extension VideoInputView {
 
         func start() async {
             do {
-                if let selectedDevice {
-                    try await captureSession.addDeviceInput(selectedDevice)
-                    return
-                }
-                try await captureSession.addDeviceInput(.defaultDevice(.video))
+                try await captureSession.addDeviceInput(selectedDevice)
             } catch {
                 logger.error("Failed to add device input: \(error.localizedDescription)")
                 sessionError = .noVideo
