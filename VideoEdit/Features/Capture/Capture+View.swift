@@ -32,6 +32,8 @@ struct CaptureView: View {
         NavigationStack  {
             
             ZStack(alignment: .bottom) {
+
+                VideoPreview(viewModel: $store.videoInput)
 //                if selectedCamera.isOn {
 //                    // MARK: Video preview
 //                    VideoOutput()

@@ -128,6 +128,7 @@
 		146E4F172F0DA03700AA07CC /* Pow in Frameworks */ = {isa = PBXBuildFile; productRef = 146E4F162F0DA03700AA07CC /* Pow */; };
 		146E4F192F0DA45E00AA07CC /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E4F182F0DA45E00AA07CC /* RecordButton.swift */; };
 		146E4F1B2F0DE4F200AA07CC /* Button+ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E4F1A2F0DE4F200AA07CC /* Button+ViewModifier.swift */; };
+		147709312F39F092004DBFA8 /* MultiCamLayout+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147709302F39F092004DBFA8 /* MultiCamLayout+Model.swift */; };
 		148AAC572F073A300087D649 /* AVFoundation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148AAC532F073A300087D649 /* AVFoundation+Extensions.swift */; };
 		148AAC582F073A300087D649 /* NSImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148AAC552F073A300087D649 /* NSImage+Extensions.swift */; };
 		148AAC592F073A300087D649 /* SwiftUI+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148AAC562F073A300087D649 /* SwiftUI+Extensions.swift */; };
@@ -281,6 +282,7 @@
 		146E4F0A2F0A830000AA07CC /* VIRecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIRecordingView.swift; sourceTree = "<group>"; };
 		146E4F182F0DA45E00AA07CC /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		146E4F1A2F0DE4F200AA07CC /* Button+ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+ViewModifier.swift"; sourceTree = "<group>"; };
+		147709302F39F092004DBFA8 /* MultiCamLayout+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultiCamLayout+Model.swift"; sourceTree = "<group>"; };
 		148AAC532F073A300087D649 /* AVFoundation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVFoundation+Extensions.swift"; sourceTree = "<group>"; };
 		148AAC542F073A300087D649 /* Foundation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundation+Extensions.swift"; sourceTree = "<group>"; };
 		148AAC552F073A300087D649 /* NSImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Extensions.swift"; sourceTree = "<group>"; };
@@ -736,6 +738,7 @@
 				1400C92F2F04C472001EF209 /* VideoCodec+Model.swift */,
 				1400C9302F04C472001EF209 /* VideoDocument+Model.swift */,
 				1400C9312F04C472001EF209 /* VideoEditorError+Model.swift */,
+				147709302F39F092004DBFA8 /* MultiCamLayout+Model.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -887,6 +890,7 @@
 				14FC9EC62F156D6A0053C019 /* EditorSettingsView.swift in Sources */,
 				14B0AD802F31626B00181545 /* AVCaptureDevice+Actor.swift in Sources */,
 				146E4F0B2F0A830000AA07CC /* VIRecordingView.swift in Sources */,
+				147709312F39F092004DBFA8 /* MultiCamLayout+Model.swift in Sources */,
 				1400C9382F04C472001EF209 /* GIFExportError+Model.swift in Sources */,
 				1400C9392F04C472001EF209 /* ExportQuality+Model.swift in Sources */,
 				145D15E22F1D37FD00F8A4BB /* DeviceInfo+Model.swift in Sources */,

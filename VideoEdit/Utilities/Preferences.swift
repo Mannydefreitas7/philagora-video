@@ -27,6 +27,7 @@ final class Preferences {
     @UserDefault(.storageKey(.audioVolume)) var audioVolume: Double = 0.5
     @UserDefault(.storageKey(.selectedAudioID)) var selectedAudioID: String = AVDevice.defaultDevice(.audio).id
     @UserDefault(.storageKey(.selectedVideoID)) var selectedVideoID: String = AVDevice.defaultDevice(.video).id
+    @UserDefault(.storageKey(.selectedSecondaryVideoID)) var selectedSecondaryVideoID: String = AVDevice.defaultDevice(.video).id
 }
 
 @propertyWrapper

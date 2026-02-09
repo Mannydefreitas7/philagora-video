@@ -98,17 +98,33 @@ actor CaptureSession {
 
         // MARK: - Remove existing input
     func removeInput(for device: AVDevice) throws {
-        let input = try device.input
-//        guard !session.canAddInput(input) else {
-//            logger.error("Session does not contains the input: \(input.device.localizedName)")
-//            session.inputs.forEach { logger.info("Input: \($0.description)") }
-//            throw AVError(_nsError: .init(domain: "COULD NOT REMOVE INPUT", code: AVError.deviceNotConnected.rawValue))
-//        }
-        logger.info("Inputs does contains the input: \(input.device.localizedName)")
+        guard let existingInput = session.inputs
+            .compactMap({ $0 as? AVCaptureDeviceInput })
+            .first(where: { $0.device.uniqueID == device.id }) else {
+            logger.error("Session does not contain input for device: \(device.name)")
+            return
+        }
+
+        logger.info("Removing input: \(existingInput.device.localizedName)")
         session.beginConfiguration()
-        session.removeInput(input)
+        session.removeInput(existingInput)
         session.commitConfiguration()
-        logger.info("Imput removed: \(input.device.localizedName)")
+        logger.info("Input removed: \(existingInput.device.localizedName)")
+    }
+
+    // remove connection
+    func removeConnection(_ device: AVDevice) {
+
+
+        let connection = session.connections.first { connection in
+            return connection.isActive && connection.inputPorts.contains(where: { $0.mediaType == .video })
+        }
+        guard let connection else { return }
+        logger.info("Removing connection for device: \(device.name) in \(connection)")
+
+        session.beginConfiguration()
+        session.removeConnection(connection)
+        session.commitConfiguration()
     }
 
     // add device input
@@ -133,6 +149,46 @@ actor CaptureSession {
         session.addInput(input)
         session.commitConfiguration()
         logger.log(level: .info, "Input \(input.device.localizedName) added to the session.")
+    }
+
+    func addDeviceInputs(_ devices: [AVDevice]) async throws {
+        guard session.isRunning else {
+            logger.log(level: .error, "Session is not running. Cannot add input.")
+            throw AVError(.sessionNotRunning)
+        }
+
+            // Begin changes to the current session without restarting
+        session.beginConfiguration()
+        logger.log(level: .info, "Session is running. Adding inputs...")
+
+        for device in devices {
+            let input = try device.input
+            guard session.canAddInput(input) else {
+                logger.log(level: .error, "Device \(device.name) is already in use by another session.")
+                throw AVError(_nsError: .init(domain: "COULD NOT ADD INPUT", code: AVError.deviceNotConnected.rawValue))
+            }
+                // add input to the session
+            logger.log(level: .info, "Adding input \(input.device.localizedName) to the session.")
+            session.addInputWithNoConnections(input)
+        }
+        session.commitConfiguration()
+        logger.log(level: .info, "\(devices.count) Inputs added to the session.")
+    }
+
+    func addConnection(from port: AVCaptureInput.Port, to previewLayer: AVCaptureVideoPreviewLayer) throws {
+        guard session.isRunning else {
+            logger.log(level: .error, "Session is not running. Cannot add connection.")
+            throw AVError(.sessionNotRunning)
+        }
+        
+        session.beginConfiguration()
+        let connection = AVCaptureConnection(inputPort: port, videoPreviewLayer: previewLayer)
+        guard session.canAddConnection(connection) else {
+            logger.log(level: .error, "Cannot add connection")
+            throw AVError(.sessionNotRunning)
+        }
+        session.addConnection(connection)
+        session.commitConfiguration()
     }
 
     func stop() {

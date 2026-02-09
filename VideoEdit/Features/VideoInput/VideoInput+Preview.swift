@@ -20,6 +20,7 @@ struct VideoPreview: NSViewRepresentable {
     func makeNSView(context: Context) -> VideoInputNSView {
         let view = VideoInputNSView()
         view.session = viewModel.currentSession
+        viewModel.previewLayer = view.previewLayer
         return view
     }
 

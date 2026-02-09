@@ -13,7 +13,7 @@ struct VideoInputPlaceholder: View {
             Image(systemSymbol: .videoSlashCircle)
                 .imageScale(.large)
         }
-        .padding(.bottom, .extraLarge)
+        .padding(.bottom, .large)
         .transition(.movingParts.wipe(
             angle: .degrees(-45),
             blurRadius: 50

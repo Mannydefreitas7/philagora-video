@@ -30,7 +30,8 @@ extension VideoInputView {
     func ToolButton() -> some View {
         HStack(spacing: .small / 2) {
             Toggle(isOn: $viewModel.selectedDevice.isOn) {
-                Image(systemSymbol: viewModel.selectedDevice.isOn ? .videoFill : .videoSlashFill)
+                Image(systemSymbol: .video)
+                    .symbolVariant(viewModel.selectedDevice.isOn ? .none : .slash)
                     .contentTransition(.symbolEffect(.replace))
                     .font(.title2)
                     .frame(width: .recordWidth)
@@ -53,7 +54,7 @@ extension VideoInputView {
                     Spacer()
 
                     Button {
-                            //
+                        //
                     } label: {
                         Image(systemSymbol: .gearshape)
                     }
@@ -68,15 +69,16 @@ extension VideoInputView {
     func ToolBarOptions() -> some View {
         ZStack(alignment: .bottom) {
 
-            VideoInputPlaceholder()
+            DeviceConnectionLoading(viewModel.selectedDevice)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             if viewModel.isRunning {
-                VideoPreview(viewModel: $viewModel)
-                    .clipShape(.rect(cornerRadius: .large, style: .continuous))
+                    VideoPreview(viewModel: $viewModel)
+                        .clipShape(.rect(cornerRadius: .large, style: .continuous))
             }
-            
-                HStack {
+
+            HStack {
+
                     Picker(viewModel.deviceName, selection: $viewModel.selectedID) {
                         ForEach(videoDevices, id: \.id) { device in
                             HStack(spacing: .medium) {
@@ -91,7 +93,7 @@ extension VideoInputView {
                     .controlSize(.extraLarge)
                     .glassEffect()
                     Spacer()
-            }
+                }
             .padding(.small)
             .onChange(of: viewModel.selectedID) { oldValue, newValue in
                 Task {

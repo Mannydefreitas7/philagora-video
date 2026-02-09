@@ -80,6 +80,7 @@ class Constants {
         case audioVolume = "audio_volume"
         case selectedAudioID = "selected_audio_id"
         case selectedVideoID = "selected_video_id"
+        case selectedSecondaryVideoID = "selected_secondary_video_id"
     }
 
     static let screen_capture_security_key: String = "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"

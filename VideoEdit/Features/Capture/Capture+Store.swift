@@ -70,8 +70,8 @@ extension CaptureView {
             audioLevel = await captureSession.audioLevel
             /// Switch to default devices
             logger.info("Switch to default devices")
-            videoDevices = await deviceDiscovery.discoverDevices(.video)
-            audioDevices = await deviceDiscovery.discoverDevices(.audio)
+            videoDevices = deviceDiscovery.discoverDevices(.video)
+            audioDevices = deviceDiscovery.discoverDevices(.audio)
         }
 
         func onDisappear() async {
