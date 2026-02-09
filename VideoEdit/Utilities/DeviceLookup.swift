@@ -14,7 +14,7 @@ final class DeviceLookup {
     // Discovery sessions to find the front and back cameras, and external cameras in iPadOS.
     private let frontCameraDiscoverySession: AVCaptureDevice.DiscoverySession
     private let backCameraDiscoverySession: AVCaptureDevice.DiscoverySession
-    private let externalCameraDiscoverSession: AVCaptureDevice.DiscoverySession
+    private let cameraDiscoverSession: AVCaptureDevice.DiscoverySession
     private let audioDiscoverySession: AVCaptureDevice.DiscoverySession
 
     static let shared = DeviceLookup()
@@ -31,7 +31,7 @@ final class DeviceLookup {
                 .builtInWideAngleCamera],
                                                                        mediaType: .video,
                                                                        position: .front)
-        externalCameraDiscoverSession = AVCaptureDevice.DiscoverySession(deviceTypes: [.external],
+        cameraDiscoverSession = AVCaptureDevice.DiscoverySession(deviceTypes: [.external, .builtInWideAngleCamera, .continuityCamera, .deskViewCamera],
                                                                          mediaType: .video,
                                                                          position: .unspecified)
 
@@ -56,25 +56,8 @@ final class DeviceLookup {
     }
 
     var cameras: [AVCaptureDevice] {
-        // Populate the cameras array with the available cameras.
-        var cameras: [AVCaptureDevice] = []
-        if let backCamera = backCameraDiscoverySession.devices.first {
-            cameras.append(backCamera)
-        }
-        if let frontCamera = frontCameraDiscoverySession.devices.first {
-            cameras.append(frontCamera)
-        }
-        // iPadOS supports connecting external cameras.
-        if let externalCamera = externalCameraDiscoverSession.devices.first {
-            cameras.append(externalCamera)
-        }
-
-#if !targetEnvironment(simulator)
-        if cameras.isEmpty {
-            fatalError("No camera devices are found on this system.")
-        }
-#endif
-        return cameras
+        let externalCamera = cameraDiscoverSession.devices
+        return externalCamera
     }
 
 

@@ -6,6 +6,7 @@
 //
 import AVFoundation
 import SwiftUI
+import SFSafeSymbols
 
 extension AVDevice {
 
@@ -26,7 +27,7 @@ extension AVDevice {
 
     private func shape(for device: Self) -> AnyShape {
         return device.isOn || device.showSettings ?
-        AnyShape(.rect(cornerRadius: .extraLarge, style: .continuous)) :
+        AnyShape(.rect(cornerRadius: kind == .audio ? .extraLarge : .large, style: .continuous)) :
         AnyShape(.capsule)
     }
 
@@ -49,6 +50,10 @@ extension AVDevice {
         return Image(.imac)
     }
 
+    var symbol: SFSymbol {
+        return isExternal ? .webCamera : .video
+    }
+
 }
 
 extension AVDevice {
@@ -59,28 +64,26 @@ extension AVDevice {
 
     static private var defaultCamera: Self {
 
-        if let systemCamera = DeviceLookup.defaultCamera {
+        if let systemCamera = AVCaptureDevice.userPreferredCamera {
             let defaultCameraDevice = AVDevice(systemCamera)
             return defaultCameraDevice
         }
 
-        if let first = DeviceLookup.shared.cameras.first {
-            let defaultCameraDevice = AVDevice(first)
-            return defaultCameraDevice
+        if let first = DeviceDiscovery.shared.cameras.first {
+            return first
         }
 
         return Self.placeholder
     }
 
     static private var defaultMicrophone: Self {
-        if let systemMicrophone = DeviceLookup.defaultMic {
+        if let systemMicrophone = AVCaptureDevice.default(for: .audio) {
             let defaultMicrophoneDevice = AVDevice(systemMicrophone)
             return defaultMicrophoneDevice
         }
 
-        if let first = DeviceLookup.shared.microphones.first {
-            let defaultMicrophoneDevice = AVDevice(first)
-            return defaultMicrophoneDevice
+        if let first = DeviceDiscovery.shared.microphones.first {
+            return first
         }
 
         return Self.placeholder

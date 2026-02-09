@@ -16,6 +16,8 @@ extension CaptureView {
         private var cancellables: Set<AnyCancellable> = []
         /// capture session actor
         private let captureSession: CaptureSession = .init()
+        // Device discovery actor
+        private let deviceDiscovery: DeviceDiscovery = .shared
 
         @Published private(set) var recordingDuration: TimeInterval = 0
         /// Waveform / meters
@@ -30,8 +32,19 @@ extension CaptureView {
         @Published var url: URL?
         @Published var error: CaptureError?
 
+        @Published var videoInput: VideoInputView.ViewModel = .init()
+        @Published var audioInput: AudioInputView.ViewModel = .init()
+
+        @Published var audioDevices: [AVDevice] = []
+        @Published var videoDevices: [AVDevice] = []
+
+        init() {
+            guard videoInput.isRunning.inverted else { return }
+            videoInput.setSession(captureSession)
+        }
+
        var currentSession: AVCaptureSession {
-          get { captureSession.currentSession }
+          get { captureSession.current }
        }
 
         func authorizationStatus(for type: AVMediaType) -> AVAuthorizationStatus {
@@ -57,6 +70,8 @@ extension CaptureView {
             audioLevel = await captureSession.audioLevel
             /// Switch to default devices
             logger.info("Switch to default devices")
+            videoDevices = await deviceDiscovery.discoverDevices(.video)
+            audioDevices = await deviceDiscovery.discoverDevices(.audio)
         }
 
         func onDisappear() async {

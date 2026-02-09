@@ -9,26 +9,8 @@ import SwiftUI
 extension CaptureView {
 
     @ViewBuilder
-    func placeholderView() -> some View {
-        VStack {
-            ContentUnavailableView(
-                .notAvailableTitle,
-                systemSymbol: .videoSlashCircleFill,
-                description: Text(verbatim: .notAvailbleDescription)
-            )
-                .imageScale(.large)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .transition(.movingParts.wipe(
-            angle: .degrees(-45),
-            blurRadius: 50
-        ))
-    }
-
-    @ViewBuilder
     func VideoOutput() -> some View {
        CaptureVideoPreview(store: store)
-      //  VideoOutputView(source: state.engine.previewSource, captureSession: state.engine.captureSession)
             .ignoresSafeArea(.all)
     }
 

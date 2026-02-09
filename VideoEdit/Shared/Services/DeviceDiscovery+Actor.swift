@@ -11,9 +11,12 @@ actor DeviceDiscovery {
 
     static let shared = DeviceDiscovery()
 
+    nonisolated
     var microphones: [AVDevice] {
         get { discoverDevices(.audio) }
     }
+
+    nonisolated
     var cameras: [AVDevice] {
         get { discoverDevices(.video) }
     }
@@ -38,9 +41,10 @@ actor DeviceDiscovery {
     #endif
 
     #if os(macOS)
+    nonisolated
     func discoverDevices(_ type: Kind) -> [AVDevice] {
         let video = AVCaptureDevice.DiscoverySession(
-            deviceTypes: [.builtInWideAngleCamera, .continuityCamera, .deskViewCamera],
+            deviceTypes: [.builtInWideAngleCamera, .continuityCamera, .deskViewCamera, .external],
             mediaType: .video,
             position: .unspecified
         )
@@ -61,6 +65,13 @@ actor DeviceDiscovery {
 
     static var defaultMicrophone: AVDevice {
         return AVDevice.defaultDevice(.audio)
+    }
+
+     func getDevice(withUniqueID id: String) -> AVDevice? {
+        guard let device = AVCaptureDevice(uniqueID: id) else {
+            return nil
+        }
+        return .init(device)
     }
 
 }

@@ -13,6 +13,8 @@ extension RecordingToolbar {
     final class ViewModel: ObservableObject {
         private var cancellables: Set<AnyCancellable> = []
 
+        private let session = CaptureSession()
+
         @Published var isRecording: Bool = false
         @Published var isTimerEnabled: Bool = false
         @Published var timerSelection: TimeInterval.Option = .threeSeconds
@@ -34,6 +36,12 @@ extension RecordingToolbar {
         }
 
         init() {
+
+            guard videoInputViewModel.isRunning.inverted else {
+                return
+            }
+
+            videoInputViewModel.setSession(session)
 
             $microphone
                 .drop(while: { $0.showSettings.isFalsy })

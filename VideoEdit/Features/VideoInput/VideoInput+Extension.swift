@@ -18,9 +18,12 @@ extension VideoInputView {
             }
         } label: {
             Image(systemSymbol: .xmark)
+                .colorScheme(viewModel.isRunning ? .dark : .light)
+                .imageScale(.small)
         }
-        .buttonStyle(.accessoryBarAction)
+        .buttonStyle(.glass)
         .buttonBorderShape(.circle)
+
     }
 
     @ViewBuilder
@@ -38,73 +41,72 @@ extension VideoInputView {
             if viewModel.selectedDevice.isOn {
                 Button {
                     withAnimation(.bouncy) {
-                        viewModel.showSettings = true
+                        viewModel.showSettings.toggle()
                     }
                 } label: {
-                    Text(viewModel.deviceName)
+                    Text(viewModel.selectedDevice.name)
                 }
                 .buttonStyle(.accessoryBar)
+
+                if viewModel.showSettings {
+
+                    Spacer()
+
+                    Button {
+                            //
+                    } label: {
+                        Image(systemSymbol: .gearshape)
+                    }
+                    .buttonBorderShape(.circle)
+                }
             }
         }
+        .frame(maxWidth: viewModel.showSettings ? .previewVideoWidth : nil)
     }
 
     @ViewBuilder
     func ToolBarOptions() -> some View {
         ZStack(alignment: .bottom) {
 
-            Placeholder()
+            VideoInputPlaceholder()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            if viewModel.session.isRunning {
-                VideoPreview(session: viewModel.session, isMirrored: $isMirrored)
-                    .clipShape(viewModel.selectedDevice.shape)
+            if viewModel.isRunning {
+                VideoPreview(viewModel: $viewModel)
+                    .clipShape(.rect(cornerRadius: .large, style: .continuous))
             }
-            GlassEffectContainer(spacing: 20.0) {
+            
                 HStack {
-                        //
-                    viewModel.selectedDevice.thumbnail
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: .recordWidth)
-                        //
-                    VStack(alignment: .leading) {
-                        Text("Device")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                        
-                        Text(viewModel.deviceName.capitalized)
-                            .font(.headline)
+                    Picker(viewModel.deviceName, selection: $viewModel.selectedID) {
+                        ForEach(videoDevices, id: \.id) { device in
+                            HStack(spacing: .medium) {
+                                Image(systemSymbol: device.symbol)
+                                Text(device.name)
+                            }
+                            .tag(device.id)
+                        }
                     }
-                        //
+                    .labelsHidden()
+                    .pickerStyle(.menu)
+                    .controlSize(.extraLarge)
+                    .glassEffect()
                     Spacer()
-                        //
-                    // ToolCloseButton()
-                }
-                .padding(.medium)
-                .glassEffect(.regular, in: ConcentricRectangle(corners: .concentric(minimum: .fixed(.medium)), isUniform: true))
-
             }
-            .padding(.medium)
-            .padding(.leading, .small)
+            .padding(.small)
+            .onChange(of: viewModel.selectedID) { oldValue, newValue in
+                Task {
+                    if oldValue != newValue {
+                        await viewModel.onChangeDevice(id: newValue)
+                    }
+                }
+            }
 
             VStack {
                 ToolCloseButton()
             }
             .padding(.medium)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-
-
         }
-        .frame(width: .popoverWidth * 1.5, height: .popoverWidth)
-
-    }
-
-    @ViewBuilder
-    func Placeholder() -> some View {
-        ContentUnavailableView {
-            Image(systemSymbol: .videoSlashCircle)
-                .imageScale(.large)
-        }
-        .padding(.top, .extraLarge)
+        .frame(width: .previewVideoWidth, height: .popoverWidth)
     }
 }

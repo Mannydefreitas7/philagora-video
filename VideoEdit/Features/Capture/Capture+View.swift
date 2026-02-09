@@ -30,6 +30,7 @@ struct CaptureView: View {
     var body: some View {
 
         NavigationStack  {
+            
             ZStack(alignment: .bottom) {
 //                if selectedCamera.isOn {
 //                    // MARK: Video preview
@@ -47,8 +48,13 @@ struct CaptureView: View {
 
             }
             .environmentObject(store)
+            .environment(\.audioDevices, store.audioDevices)
+            .environment(\.videoDevices, store.videoDevices)
         }
         // Keep the window resizable but constrained to 16:9.
         .windowAspectRatio(AspectPreset.youtube.ratio)
+        .task {
+            await store.initialize()
+        }
     }
 }

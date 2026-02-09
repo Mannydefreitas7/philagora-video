@@ -28,4 +28,4 @@ struct VideoEditApp: App {
 
 
 // General logger
-let logger = Logger(subsystem:  AppInfo.current.id, category: AppInfo.current.identifier)
+let logger = Logger(subsystem:  AppInfo.current.id, category: "DEVELOPMENT")

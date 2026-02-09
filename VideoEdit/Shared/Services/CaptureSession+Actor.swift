@@ -44,7 +44,7 @@ actor CaptureSession {
     }
 
    nonisolated
-   var currentSession: AVCaptureSession {
+   var current: AVCaptureSession {
          session
    }
 
@@ -96,27 +96,43 @@ actor CaptureSession {
         connection.isEnabled = isEnabled
     }
 
+        // MARK: - Remove existing input
+    func removeInput(for device: AVDevice) throws {
+        let input = try device.input
+//        guard !session.canAddInput(input) else {
+//            logger.error("Session does not contains the input: \(input.device.localizedName)")
+//            session.inputs.forEach { logger.info("Input: \($0.description)") }
+//            throw AVError(_nsError: .init(domain: "COULD NOT REMOVE INPUT", code: AVError.deviceNotConnected.rawValue))
+//        }
+        logger.info("Inputs does contains the input: \(input.device.localizedName)")
+        session.beginConfiguration()
+        session.removeInput(input)
+        session.commitConfiguration()
+        logger.info("Imput removed: \(input.device.localizedName)")
+    }
+
     // add device input
     func addDeviceInput(_ device: AVDevice) throws {
 
         guard session.isRunning else {
+            logger.log(level: .error, "Session is not running. Cannot add input.")
             throw AVError(.sessionNotRunning)
         }
 
         // Begin changes to the current session without restarting
         session.beginConfiguration()
-
+        logger.log(level: .info, "Session is running. Adding input...")
         let input = try device.input
         // Check whether device isn't already in use by this or another session
         guard session.canAddInput(input) else {
-            // if input is already in use,
-            // remove it
-            session.removeInput(input)
+            logger.log(level: .error, "Device \(device.name) is already in use by another session.")
             throw AVError(_nsError: .init(domain: "COULD NOT ADD INPUT", code: AVError.deviceNotConnected.rawValue))
         }
         // add input to the session
+        logger.log(level: .info, "Adding input \(input.device.localizedName) to the session.")
         session.addInput(input)
         session.commitConfiguration()
+        logger.log(level: .info, "Input \(input.device.localizedName) added to the session.")
     }
 
     func stop() {
