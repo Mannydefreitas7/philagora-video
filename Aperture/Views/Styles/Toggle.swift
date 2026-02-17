@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Shimmer
 import Engine
 
 struct SecondaryToggleStyle: ToggleStyle {
@@ -56,7 +55,7 @@ struct RecordToggleStyle: ToggleStyle {
             .fill(
                 .shadow(
                     .inner(
-                        color: isOn ? .white.exposureAdjust(-10) : .recordingRed.exposureAdjust(-10),
+                        color: isOn ? .white.exposureAdjust(-10) : Color(.recordingRed).exposureAdjust(-10),
                         radius: 3,
                         x: 3,
                         y: 3
@@ -77,19 +76,13 @@ struct RecordToggleStyle: ToggleStyle {
                 configuration.label
                     .fontWeight(.medium)
                     .foregroundStyle(.white)
-                    //.font(.title3)
-                    .shimmering(
-                        active: configuration.isOn,
-                        animation: Shimmer.defaultAnimation.speed(1.5),
-                        gradient: .init(colors: [.white.opacity(0.7), .white, .white, .white.opacity(0.7)])
-                    )
 
             } icon: {
                     Image(systemName: configuration.isOn ? "" : "record.circle")
                         .symbolRenderingMode(.hierarchical)
                         .font(.title)
                         .scaleEffect(configuration.isOn ? 0.8 : 1.2)
-                        .foregroundStyle(configuration.isOn ? .white : .recordingRed)
+                        .foregroundStyle(configuration.isOn ? .white : Color(.recordingRed))
             }
             .offset(x: -8)
             .padding(.small)

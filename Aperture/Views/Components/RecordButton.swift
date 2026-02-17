@@ -54,7 +54,7 @@ extension RecordButton {
 
                 Image(systemSymbol: isRecording ? .appFill : .circleFill)
                     .resizable()
-                    .foregroundStyle(.recordingRed.gradient)
+                    .foregroundStyle(Color(.recordingRed).gradient)
                     .scaleEffect(isRecording ? 0.5 : 0.8)
             }
             .frame(width: .recordWidth * 2, height: .recordWidth * 2)
@@ -72,7 +72,7 @@ extension RecordButton {
             .sensoryFeedback(.start, trigger: isPressed)
             .keyboardShortcut("r", modifiers: [])
             .conditionalEffect(
-                .repeat(.glow(color: .recordingRed.exposureAdjust(20), radius: 10), every: 3),
+                .repeat(.glow(color: Color(.recordingRed).exposureAdjust(20), radius: 10), every: 3),
                 condition: isRecording
             )
             .buttonStyle(.pushDown(glass: .regular))

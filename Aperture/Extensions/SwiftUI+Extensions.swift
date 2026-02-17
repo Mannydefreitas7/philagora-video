@@ -9,7 +9,7 @@ extension Color {
     
     static let pausedOrange = Color(red: 0.95, green: 0.6, blue: 0.1)
     static let successGreen = Color(red: 0.2, green: 0.8, blue: 0.4)
-    static let maskColor: Self = .recordingRed.opacity(0.1)
+    static let maskColor: Self = Color(.recordingRed).opacity(0.1)
     static let guideColor: Self = .white.opacity(0.5)
 
     init(hex: String) {

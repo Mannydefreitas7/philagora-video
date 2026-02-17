@@ -10,7 +10,7 @@ import ScreenCaptureKit
 import SFSafeSymbols
 import SwiftUIIntrospect
 
-struct FloatingWindow<Content: View>: Scene {
+struct FloatingVideoWindow<Content: View>: Scene {
 
     var title: String? = nil
     var id: Constants.Window

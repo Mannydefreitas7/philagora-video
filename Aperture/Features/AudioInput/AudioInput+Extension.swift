@@ -5,13 +5,14 @@
 //  Created by Emmanuel on 2026-02-07.
 //
 import SwiftUI
+import SFSafeSymbols
 
 extension AudioInputView {
 
     @ViewBuilder
     func ToolBarOptions() -> some View {
         VolumeHUD(for: $viewModel.selectedDevice) {
-            Button(.closeButton, systemSymbol: .xmark, role: .close) {
+            Button(.closeButton, systemImage: SFSymbol.xmark.rawValue, role: .close) {
                 withAnimation(.bouncy) {
                     viewModel.showSettings = false
                 }
@@ -27,7 +28,7 @@ extension AudioInputView {
     func ToolbarButton() -> some View {
         HStack(spacing: .small / 2) {
             Toggle(isOn: $viewModel.selectedDevice.isOn) {
-                Image(systemSymbol: viewModel.selectedDevice.isOn ? .microphoneFill : .microphoneSlashFill)
+                Image(systemSymbol: viewModel.selectedDevice.isOn ? .micFill : .micSlashFill)
                     .contentTransition(.symbolEffect(.replace.wholeSymbol))
                     .font(.title2)
                     .frame(width: .recordWidth)

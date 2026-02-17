@@ -1,6 +1,6 @@
 import SwiftUI
 import WelcomeWindow
-import Onboarding
+import OnboardingKit
 import UserNotifications
 import AppKit
 
@@ -21,10 +21,11 @@ struct VEWelcomeWindow: Scene {
 
         WelcomeWindow(iconImage: .appIcon) {
             WelcomeSubtitleView()
-                .showOnboardingIfNeeded { markComplete in
-                    WelcomeScreen.production
-                        .with(continueAction: markComplete)
-                }
+//                .tryPresentOnboarding(.Conditional(id: <#T##String#>, store: <#T##UserDefaults#>, condition: <#T##() -> Bool#>), after: <#T##TimeInterval#>, presentation: <#T##() -> Void#>)
+//                .showOnboardingIfNeeded { markComplete in
+//                    WelcomeScreen.production
+//                        .with(continueAction: markComplete)
+//                }
         } actions: { dismissWindow in
 
             VIWelcomeButton(
@@ -65,32 +66,32 @@ struct VEWelcomeWindow: Scene {
     }
 }
 
-extension WelcomeScreen {
-    static let production = WelcomeScreen.apple(
-        accentColor: .blue,
-        appDisplayName: "My Amazing App",
-        appIcon: Image("AppIcon"),
-        features: [
-            FeatureInfo(
-                image: Image(systemName: "star.fill"),
-                title: "Amazing Features",
-                content: "Discover powerful tools that make your life easier."
-            ),
-            FeatureInfo(
-                image: Image(systemName: "shield.fill"),
-                title: "Privacy First",
-                content: "Your data stays private and secure on your device."
-            ),
-            FeatureInfo(
-                image: Image(systemName: "bolt.fill"),
-                title: "Lightning Fast",
-                content: "Optimized performance for the best user experience."
-            )
-        ],
-        privacyPolicyURL: URL(string: "https://example.com/privacy"),
-        titleSectionAlignment: .center
-    )
-}
+//extension WelcomeScreen {
+//    static let production = WelcomeScreen.apple(
+//        accentColor: .blue,
+//        appDisplayName: "My Amazing App",
+//        appIcon: Image("AppIcon"),
+//        features: [
+//            FeatureInfo(
+//                image: Image(systemName: "star.fill"),
+//                title: "Amazing Features",
+//                content: "Discover powerful tools that make your life easier."
+//            ),
+//            FeatureInfo(
+//                image: Image(systemName: "shield.fill"),
+//                title: "Privacy First",
+//                content: "Your data stays private and secure on your device."
+//            ),
+//            FeatureInfo(
+//                image: Image(systemName: "bolt.fill"),
+//                title: "Lightning Fast",
+//                content: "Optimized performance for the best user experience."
+//            )
+//        ],
+//        privacyPolicyURL: URL(string: "https://example.com/privacy"),
+//        titleSectionAlignment: .center
+//    )
+//}
 
 
 extension VEWelcomeWindow {

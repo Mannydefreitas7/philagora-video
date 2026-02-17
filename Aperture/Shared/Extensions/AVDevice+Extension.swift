@@ -52,7 +52,7 @@ extension AVDevice {
 
     var symbol: SFSymbol {
         if kind == .audio {
-            return isExternal ? .microphone : .desktopcomputerAndMacbook
+            return isExternal ? .mic : .desktopcomputer
         }
         return isExternal ? .webCamera : .video
     }

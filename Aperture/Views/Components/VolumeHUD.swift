@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
-import Engine
 import Pow
 import AVFoundation
+import Engine
 
 // MARK: - Public Component
 
@@ -113,7 +113,7 @@ struct VolumeHUD<Content: View>: View {
                         .tag(device.id)
                         .buttonBorderShape(.roundedRectangle(radius: .medium))
                         .buttonStyle(
-                            isSelected(device) ? AnyButtonStyle(.pushDown(glass: .prominent(.accent))) :  AnyButtonStyle(.accessoryBar)
+                            isSelected(device) ? AnyButtonStyle(.pushDown(glass: .prominent(.accentColor))) :  AnyButtonStyle(.accessoryBar)
                         )
                         .clipShape {
                             RoundedRectangle(cornerRadius: .medium, style: .continuous)

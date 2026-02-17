@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SFSafeSymbols
+import Shimmer
 
 struct DeviceLoading: View {
     @State private var isDrawing = false

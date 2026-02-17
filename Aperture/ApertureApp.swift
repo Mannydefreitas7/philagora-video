@@ -1,7 +1,6 @@
 import os
 import SwiftUI
 import AVFoundation
-import Onboarding
 import SFSafeSymbols
 import AppInformation
 //import ScreenCaptureKit
@@ -9,7 +8,7 @@ import AppInformation
 @main
 struct ApertureApp: App {
     @StateObject private var appState = IAppState()
-    @AppStorage(.onboardingKey) var showOnboarding: Bool = true
+    @AppStorage(.userDefaultsKey(.onboardingKey)) var showOnboarding: Bool = true
     @Environment(\.appInfo) var appInfo
 
     var body: some Scene {

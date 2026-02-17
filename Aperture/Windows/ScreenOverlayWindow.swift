@@ -28,13 +28,3 @@ struct TextView: View {
     }
 }
 
-struct FloatingVideoWindow: Scene {
-    var body: some Scene {
-
-        Window("", id: "main") {
-            TextView()
-                .padding()
-        }
-    }
-}
-
