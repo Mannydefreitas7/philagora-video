@@ -33,8 +33,8 @@ class GIFExporter: ObservableObject {
             isExporting = false
         }
         
-        let asset = AVAsset(url: videoURL)
-        
+        let asset = AVURLAsset(url: videoURL)
+
         guard let videoTrack = try await asset.loadTracks(withMediaType: .video).first else {
             throw GIFExportError.noVideoTrack
         }
@@ -128,8 +128,8 @@ class GIFExporter: ObservableObject {
             let time = CMTime(seconds: actualStartTime + (Double(i) * frameInterval), preferredTimescale: 600)
             
             do {
-                var cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
-                
+                var cgImage = try await imageGenerator.image(at: time)
+
                 // Apply crop if needed
                 if let cropRect = cropRect {
                     let scaledCropRect = CGRect(
@@ -139,20 +139,20 @@ class GIFExporter: ObservableObject {
                         height: cropRect.height * scale
                     )
                     
-                    if let croppedImage = cgImage.cropping(to: scaledCropRect) {
-                        cgImage = croppedImage
+                    if let croppedImage = cgImage.image.cropping(to: scaledCropRect) {
+                        cgImage.image = croppedImage
                     }
                 }
                 
                 // Optimize colors if needed
                 if optimize && colorCount < 256 {
-                    if let optimizedImage = reduceColors(in: cgImage, to: colorCount) {
-                        cgImage = optimizedImage
+                    if let optimizedImage = reduceColors(in: cgImage.image, to: colorCount) {
+                        cgImage.image = optimizedImage
                     }
                 }
                 
-                CGImageDestinationAddImage(destination, cgImage, frameProperties as CFDictionary)
-                
+                CGImageDestinationAddImage(destination, cgImage.image, frameProperties as CFDictionary)
+
                 processedFrames += 1
                 progress = Double(processedFrames) / Double(frameCount)
                 
@@ -206,8 +206,8 @@ class GIFExporter: ObservableObject {
             isExporting = false
         }
         
-        let asset = AVAsset(url: videoURL)
-        
+        let asset = AVURLAsset(url: videoURL)
+
         guard let videoTrack = try await asset.loadTracks(withMediaType: .video).first else {
             throw GIFExportError.noVideoTrack
         }
@@ -263,9 +263,9 @@ class GIFExporter: ObservableObject {
             let time = CMTime(seconds: actualStartTime + (Double(i) * frameInterval), preferredTimescale: 600)
             
             do {
-                let cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
-                CGImageDestinationAddImage(destination, cgImage, frameProperties as CFDictionary)
-                
+                let cgImage = try await imageGenerator.image(at: time)
+                CGImageDestinationAddImage(destination, cgImage.image, frameProperties as CFDictionary)
+
                 progress = Double(i + 1) / Double(frameCount)
             } catch {
                 print("Failed to generate frame: \(error)")

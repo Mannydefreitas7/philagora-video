@@ -82,7 +82,7 @@ targets:
         NSDocumentsFolderUsageDescription: "Aperture needs access to save recordings to your Documents."
         NSDownloadsFolderUsageDescription: "Aperture needs access to save recordings to your Downloads."
         LSApplicationCategoryType: "public.app-category.video"
-        LSUIElement: false
+        LSUIElement: true
         NSSupportsAutomaticGraphicsSwitching: true
         MetalCaptureEnabled: true
         NSRequiresAquaSystemAppearance: false
