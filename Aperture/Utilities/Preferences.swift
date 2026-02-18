@@ -28,6 +28,7 @@ final class Preferences {
     @UserDefault(.storageKey(.selectedAudioID)) var selectedAudioID: String? = nil
     @UserDefault(.storageKey(.selectedVideoID)) var selectedVideoID: String? =  nil
     @UserDefault(.storageKey(.selectedSecondaryVideoID)) var selectedSecondaryVideoID: String = AVDevice.defaultDevice(.video).id
+    @UserDefault(.storageKey(.isRecording)) var isRecording: Bool = false
 }
 
 @propertyWrapper

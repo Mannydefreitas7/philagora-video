@@ -11,7 +11,7 @@ import SwiftUI
 extension Application {
 
     @MainActor
-    var captureStore: Dependency<CaptureView.Store> {
+    var captureStore: Dependency<CaptureView.ViewModel> {
         dependency(.init())
     }
 

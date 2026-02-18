@@ -97,7 +97,7 @@ class VideoEditor: ObservableObject {
         // Create composition
         let composition = AVMutableComposition()
         let videoComposition = AVMutableVideoComposition()
-        
+
         guard let compositionVideoTrack = composition.addMutableTrack(
             withMediaType: .video,
             preferredTrackID: kCMPersistentTrackID_Invalid
@@ -122,9 +122,9 @@ class VideoEditor: ObservableObject {
         // Create instruction for cropping
         let instruction = AVMutableVideoCompositionInstruction()
         instruction.timeRange = timeRange
-        
+
         let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: compositionVideoTrack)
-        
+
         // Create transform to crop
         var transform = preferredTransform
         transform = transform.translatedBy(x: -scaledCropRect.origin.x, y: -scaledCropRect.origin.y)

@@ -14,54 +14,37 @@ import AppState
 
 struct CaptureView: View {
 
-    @State private var spacing: CGFloat = 8
-    @State private var isTimerEnabled: Bool = false
-    @State private var timerSelection: TimeInterval.Option = .threeSeconds
-
     @Environment(\.isHoveringWindow) var isHoveringWindow
-    @StateObject var store: CaptureView.Store = .init()
-
-    // User preferences to store/restore window parameters
-    @Preference(\.aspectPreset) var aspectPreset
-    @Preference(\.showSafeGuides) var showSafeGuides
-    @Preference(\.showAspectMask) var showAspectMask
-    @Preference(\.showPlatformSafe) var showPlatformSafe
+    @State var viewModel: CaptureView.ViewModel = .init()
 
     var body: some View {
 
         NavigationStack  {
             
             ZStack(alignment: .bottom) {
-
+                // MARK: - Placeholder
                 CapturePlaceholder(
-                    isConnecting: $store.videoInput.isConnecting,
-                    hasConnectionTimeout: $store.hasConnectionTimeout,
-                    currentDevice: store.videoInput.currentDevice
+                    isConnecting: $viewModel.videoInput.isConnecting,
+                    hasConnectionTimeout: $viewModel.hasConnectionTimeout,
+                    currentDevice: viewModel.videoInput.selectedDevice
                 )
-
-                VideoPreview(viewModel: $store.videoInput)
-                    .onAppear(perform: store.onVideoAppear)
-
+                // MARK: - Video preview
+                VideoPreview(viewModel: $viewModel.videoInput)
+                    .onAppear(perform: viewModel.onVideoLayerAppear)
                 // MARK: Crop mask for selected ratio
                 MaskAspectRatioView()
-
                 // MARK: Bottom bar content
                 BottomBar()
                     .opacity(isHoveringWindow ? 1.0 : 0.0)
-
-
             }
-            .environmentObject(store)
-            .environment(\.audioDevices, store.audioDevices)
-            .environment(\.videoDevices, store.videoDevices)
+            .environment(\.audioDevices, viewModel.audioDevices)
+            .environment(\.videoDevices, viewModel.videoDevices)
             .task {
-                await store.initialize()
-                await store.start()
+                await viewModel.initialize()
+                await viewModel.start()
             }
             // Toolbar
-            .toolbar {
-                ToolbarSpacer()
-            }
+            .toolbar { ToolbarSpacer() }
         }
         // Keep the window resizable but constrained to 16:9.
         .windowAspectRatio(AspectPreset.youtube.ratio)

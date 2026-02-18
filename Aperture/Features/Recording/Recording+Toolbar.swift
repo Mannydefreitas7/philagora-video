@@ -10,7 +10,8 @@ import AppState
 struct RecordingToolbar: View {
 
     @Namespace var controlGroup
-    @StateObject var viewModel: RecordingToolbar.ViewModel = .init()
+    @Preference(\.isRecording) var isRecording: Bool
+    @State var viewModel: ViewModel = .init()
 
     var body: some View {
         VStack {
@@ -27,27 +28,37 @@ struct RecordingToolbar: View {
 
                 HStack(alignment: .bottom, spacing: .small) {
 
-                    if !viewModel.isRecording {
+                    if !isRecording {
                         // MARK: Timer Control
                         TimerControl()
                     }
 
-                    if viewModel.isRecording {
+                    if isRecording {
                         // MARK: Pause Button
                         PauseButton()
-                            .animation(.bouncy, value: viewModel.isRecording)
+                            .animation(.bouncy, value: isRecording)
                     }
 
                     // MARK: Audio Input
-                    AudioInputView(controlGroup: controlGroup, viewModel: $viewModel.audioInputViewModel)
+                    AudioInputView(controlGroup: controlGroup, viewModel: $viewModel.audioInput)
+                        .onChange(of: viewModel.audioInput.deviceId) { previousId, newId in
+                            viewModel.onDeviceChange(previousId: previousId, newId: newId)
+                        }
                     // MARK: Video Input
-                    VideoInputView(controlGroup: controlGroup)
-
+                    VideoInputView(controlGroup: controlGroup, viewModel: $viewModel.videoInput)
+                        .onChange(of: viewModel.videoInput.deviceId) { previousId, newId in
+                             viewModel.onDeviceChange(previousId: previousId, newId: newId)
+                        }
                 }
                 .animation(.bouncy, value: viewModel.toggleAnimation)
                 .glassEffectTransition(.matchedGeometry)
                 .controlSize(.large)
-                .environmentObject(viewModel)
+                .task { await viewModel.prepare() }
+                .onDisappear {
+                    Task {
+                        await viewModel.destroy()
+                    }
+                }
             }
         }
     }

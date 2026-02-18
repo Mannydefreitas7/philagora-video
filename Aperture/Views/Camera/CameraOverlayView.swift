@@ -4,9 +4,6 @@ import Combine
 import AppState
 
 struct CameraOverlayView: View {
-
-    @ObservedDependency(\.captureStore) var captureStore: CaptureView.Store
-
     /// View model
     @ObservedObject var viewModel: ViewModel
 
@@ -15,7 +12,7 @@ struct CameraOverlayView: View {
             GeometryReader { geometry in
                 ZStack {
                     // Camera preview
-                    CameraPreviewView(session: captureStore.currentSession)
+                    CameraPreviewView(session: AVCaptureSession())
                         .frame(width: viewModel.size.dimensions.width, height: viewModel.size.dimensions.height)
                         .clipShape(viewModel.shape.shape)
                         .overlay(

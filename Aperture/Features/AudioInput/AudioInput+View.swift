@@ -12,8 +12,9 @@ import AppState
 struct AudioInputView: View {
 
     var controlGroup: Namespace.ID
+
+    @Binding var viewModel: AudioInputView.ViewModel
     @Environment(\.isRecording) var isRecording
-    @Binding var viewModel: ViewModel
 
     var body: some View {
         Group {

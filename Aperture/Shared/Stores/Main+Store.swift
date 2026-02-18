@@ -28,8 +28,8 @@ final class MainStore: ObservableObject {
    @Published var cameras: [AVDevice] = []
    @Published var microphones: [AVDevice] = []
 
-    func loadDevices() async {
-        self.cameras = await self.devices.cameras
-        self.microphones = await self.devices.microphones
+    func loadDevices() {
+        self.cameras = self.devices.cameras
+        self.microphones = self.devices.microphones
     }
 }

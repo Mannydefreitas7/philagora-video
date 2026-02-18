@@ -11,7 +11,7 @@ struct CapturePlaceholder: View {
 
     @Binding var isConnecting: Bool
     @Binding var hasConnectionTimeout: Bool
-    var currentDevice: AVDevice
+    var currentDevice: AVDevice?
 
     var body: some View {
 

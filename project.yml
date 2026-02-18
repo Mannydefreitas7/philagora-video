@@ -8,7 +8,7 @@ options:
   groupSortPosition: top
   generateEmptyDirectories: true
   findCarthageFrameworks: false
-  defaultSourceDirectoryType: syncedFolder
+  defaultSourceDirectoryType: folder
   minimumXcodeGenVersion: 2.44.0
 
 configs:
@@ -63,9 +63,6 @@ targets:
       - path: Aperture
         excludes:
           - "**/.DS_Store"
-      - path: Aperture/Assets.xcassets
-        type: folder
-        buildPhase: resources
     info:
       path: Aperture/Info.plist
       properties:

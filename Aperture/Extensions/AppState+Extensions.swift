@@ -25,8 +25,8 @@ final class IAppState: ObservableObject {
     @Published var status: CaptureStatus = .idle
 
     // Capture view model
-    @Published var captureState: CaptureView.Store = .init()
-    @Published var previewState: CaptureView.Store = .init()
+    @Published var captureState: CaptureView.ViewModel = .init()
+    @Published var previewState: CaptureView.ViewModel = .init()
 
     // Crop settings
     @Published var cropRect: CGRect = .zero

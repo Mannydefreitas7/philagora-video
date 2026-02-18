@@ -17,8 +17,7 @@ extension RecordingToolbar {
 
     @ViewBuilder
     func PauseButton() -> some View {
-        PauseButtonView {
-                //
+        PauseButtonView { //
         }
         .padding(.horizontal, .small)
         .frame(height: .minHeight)
@@ -75,7 +74,6 @@ extension RecordingToolbar {
                 }
 
                 .glassEffect(.regular)
-              //  .glassEffectUnion(id: viewModel.isTimerEnabled ? 2 : 1, namespace: toolbarGroup)
                 .animation(.bouncy.delay(viewModel.isTimerEnabled ? 0.2 : 0), value: viewModel.isTimerEnabled)
                 .glassEffectTransition(.materialize)
             }

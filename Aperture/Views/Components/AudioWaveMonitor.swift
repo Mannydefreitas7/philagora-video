@@ -24,7 +24,7 @@ struct AudioWaveMonitor: View {
 
     @State private var drawingHeight = false
     @State private var isRecording = false
-    @EnvironmentObject var captureState: CaptureView.Store
+
 
     private var animation: Animation {
         return .linear(duration: 0.5)
@@ -60,12 +60,12 @@ extension AudioWaveMonitor {
     @ViewBuilder
     func indicatorStyle() -> some View {
         HStack(spacing: .spacing * 0.4) {
-            let samples = captureState.downsampledMagnitudes.map { CGFloat(($0 - 0) / (1 - 0)) }
-            ForEach(0...4, id:\.self) { index in
-                let value = samples[index] + .small
-                bar(high: value > .medium ? .medium : value)
-                    .animation(animation.speed(1.2), value: isActive)
-            }
+//            let samples = captureState.downsampledMagnitudes.map { CGFloat(($0 - 0) / (1 - 0)) }
+//            ForEach(0...4, id:\.self) { index in
+//                let value = samples[index] + .small
+//                bar(high: value > .medium ? .medium : value)
+//                    .animation(animation.speed(1.2), value: isActive)
+//            }
         }
         .frame(width: .extraLarge * 1.5)
     }
@@ -93,13 +93,14 @@ extension AudioWaveMonitor {
 
     @ViewBuilder
     func chartStyle() -> some View {
-        Chart(captureState.downsampledMagnitudes.indices, id: \.self) { index in
+        Chart([0,1,2,3,4], id: \.self) { index in
             // 2. The LineMark
             LineMark(
                 // a. frequency bins adjusted by Constants.downsampleFactor to spread points apart
                 x: .value("Frequency", index * .downsampleFactor),
                 // b. the magnitude (intensity) of each frequency
-                y: .value("Magnitude", captureState.downsampledMagnitudes[index])
+                y: .value("Magnitude", 0)
+                        //.value("Magnitude", captureState.downsampledMagnitudes[index])
             )
             // 3. Smoothing the curves
             .interpolationMethod(.catmullRom)
@@ -108,15 +109,15 @@ extension AudioWaveMonitor {
             // The color
             .foregroundStyle(chartGradient)
         }
-        .chartYScale(
-            domain: 0...max(
-                captureState.fftMagnitudes.max() ?? 0,
-                .magnitudeLimit
-            )
-        )
+//        .chartYScale(
+//            domain: 0...max(
+//                captureState.fftMagnitudes.max() ?? 0,
+//                .magnitudeLimit
+//            )
+//        )
         .chartXAxis(.hidden)
         .chartYAxis(.hidden)
-        .animation(.easeOut, value: captureState.downsampledMagnitudes)
+    //    .animation(.easeOut, value: captureState.downsampledMagnitudes)
     }
 }
 

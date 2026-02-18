@@ -13,8 +13,19 @@ extension AudioInputView {
     @MainActor
     @Observable final class ViewModel {
 
-        var showSettings: Bool = false
-        var selectedDevice: AVDevice = .defaultDevice(.audio)
+        //var selectedDevice: AVDevice = .defaultDevice(.audio)
+        
+        @ObservationIgnored
+        @Published public var showSettings: Bool = false
+
+        @ObservationIgnored
+        @Published public var selectedDevice: AVDevice = .defaultDevice(.audio)
+
+        @ObservationIgnored
+        @Published public var availableDevices: [AVDevice] = []
+
+        @ObservationIgnored
+        @Published public var deviceId: AVDevice.ID = AVDevice.defaultDevice(.audio).id
 
     }
 }

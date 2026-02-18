@@ -10,7 +10,7 @@ import SwiftUI
 import AppState
 
 struct GeneralCommand: Commands {
-    @ObservedDependency(\.captureStore) var captureStore: CaptureView.Store
+  //  @ObservedDependency(\.captureStore) var captureStore: CaptureView.ViewModel
 
     var body: some Commands {
         CommandGroup(replacing: .newItem) {
@@ -40,7 +40,7 @@ struct GeneralCommand: Commands {
 }
 
 struct VideoCommand: Commands {
-    @ObservedDependency(\.captureStore) var captureStore: CaptureView.Store
+   // @ObservedDependency(\.captureStore) var captureStore: CaptureView.ViewModel
 
     var body: some Commands {
         CommandMenu("Video") {

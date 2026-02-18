@@ -1,5 +1,5 @@
 //
-//  Capture+Store.swift
+//  Capture+ViewModel.swift
 //  VideoEdit
 //
 //  Created by Emmanuel on 2/2/26.
@@ -10,39 +10,40 @@ import Combine
 import SwiftUI
 
 extension CaptureView {
+
     @MainActor
-    final class Store: ObservableObject {
+    @Observable final class ViewModel {
+
+        // User preferences to store/restore window parameters
+        @ObservationIgnored
+        @Preference(\.aspectPreset) var aspectPreset
+        @ObservationIgnored
+        @Preference(\.showSafeGuides) var showSafeGuides
+        @ObservationIgnored
+        @Preference(\.showAspectMask) var showAspectMask
+        @ObservationIgnored
+        @Preference(\.showPlatformSafe) var showPlatformSafe
+        @ObservationIgnored
+        @Published var isConnecting: Bool = false
         // Combine cancellables
         private var cancellables: Set<AnyCancellable> = []
+        private var mainSession: SessionStore = .init()
         // Device discovery actor
         private let deviceDiscovery: DeviceDiscovery = .shared
-
-        @ObservationIgnored
-        @Preference(\.selectedVideoID) var selectedVideoID: AVDevice.ID?
-
-        @Published private(set) var recordingDuration: TimeInterval = 0
-        /// Waveform / meters
-        @Published var audioLevel: Float = 0
-        @Published var audioHistory: [Double] = []
-        @Published var selectedAudioDevice: AVDevice = .defaultDevice(.audio)
         /// View models
-        @Published var downsampledMagnitudes: [Float] = []
-        @Published var fftMagnitudes: [Float] = []
-        @Published var isRecording: Bool = false
-        @Published var url: URL?
-        @Published var error: CaptureError?
-        @Published var isConnecting: Bool = false
-        @Published var hasConnectionTimeout: Bool = false
+        var isRecording: Bool = false
+        var url: URL?
+        var error: CaptureError?
+        var hasConnectionTimeout: Bool = false
+        var spacing: CGFloat = 8
+        var isTimerEnabled: Bool = false
+        var timerSelection: TimeInterval.Option = .threeSeconds
         /// Input view models
-        @Published var videoInput: VideoInputView.ViewModel = .init()
-        @Published var audioInput: AudioInputView.ViewModel = .init()
+        var videoInput: VideoInputView.ViewModel = .init()
+        var audioInput: AudioInputView.ViewModel = .init()
 
-        @Published var audioDevices: [AVDevice] = []
-        @Published var videoDevices: [AVDevice] = []
-
-       var currentSession: AVCaptureSession {
-           get { videoInput.currentSession }
-       }
+        var audioDevices: [AVDevice] = []
+        var videoDevices: [AVDevice] = []
 
         func authorizationStatus(for type: AVMediaType) -> AVAuthorizationStatus {
             AVCaptureDevice.authorizationStatus(for: type)
@@ -67,20 +68,16 @@ extension CaptureView {
                 .delay(for: .seconds(10), scheduler: RunLoop.main)
                 .assign(to: \.hasConnectionTimeout, on: self)
                 .store(in: &cancellables)
-            ///
-            //downsampledMagnitudes = await captureSession.downsampledMagnitudes
-            //fftMagnitudes = await captureSession.fftMagnitudes
-           // audioLevel = await captureSession.audioLevel
             /// Switch to default devices
             logger.info("Switch to default devices")
             videoDevices = deviceDiscovery.discoverDevices(.video)
             audioDevices = deviceDiscovery.discoverDevices(.audio)
-
-            await videoInput.initialize()
         }
 
         func onDisappear() async {
-            await videoInput.stop()
+            await mainSession.stop(input: videoInput.selectedDevice, audioInput.selectedDevice)
+            videoDevices = []
+            audioDevices = []
         }
 
         /// Mute device
@@ -93,25 +90,31 @@ extension CaptureView {
         func selectDevice(_ device: AVDevice) async {
             let isVideo = device.kind == .video
             if isVideo {
-                videoInput.selectedID = device
-                selectedVideoID = device.id
+              //  videoInput.selectedID = device
+           //     selectedVideoID = device.id
                 return
             }
-            selectedAudioDevice = device
+        //    selectedAudioDevice = device
             await muteDevice(device)
         }
 
         ///
         func start() async {
             isConnecting = true
-            await videoInput.start()
+             _ = await mainSession.start(with: videoInput.selectedDevice, audioInput.selectedDevice)
         }
 
 
-        func onVideoAppear() {
+        func onVideoLayerAppear() {
             isConnecting = false
             hasConnectionTimeout = false
-            videoInput.selectedDevice.isOn = true
+        }
+
+        func onDeviceChange(previousId: AVDevice.ID, newId: AVDevice.ID?) {
+            Task {
+                logger.info("\(String(describing: #fileID)) - onceDeviceChange(): previousId: \(previousId), newId: \(String(describing: newId))")
+                await mainSession.onChangeDevice(previousId: previousId, newId: newId)
+            }
         }
 //
 //        /// Switch to a specific device

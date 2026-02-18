@@ -14,11 +14,11 @@ extension VideoInputView {
     func ToolCloseButton() -> some View {
         Button {
             withAnimation(.bouncy) {
-                viewModel.videoInputViewModel.showSettings = false
+                viewModel.showSettings = false
             }
         } label: {
             Image(systemSymbol: .xmark)
-                .colorScheme(viewModel.videoInputViewModel.isRunning ? .dark : .light)
+                .colorScheme(viewModel.isRunning ? .dark : .light)
                 .imageScale(.small)
         }
         .buttonStyle(.glass)
@@ -29,27 +29,27 @@ extension VideoInputView {
     @ViewBuilder
     func ToolButton() -> some View {
         HStack(spacing: .small / 2) {
-            Toggle(isOn: $viewModel.camera.isOn) {
+            Toggle(isOn: $viewModel.selectedDevice.isOn) {
                 Image(systemSymbol: .video)
-                    .symbolVariant(viewModel.camera.isOn ? .none : .slash)
+                    .symbolVariant(viewModel.selectedDevice.isOn ? .none : .slash)
                     .contentTransition(.symbolEffect(.replace))
                     .font(.title2)
                     .frame(width: .recordWidth)
             }
             .toggleStyle(.secondary)
-            .animation(.bouncy, value: viewModel.camera.isOn)
+            .animation(.bouncy, value: viewModel.selectedDevice.isOn)
 
-            if viewModel.camera.isOn {
+            if viewModel.selectedDevice.isOn {
                 Button {
                     withAnimation(.bouncy) {
-                        viewModel.videoInputViewModel.showSettings.toggle()
+                        viewModel.showSettings.toggle()
                     }
                 } label: {
-                    Text(viewModel.camera.name)
+                    Text(viewModel.selectedDevice.name)
                 }
                 .buttonStyle(.accessoryBar)
 
-                if viewModel.videoInputViewModel.showSettings {
+                if viewModel.showSettings {
 
                     Spacer()
 
@@ -62,7 +62,7 @@ extension VideoInputView {
                 }
             }
         }
-        .frame(maxWidth: viewModel.videoInputViewModel.showSettings ? .previewVideoWidth : nil)
+        .frame(maxWidth: viewModel.showSettings ? .previewVideoWidth : nil)
     }
 
     @ViewBuilder
@@ -70,22 +70,22 @@ extension VideoInputView {
         ZStack(alignment: .bottom) {
 
             CapturePlaceholder(
-                isConnecting: $viewModel.videoInputViewModel.isConnecting,
-                hasConnectionTimeout: $viewModel.videoInputViewModel.hasConnectionTimeout,
-                currentDevice: viewModel.videoInputViewModel.currentDevice
+                isConnecting: $viewModel.isConnecting,
+                hasConnectionTimeout: $viewModel.hasConnectionTimeout,
+                currentDevice: viewModel.selectedDevice
             )
 
-            DeviceConnectionLoading(viewModel.videoInputViewModel.currentDevice)
+            DeviceConnectionLoading(viewModel.selectedDevice)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            if viewModel.videoInputViewModel.isRunning {
-                VideoPreview(viewModel: $viewModel.videoInputViewModel)
+            if viewModel.isRunning {
+                VideoPreview(viewModel: $viewModel)
                         .clipShape(.rect(cornerRadius: .large, style: .continuous))
             }
 
             HStack {
 
-                Picker(viewModel.videoInputViewModel.deviceName, selection: $viewModel.videoInputViewModel.selectedID) {
+                Picker(viewModel.selectedDevice.name, selection: $viewModel.deviceId) {
                         ForEach(videoDevices, id: \.id) { device in
                             HStack(spacing: .medium) {
                                 Image(systemSymbol: device.symbol)
@@ -98,16 +98,11 @@ extension VideoInputView {
                     .pickerStyle(.menu)
                     .controlSize(.extraLarge)
                     .glassEffect()
+
                     Spacer()
-                }
-            .padding(.small)
-            .onChange(of: viewModel.videoInputViewModel.selectedID) { oldValue, newValue in
-                Task {
-                    if oldValue != newValue {
-                        await viewModel.videoInputViewModel.onChangeDevice(id: newValue)
-                    }
-                }
+
             }
+            .padding(.small)
 
             VStack {
                 ToolCloseButton()

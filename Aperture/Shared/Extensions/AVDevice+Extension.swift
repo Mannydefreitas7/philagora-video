@@ -97,4 +97,13 @@ extension AVDevice {
         return kind == .video ? .defaultCamera : .defaultMicrophone
     }
 
+     func inputPort(for device: Self, in session: AVCaptureSession) -> AVCaptureInput.Port? {
+        guard let input = session.inputs
+            .compactMap({ $0 as? AVCaptureDeviceInput })
+            .first(where: { $0.device.uniqueID == device.id }) else {
+            return nil
+        }
+        return input.ports.first(where: { $0.mediaType == .video })
+    }
+
 }

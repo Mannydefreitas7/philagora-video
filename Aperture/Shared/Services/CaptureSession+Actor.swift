@@ -97,12 +97,12 @@ actor CaptureSession {
     }
 
     // MARK: - Get the device from type
-    func findInput(with type: AVMediaType) -> AVDevice? {
+    func findInput(with type: AVMediaType) -> AVCaptureDeviceInput? {
         let input = session.inputs.first { input in
             input.ports.contains(where: { $0.mediaType == type })
         }
-        let device: AVCaptureDevice =
-        return
+        guard let input else { return nil }
+        return input as? AVCaptureDeviceInput
     }
 
         // MARK: - Remove existing input

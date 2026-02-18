@@ -16,19 +16,18 @@ struct VideoInputView: View {
     var controlGroup: Namespace.ID
     /// View model
     @Environment(\.videoDevices) var videoDevices
-    @EnvironmentObject var viewModel: RecordingToolbar.ViewModel
+    @Binding var viewModel: VideoInputView.ViewModel
 
     var body: some View {
 
         VStack(spacing: .small) {
-            if viewModel.videoInputViewModel.showSettings {
+            if viewModel.showSettings {
                     ToolBarOptions()
                         .glassEffect(.regular, in: .rect(cornerRadius: .large))
                         .toolEffectUnion(
                             id: .settings,
                             namespace: controlGroup
                         )
-                        .task { await viewModel.videoInputViewModel.start() }
                 }
 
                 ToolButton()
@@ -36,14 +35,10 @@ struct VideoInputView: View {
                     .padding(.horizontal, .small)
                     .glassEffect(.regular, in: .capsule)
                     .toolEffectUnion(
-                        id: viewModel.camera.isOn ? .video : .options,
+                        id: viewModel.selectedDevice.isOn ? .video : .options,
                         namespace: controlGroup
                     )
             }
-            .onDisappear {
-                Task { await viewModel.videoInputViewModel.stop() }
-            }
-            .task {  await viewModel.videoInputViewModel.initialize() }
     }
 
 }
