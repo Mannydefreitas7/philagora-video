@@ -45,9 +45,9 @@ extension AVDevice {
 
     var thumbnail: Image {
         if isExternal {
-            return Image(kind == .video ? .goPro : .microphone15535673)
+            return Image(kind == .video ? "go-pro" : "microphone-15535673")
         }
-        return Image(.imac)
+        return Image("imac")
     }
 
     var symbol: SFSymbol {

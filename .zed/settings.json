@@ -1,0 +1,22 @@
+{
+  "semantic_tokens": "full",
+  "project_name": "Aperture",
+  "languages": {
+    "Swift": {
+      "language_servers": ["sourcekit-lsp", "package-swift-lsp"],
+      "tab_size": 4,
+      "hard_tabs": false,
+      "soft_wrap": "preferred_line_length",
+      "preferred_line_length": 120,
+      "formatter": "language_server",
+      "format_on_save": "on",
+    },
+  },
+  "tasks": {
+    "variables": {
+      "XCODE_VERSION": "16.0",
+      "SWIFT_VERSION": "5.10",
+      "MACOS_DEPLOYMENT_TARGET": "26.0",
+    },
+  },
+}

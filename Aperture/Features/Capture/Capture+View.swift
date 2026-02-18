@@ -33,7 +33,11 @@ struct CaptureView: View {
             
             ZStack(alignment: .bottom) {
 
-                CapturePlaceholder(viewModel: store)
+                CapturePlaceholder(
+                    isConnecting: $store.videoInput.isConnecting,
+                    hasConnectionTimeout: $store.hasConnectionTimeout,
+                    currentDevice: store.videoInput.currentDevice
+                )
 
                 VideoPreview(viewModel: $store.videoInput)
                     .onAppear(perform: store.onVideoAppear)
@@ -56,11 +60,7 @@ struct CaptureView: View {
             }
             // Toolbar
             .toolbar {
-
                 ToolbarSpacer()
-
-
-
             }
         }
         // Keep the window resizable but constrained to 16:9.

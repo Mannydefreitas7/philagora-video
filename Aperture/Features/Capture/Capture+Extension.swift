@@ -47,7 +47,7 @@ extension CapturePlaceholder {
     @ViewBuilder
     func PlaceholderView() -> some View {
         VStack {
-            Image(.videoPlaceholder)
+            Image("video-placeholder")
                 .renderingMode(.template)
                 .tint(.primary)
                 .opacity(0.3)

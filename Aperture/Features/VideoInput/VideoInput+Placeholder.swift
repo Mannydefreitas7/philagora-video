@@ -10,7 +10,7 @@ import SwiftUI
 struct VideoInputPlaceholder: View {
     var body: some View {
         ContentUnavailableView {
-            Image(.videoPlaceholder)
+            Image("video-placeholder")
                 .renderingMode(.template)
                 .tint(.black)
                 .opacity(0.4)

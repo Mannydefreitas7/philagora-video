@@ -1,3 +1,4 @@
+import SFSafeSymbols
 //
 //  AudioInput+Extension.swift
 //  VideoEdit
@@ -5,7 +6,6 @@
 //  Created by Emmanuel on 2026-02-07.
 //
 import SwiftUI
-import SFSafeSymbols
 
 extension AudioInputView {
 
@@ -28,7 +28,7 @@ extension AudioInputView {
     func ToolbarButton() -> some View {
         HStack(spacing: .small / 2) {
             Toggle(isOn: $viewModel.selectedDevice.isOn) {
-                Image(systemSymbol: viewModel.selectedDevice.isOn ? .micFill : .micSlashFill)
+                Image(systemSymbol: viewModel.selectedDevice.isOn ? .mic : .micSlash)
                     .contentTransition(.symbolEffect(.replace.wholeSymbol))
                     .font(.title2)
                     .frame(width: .recordWidth)
@@ -37,7 +37,7 @@ extension AudioInputView {
             .animation(.bouncy, value: viewModel.selectedDevice.isOn)
             .onChange(of: viewModel.selectedDevice.isOn) {
                 Task {
-                        //await captureState.muteDevice(device)
+                    //await captureState.muteDevice(device)
                 }
             }
 

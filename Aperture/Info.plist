@@ -35,6 +35,8 @@
 	<string>Aperture</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundlePrimaryIcon</key>
+	<string>AppIcon</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0.0</string>
 	<key>CFBundleVersion</key>
@@ -63,6 +65,8 @@
 	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Aperture needs microphone access to record audio.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Aperture needs access to your Photos library to save recorded videos and export them to your photo collection.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSRequiresAquaSystemAppearance</key>

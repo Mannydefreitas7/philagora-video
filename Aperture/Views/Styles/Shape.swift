@@ -10,7 +10,7 @@ struct RecordShape: Shape {
 
     var isRecording: Bool
     func path(in rect: CGRect) -> Path {
-        let color: Color = isRecording ? .white : Color(.recordingRed)
+        let color: Color = isRecording ? .white : Color("recordingRed")
         let rectangle = RoundedRectangle(
             cornerRadius: isRecording ? 7 : 99,
             style: .continuous

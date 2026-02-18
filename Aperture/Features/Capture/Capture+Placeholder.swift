@@ -9,12 +9,14 @@ import SwiftUI
 
 struct CapturePlaceholder: View {
 
-    @ObservedObject var viewModel: CaptureView.Store
+    @Binding var isConnecting: Bool
+    @Binding var hasConnectionTimeout: Bool
+    var currentDevice: AVDevice
 
     var body: some View {
 
         VStack {
-            if viewModel.isConnecting && viewModel.hasConnectionTimeout {
+            if isConnecting && hasConnectionTimeout {
                     // If there is a connection timeout,
                     // display, the manual refresh button
                 Text("Could not connect. Try again.")
@@ -22,10 +24,10 @@ struct CapturePlaceholder: View {
                         //
                 }
 
-            } else if viewModel.isConnecting {
+            } else if isConnecting {
                     // If the device is connecting,
                     // display connection loader.
-                DeviceConnectionLoading(viewModel.videoInput.selectedDevice)
+                DeviceConnectionLoading(currentDevice)
 
             } else {
                     // If the state is empty, with no session running

@@ -6,10 +6,10 @@ import Combine
 // MARK: - Color Extensions
 
 extension Color {
-    
+
     static let pausedOrange = Color(red: 0.95, green: 0.6, blue: 0.1)
     static let successGreen = Color(red: 0.2, green: 0.8, blue: 0.4)
-    static let maskColor: Self = Color(.recordingRed).opacity(0.1)
+    static let maskColor: Self = Color("recordingRed").opacity(0.1)
     static let guideColor: Self = .white.opacity(0.5)
 
     init(hex: String) {
@@ -49,40 +49,40 @@ extension Image {
     public static let appIcon: Self = .init(
         nsImage: NSApplication.shared.applicationIconImage ?? NSApp.applicationIconImage
     )
-    
+
 }
 
 extension Shape {
-    
+
     func record(isOn: Bool) -> some Shape {
         return RecordShape(isRecording: isOn)
     }
-    
+
 }
 
 
 // MARK: - View Extensions
 
 extension View {
-    
+
     // Hides the window control buttons
     func hideWindowControls(close: Bool = true, minimize: Bool = true, zoom: Bool = true) -> some View {
         modifier(WindowControlsModifier(hideClose: close, hideMinimize: minimize, hideZoom: zoom))
     }
-    
+
     // Hides the window control buttons
     func centerWindow() -> some View {
         modifier(WindowCenteredModifier())
     }
-    
+
     func cornerRadius(_ radius: CGFloat, corners: RectCorner) -> some View {
         clipShape(RoundedCornerShape(radius: radius, corners: corners))
     }
-    
+
     func heartBeatAnimation() -> some View {
         modifier(HeartBeatModifier())
     }
-    
+
     /// Applies the given transform if the given condition evaluates to `true`.
     /// - Parameters:
     ///   - condition: The condition to evaluate.
@@ -96,7 +96,7 @@ extension View {
             self
         }
     }
-    
+
     @inlinable func reverseMask<Mask: View>(
         alignment: Alignment = .center,
         @ViewBuilder _ mask: () -> Mask
@@ -104,13 +104,13 @@ extension View {
         self.mask(
             ZStack {
                 Rectangle()
-                
+
                 mask()
                     .blendMode(.destinationOut)
             }
         )
     }
-    
+
     /// Applies the given transform if the given condition evaluates to `true`.
     /// - Parameters:
     ///   - condition: The condition to evaluate.
@@ -128,9 +128,9 @@ extension View {
             elseTransform(self)
         }
     }
-    
-    
-    
+
+
+
     /// Changes the cursor appearance when hovering attached View
     /// - Parameters:
     ///   - active: onHover() value
@@ -156,7 +156,7 @@ extension View {
     func pressPushEffect() -> some View {
         modifier(PushDownEffect())
     }
-    
+
     func toolEffectUnion(id: ToolGroup, namespace: Namespace.ID) -> some View {
         self.glassEffectUnion(id: id, namespace: namespace)
     }
@@ -197,7 +197,7 @@ extension PrimitiveButtonStyle where Self == GlassToolBarButtonStyle {
 }
 
 extension PrimitiveButtonStyle where Self == PushDownButtonStyle {
-    
+
     static func pushDown(glass: AnyGlassStyle?) -> PushDownButtonStyle {
         return PushDownButtonStyle(glass: glass)
     }
@@ -211,7 +211,7 @@ extension ButtonStyle where Self == ShineEffectButtonStyle {
 }
 
 extension Namespace {
-    
+
     struct RecorderTopBar: Hashable {
         static let cameraDisplay = "CameraDisplay"
         static let setting = "Settings"
@@ -219,21 +219,21 @@ extension Namespace {
         static  let devideControl = "DevideControl"
         static let mediaControl = "MediaControl"
     }
-    
+
 }
 
 extension TimeInterval {
-    
+
     static var options = Option.allCases
-    
+
     enum Option: String, CaseIterable, Identifiable {
         case threeSeconds = "3"
         case fiveSeconds = "5"
         case tenSeconds = "10"
-        
+
         var id: String { rawValue }
     }
-    
+
 }
 
 // MARK: - Audio Input Wave Environment
@@ -256,20 +256,20 @@ private struct AudioInputWaveHistoryKey: EnvironmentKey {
 /// - Requires mic permission (NSMicrophoneUsageDescription in Info.plist)
 /// - Uses RMS amplitude from PCM samples.
 final class CaptureMicrophoneLevelMonitor: NSObject, ObservableObject {
-    
+
     /// Instantaneous normalized level (0.0...1.0)
     @Published var level: Double = 0
-    
+
     /// Rolling normalized level history (0.0...1.0)
     @Published var history: [Double] = []
-    
+
     var session: AVCaptureSession
     private let output = AVCaptureAudioDataOutput()
     private let outputQueue = DispatchQueue(label: .dispatchQueueKey(.captureAudioOutput))
 
     private var historyCapacity: Int
     private var smoothing: Double
-    
+
     /// - Parameters:
     ///   - historyCapacity: Number of samples to keep for waveform rendering.
     ///   - smoothing: 0.0 = no smoothing, closer to 1.0 = heavier smoothing.
@@ -281,7 +281,7 @@ final class CaptureMicrophoneLevelMonitor: NSObject, ObservableObject {
     }
 
     private var isConfigured = false
-    
+
     private func configureIfNeeded() {
         guard !isConfigured else { return }
         isConfigured = true
@@ -306,35 +306,35 @@ final class CaptureMicrophoneLevelMonitor: NSObject, ObservableObject {
             session.addOutput(
                 _output)
         }
-        
+
         session.commitConfiguration()
     }
-    
+
     private func push(_ newLevel: Double) {
         // Smooth to avoid jittery UI.
         let smoothed = (level * smoothing) + (newLevel * (1 - smoothing))
-        
+
         // Maintain rolling history.
         var nextHistory = history
         nextHistory.append(smoothed)
         if nextHistory.count > historyCapacity {
             nextHistory.removeFirst(nextHistory.count - historyCapacity)
         }
-        
+
         DispatchQueue.main.async {
             self.level = smoothed
             self.history = nextHistory
         }
     }
-    
+
     /// Compute RMS from a CMSampleBuffer containing PCM audio.
     private func rms(from sampleBuffer: CMSampleBuffer) -> Double {
         guard let blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer) else { return 0 }
-        
+
         var lengthAtOffset: Int = 0
         var totalLength: Int = 0
         var dataPointer: UnsafeMutablePointer<Int8>?
-        
+
         let status = CMBlockBufferGetDataPointer(
             blockBuffer,
             atOffset: 0,
@@ -342,26 +342,26 @@ final class CaptureMicrophoneLevelMonitor: NSObject, ObservableObject {
             totalLengthOut: &totalLength,
             dataPointerOut: &dataPointer
         )
-        
+
         guard status == kCMBlockBufferNoErr,
               let dataPointer,
               totalLength > 0 else { return 0 }
-        
+
         // Most AVCapture audio comes as 16-bit signed PCM.
         let sampleCount = totalLength / MemoryLayout<Int16>.size
         guard sampleCount > 0 else { return 0 }
-        
+
         let int16Ptr = dataPointer.withMemoryRebound(to: Int16.self, capacity: sampleCount) { $0 }
-        
+
         var sumSquares: Double = 0
         for i in 0..<sampleCount {
             let s = Double(int16Ptr[i]) / Double(Int16.max)
             sumSquares += s * s
         }
-        
+
         return sqrt(sumSquares / Double(sampleCount))
     }
-    
+
     /// Maps RMS amplitude to a UI-friendly 0.0...1.0 range with some gain.
     private func normalize(_ rms: Double) -> Double {
         // RMS is usually quite small; apply gain and clamp.
@@ -387,7 +387,7 @@ extension CaptureMicrophoneLevelMonitor: AVCaptureAudioDataOutputSampleBufferDel
 
 /// A simple, animated bar waveform driven by `audioInputWaveHistory`.
 struct AudioWaveformBars: View {
-    
+
     @Environment(\.audioInputWaveHistory) private var history
     @Environment(\.audioInputWave) private var audioInputWave
     var barWidth: CGFloat = 6
@@ -395,14 +395,14 @@ struct AudioWaveformBars: View {
     var minBarHeight: CGFloat = 2
     var maxBarHeight: CGFloat = 80
     var cornerRadius: CGFloat = 3
-    
+
     var body: some View {
         HStack(alignment: .center, spacing: barSpacing) {
 
             ForEach(0...8, id: \.self) { idx in
                 let v = history[idx]
                 let h = min(max(minBarHeight, CGFloat(v) * maxBarHeight), maxBarHeight)
-                
+
                 RoundedRectangle(cornerRadius: cornerRadius)
                     .frame(width: barWidth, height: h)
                     .animation(.easeOut(duration: 0.10), value: h)
@@ -414,9 +414,9 @@ struct AudioWaveformBars: View {
 /// Convenience example matching your desired API.
 /// Note: @Environment vars cannot be initialized with a default value.
 struct AudioWaveForm: View {
-    
+
     @Environment(\.audioInputWave) private var audioInputWave
-    
+
     var body: some View {
         VStack {
             Rectangle()

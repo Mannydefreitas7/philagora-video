@@ -10,15 +10,16 @@ import SwiftUI
 extension RecordingToolbar {
 
     @MainActor
-    final class ViewModel: ObservableObject {
+    @Observable final class ViewModel {
         private var cancellables: Set<AnyCancellable> = []
 
-        private let session = CaptureSession()
+        private let session: CaptureSession = .init()
+        private let previewSession: CaptureSession = .init()
 
-        @Published var isRecording: Bool = false
-        @Published var isTimerEnabled: Bool = false
-        @Published var timerSelection: TimeInterval.Option = .threeSeconds
-        @Published var isSettingsPresented: Bool = false
+        var isRecording: Bool = false
+        var isTimerEnabled: Bool = false
+        var timerSelection: TimeInterval.Option = .threeSeconds
+        var isSettingsPresented: Bool = false
         @Published var showRecordButton: Bool = true
 
         @Published var microphone: AVDevice = .defaultDevice(.audio)
@@ -26,6 +27,15 @@ extension RecordingToolbar {
 
         @Published var videoInputViewModel: VideoInputView.ViewModel = .init()
         @Published var audioInputViewModel: AudioInputView.ViewModel = .init()
+
+        @Published var videoInput: VideoInputView.ViewModel = .init()
+        @Published var audioInput: AudioInputView.ViewModel = .init()
+
+        @Published var videoInputPreview: VideoInputView.ViewModel = .init()
+        @Published var audioInputPreview: AudioInputView.ViewModel = .init()
+
+        @Preference(\.selectedVideoID) var selectedVideoID: AVDevice.ID?
+        @Preference(\.selectedAudioID) var selectedAudioID: AVDevice.ID?
 
         var spacing: CGFloat {
             isTimerEnabled || isRecording ? .small : .zero
@@ -37,10 +47,7 @@ extension RecordingToolbar {
 
         init() {
 
-            guard videoInputViewModel.isRunning.inverted else {
-                return
-            }
-
+            guard videoInputViewModel.isRunning.inverted else { return }
             videoInputViewModel.setSession(session)
 
             $microphone
@@ -68,5 +75,8 @@ extension RecordingToolbar {
                 .assign(to: \.showRecordButton, on: self)
                 .store(in: &cancellables)
         }
+
+        
+
     }
 }

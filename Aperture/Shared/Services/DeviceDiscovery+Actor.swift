@@ -67,6 +67,7 @@ actor DeviceDiscovery {
         return AVDevice.defaultDevice(.audio)
     }
 
+    nonisolated
      func getDevice(withUniqueID id: String) -> AVDevice? {
         guard let device = AVCaptureDevice(uniqueID: id) else {
             return nil

@@ -27,9 +27,9 @@ extension AVDeviceInfo {
 
     var thumbnail: Image {
         if isExternal {
-            return Image(kind == .video ? .goPro : .microphone15535673)
+            return Image(kind == .video ? "go-pro" : "microphone-15535673")
         }
-        return Image(.imac)
+        return Image("imac")
     }
 
     static var placeholder: Self {
@@ -61,7 +61,7 @@ extension AVDeviceInfo {
             let defaultMicrophoneDevice = AVDeviceInfo(first)
             return defaultMicrophoneDevice
         }
-        
+
         return placeholder
     }
 

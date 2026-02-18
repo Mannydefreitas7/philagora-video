@@ -1,0 +1,16 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "cmd-shift-b": ["task::Spawn", { "task_name": "Build" }],
+      "cmd-shift-r": ["task::Spawn", { "task_name": "Run" }],
+      "cmd-shift-t": ["task::Spawn", { "task_name": "Test" }],
+      "cmd-shift-c": ["task::Spawn", { "task_name": "Clean" }],
+      "cmd-shift-s": ["task::Spawn", { "task_name": "Quick Start" }],
+      "cmd-shift-w": ["task::Spawn", { "task_name": "Watch Changes" }],
+      "cmd-shift-alt-r": ["task::Spawn", { "task_name": "Release Build" }],
+      "cmd-shift-alt-t": ["task::Spawn", { "task_name": "Advanced: Test Only" }],
+      "cmd-shift-alt-f": ["task::Spawn", { "task_name": "Advanced: Full Workflow (Build + Run + Test)" }]
+    }
+  }
+]

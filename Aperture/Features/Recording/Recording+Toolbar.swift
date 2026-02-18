@@ -17,7 +17,10 @@ struct RecordingToolbar: View {
             if viewModel.showRecordButton {
                 // MARK: - Record button
                 RecordCircleButton()
-                    .transition(.move(edge: .bottom).combined(with: .blurReplace))
+                    .transition(
+                        .move(edge: .bottom)
+                        .combined(with: .blurReplace)
+                    )
             }
 
             GlassEffectContainer(spacing: .zero) {
@@ -38,7 +41,7 @@ struct RecordingToolbar: View {
                     // MARK: Audio Input
                     AudioInputView(controlGroup: controlGroup, viewModel: $viewModel.audioInputViewModel)
                     // MARK: Video Input
-                    VideoInputView(controlGroup: controlGroup, viewModel: $viewModel.videoInputViewModel)
+                    VideoInputView(controlGroup: controlGroup)
 
                 }
                 .animation(.bouncy, value: viewModel.toggleAnimation)

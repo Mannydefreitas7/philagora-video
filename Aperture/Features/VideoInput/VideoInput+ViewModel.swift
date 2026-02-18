@@ -23,40 +23,45 @@ extension VideoInputView {
         var url: URL? = nil
 
         var selectedID = AVDevice.defaultDevice(.video).id
-        var selectedDevice: AVDevice = .defaultDevice(.video)
-        var previousDevice: AVDevice? = nil
+      //  var selectedDevice: AVDevice = .defaultDevice(.video)
         var isRecording: Bool = false
         var showSettings: Bool = false
+        //
+        var isConnecting: Bool = false
+        var hasConnectionTimeout: Bool = false
 
         @ObservationIgnored
         @Preference(\.isMirrored) var isMirrored: Bool?
         @ObservationIgnored
-        @Preference(\.selectedVideoID) var storedVideoID
+        @Preference(\.selectedVideoID) var storedVideoID: String?
+
 
         var isRunning: Bool { currentSession.isRunning }
 
+        var currentDevice: AVDevice {
+            get { deviceDescovery.getDevice(withUniqueID: selectedID) ?? defaultDevice }
+        }
+
         var device: AVCaptureDevice {
             get throws {
-                guard let device = selectedDevice.device else { throw AVError(.deviceNotConnected) }
+                guard let device = currentDevice.device else { throw AVError(.deviceNotConnected) }
                 return device
             }
         }
 
-        var deviceName: String { selectedDevice.name }
+        var deviceName: String {
+            get { currentDevice.name }
+        }
 
         var deviceInput: AVCaptureDeviceInput? {
             get throws {
-                let input = try? selectedDevice.input
+                let input = try currentDevice.input
                 return input
             }
         }
 
         var currentSession: AVCaptureSession {
             session.current
-        }
-
-        var currentDevice: AVDevice {
-            get async { await deviceDescovery.getDevice(withUniqueID: storedVideoID) ?? defaultDevice }
         }
 
         func setSession(_ session: CaptureSession) {
@@ -70,23 +75,30 @@ extension VideoInputView {
             }
             await session.initialize()
 
-            logger.info("Initialized capture session...")
-            selectedID = storedVideoID
-
-            if let device = await deviceDescovery.getDevice(withUniqueID: storedVideoID) {
-                previousDevice = device
-                selectedDevice = device
-                logger.info("Selected device: \(device.name)")
+            if let storedVideoID {
+                logger.info("User has a default stored video id, using that: \(storedVideoID)")
+                selectedID = storedVideoID
             }
 
+            logger.info("Initialized capture session...")
+
+            if let device = await deviceDescovery.getDevice(withUniqueID: selectedID) {
+                logger.info("Selected device: \(device.name)")
+            }
         }
 
         func start() async {
+            guard session.current.isRunning else {
+                logger.info("`start()` ignored as session is not running.")
+                logger.info("`start()` calling initialize().")
+                await initialize()
+                return
+            }
             do {
-                logger.info("Starting with device \(self.selectedDevice.name)")
-                previousDevice = selectedDevice
-               // try await connectDevice(selectedDevice)
+                let selectedDevice = await currentDevice
+                logger.info("Starting with device \(selectedDevice.name)")
                 try await session.addDeviceInput(selectedDevice)
+
             } catch {
                 logger.error("Failed to add device input: \(error.localizedDescription)")
                 sessionError = .noVideo
@@ -105,21 +117,22 @@ extension VideoInputView {
             } catch {
                 logger.error("Failed to add device input: \(error.localizedDescription)")
             }
-
         }
 
         func onChangeDevice(id: String) async {
-            guard let device = await deviceDescovery.getDevice(withUniqueID: id) else { return }
+                // Ensure that the changed device is different
+                // than the previous selected id.
+            guard let device = await deviceDescovery.getDevice(withUniqueID: id), storedVideoID != device.id else { return }
 
             do {
-                if let previousDevice, previousDevice.id != device.id {
-                    try await session.removeInput(for: previousDevice)
-                   // await session.removeConnection(previousDevice)
-                    logger.warning("Successfully removed device: \(previousDevice.name)")
-                }
+                // get the current device info asynchronously
+                let previousDevice = await self.currentDevice
+                // Renmove the previous device input
+                try await session.removeInput(for: previousDevice)
+                logger.warning("Successfully removed device: \(previousDevice.name)")
+                // when previous input is successfully removed from session
+                // add new device to running session
                 try await session.addDeviceInput(device)
-               // try await connectDevice(device)
-                self.previousDevice = device
                 logger.notice("Successfully changed device to \(device.name)")
             } catch {
                 sessionError = .unknown(reason: "Could not change device for \(device.name)")

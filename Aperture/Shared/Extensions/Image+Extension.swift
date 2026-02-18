@@ -9,6 +9,6 @@ import SwiftUI
 
 extension Image {
 
-    static var videoPlaceholder: ImageResource = .videoPlaceholder
+    static var videoPlaceholder: Image { Image("video-placeholder") }
 
 }

@@ -18,7 +18,7 @@ extension CaptureView {
         private let deviceDiscovery: DeviceDiscovery = .shared
 
         @ObservationIgnored
-        @Preference(\.selectedVideoID) var selectedVideoID
+        @Preference(\.selectedVideoID) var selectedVideoID: AVDevice.ID?
 
         @Published private(set) var recordingDuration: TimeInterval = 0
         /// Waveform / meters
@@ -33,7 +33,7 @@ extension CaptureView {
         @Published var error: CaptureError?
         @Published var isConnecting: Bool = false
         @Published var hasConnectionTimeout: Bool = false
-
+        /// Input view models
         @Published var videoInput: VideoInputView.ViewModel = .init()
         @Published var audioInput: AudioInputView.ViewModel = .init()
 
@@ -93,7 +93,7 @@ extension CaptureView {
         func selectDevice(_ device: AVDevice) async {
             let isVideo = device.kind == .video
             if isVideo {
-                videoInput.selectedDevice = device
+                videoInput.selectedID = device
                 selectedVideoID = device.id
                 return
             }
@@ -111,7 +111,6 @@ extension CaptureView {
         func onVideoAppear() {
             isConnecting = false
             hasConnectionTimeout = false
-
             videoInput.selectedDevice.isOn = true
         }
 //
