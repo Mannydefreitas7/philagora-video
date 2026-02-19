@@ -1,0 +1,21 @@
+//
+//  release.xcconfig
+//  Aperture
+//
+//  Created by Emmanuel on 2026-02-19.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+#include "base.xcconfig"
+
+// MARK: - Release-specific Settings
+
+SWIFT_OPTIMIZATION_LEVEL = -O
+SWIFT_COMPILATION_MODE = wholemodule
+GCC_OPTIMIZATION_LEVEL = 3
+ENABLE_TESTABILITY = NO
+LLVM_LTO = YES
+DEAD_CODE_STRIPPING = YES
+STRIP_INSTALLED_PRODUCT = YES
