@@ -63,6 +63,14 @@ targets:
       - path: Aperture
         excludes:
           - "**/.DS_Store"
+      - path: Aperture/Assets.xcassets
+        name: Assets
+        buildPhase: resources
+        type: folder
+      - path: Aperture/AppIcon.icon
+        name: AppIcon
+        buildPhase: resources
+        type: folder
     info:
       path: Aperture/Info.plist
       properties:
@@ -139,6 +147,7 @@ targets:
         INFOPLIST_FILE: Aperture/Info.plist
         CODE_SIGN_ENTITLEMENTS: Aperture/Aperture.entitlements
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS: YES
         ENABLE_FILE_ACCESS_PICTURE_FOLDER: true
         ENABLE_FILE_ACCESS_MOVIES_FOLDER: true
         ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER: true
@@ -146,6 +155,8 @@ targets:
         ENABLE_RESOURCE_ACCESS_CAMERA: true
         ENABLE_USER_SELECTED_FILES: true
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS: YES
+        ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
         COMBINE_HIDPI_IMAGES: true
         SWIFT_EMIT_LOC_STRINGS: true
         SWIFT_OBJC_BRIDGING_HEADER: ""

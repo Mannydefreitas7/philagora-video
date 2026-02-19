@@ -97,7 +97,10 @@ iOSInjectionProject/
 
 # macOS
 .DS_Store
-Aperture/.DS_Store
+<<<<<<< Updated upstream
+=======
+**/.DS_Store
+>>>>>>> Stashed changes
 .AppleDouble
 .LSOverride
 
